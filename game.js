@@ -2,6 +2,7 @@
    DEMON & HUMAN
    RIVER CROSSING GAME
    FULL GAME ENGINE
+   LEVEL 1 - 10
 ========================================================= */
 
 
@@ -22,12 +23,92 @@ const LEVELS = [
 
     {
         level: 2,
-        humans: 5,
-        demons: 5,
+        humans: 4,
+        demons: 4,
         boatCapacity: 3,
         title: "The Dangerous Crossing",
         description:
+            "Take all 8 characters safely across the river."
+    },
+
+    {
+        level: 3,
+        humans: 5,
+        demons: 5,
+        boatCapacity: 3,
+        title: "The Shadow Crossing",
+        description:
             "Take all 10 characters safely across the river."
+    },
+
+    {
+        level: 4,
+        humans: 6,
+        demons: 6,
+        boatCapacity: 4,
+        title: "The Dark River",
+        description:
+            "Take all 12 characters safely across the river."
+    },
+
+    {
+        level: 5,
+        humans: 7,
+        demons: 7,
+        boatCapacity: 4,
+        title: "The Endless River",
+        description:
+            "Take all 14 characters safely across the river."
+    },
+
+    {
+        level: 6,
+        humans: 8,
+        demons: 8,
+        boatCapacity: 4,
+        title: "Demon Territory",
+        description:
+            "Take all 16 characters safely across the river."
+    },
+
+    {
+        level: 7,
+        humans: 9,
+        demons: 9,
+        boatCapacity: 4,
+        title: "The Forbidden Crossing",
+        description:
+            "Take all 18 characters safely across the river."
+    },
+
+    {
+        level: 8,
+        humans: 10,
+        demons: 10,
+        boatCapacity: 4,
+        title: "The Final Storm",
+        description:
+            "Take all 20 characters safely across the river."
+    },
+
+    {
+        level: 9,
+        humans: 12,
+        demons: 12,
+        boatCapacity: 4,
+        title: "Nightmare River",
+        description:
+            "Take all 24 characters safely across the river."
+    },
+
+    {
+        level: 10,
+        humans: 15,
+        demons: 15,
+        boatCapacity: 5,
+        title: "The Ultimate Crossing",
+        description:
+            "Take all 30 characters safely across the river."
     }
 ];
 
@@ -51,6 +132,33 @@ let boatPassengers = [];
 let selectedCharacters = [];
 
 let gameLocked = false;
+
+
+/* =========================================================
+   LEVEL UNLOCK SYSTEM
+========================================================= */
+
+let highestUnlockedLevel = Math.max(
+    1,
+    Math.min(
+        LEVELS.length,
+        Number(
+            localStorage.getItem(
+                "demonHumanHighestLevel"
+            ) || 1
+        )
+    )
+);
+
+
+function saveProgress() {
+
+    localStorage.setItem(
+        "demonHumanHighestLevel",
+        String(highestUnlockedLevel)
+    );
+
+}
 
 
 /* =========================================================
@@ -139,6 +247,23 @@ const resultCard =
 
 function startLevel(level) {
 
+    if (level < 1 || level > LEVELS.length) {
+
+        level = 1;
+
+    }
+
+
+    if (level > highestUnlockedLevel) {
+
+        level = highestUnlockedLevel;
+
+    }
+
+
+    currentLevel = level;
+
+
     const config =
         getCurrentLevelConfig(level);
 
@@ -160,7 +285,7 @@ function startLevel(level) {
     gameLocked = false;
 
 
-    /* Remove old animation */
+    /* Remove old animations */
 
     boat.classList.remove("boarding");
 
@@ -176,9 +301,13 @@ function startLevel(level) {
     ) {
 
         leftBank.push({
+
             id: `human-${i}`,
+
             type: "human",
+
             name: `Human ${i}`
+
         });
 
     }
@@ -193,9 +322,13 @@ function startLevel(level) {
     ) {
 
         leftBank.push({
+
             id: `demon-${i}`,
+
             type: "demon",
+
             name: `Demon ${i}`
+
         });
 
     }
@@ -245,15 +378,13 @@ function startLevel(level) {
 
 function getCurrentLevelConfig(level) {
 
-    /*
-        For future levels, the last configuration
-        will temporarily be used.
-    */
-
     return LEVELS[
-        Math.min(
-            level - 1,
-            LEVELS.length - 1
+        Math.max(
+            0,
+            Math.min(
+                level - 1,
+                LEVELS.length - 1
+            )
         )
     ];
 
@@ -271,12 +402,15 @@ function renderGame() {
         leftCharacters
     );
 
+
     renderBank(
         rightBank,
         rightCharacters
     );
 
+
     renderBoat();
+
 
     updateUI();
 
@@ -371,8 +505,11 @@ function createCharacter(character) {
         () => {
 
             if (gameLocked) {
+
                 return;
+
             }
+
 
             selectCharacter(
                 character
@@ -394,7 +531,9 @@ function createCharacter(character) {
 function selectCharacter(character) {
 
     if (gameLocked) {
+
         return;
+
     }
 
 
@@ -414,7 +553,9 @@ function selectCharacter(character) {
 
 
     if (!exists) {
+
         return;
+
     }
 
 
@@ -488,7 +629,9 @@ crossButton.addEventListener(
 function crossRiver() {
 
     if (gameLocked) {
+
         return;
+
     }
 
 
@@ -530,9 +673,7 @@ function crossRiver() {
     gameLocked = true;
 
 
-    /*
-        Get current bank.
-    */
+    /* Current bank */
 
     const currentBank =
         boatSide === "left"
@@ -540,9 +681,7 @@ function crossRiver() {
             : rightBank;
 
 
-    /*
-        Find selected passengers.
-    */
+    /* Find passengers */
 
     boatPassengers =
         currentBank.filter(
@@ -553,10 +692,7 @@ function crossRiver() {
         );
 
 
-    /*
-        Store character positions
-        BEFORE removing them.
-    */
+    /* Store character positions */
 
     const positions = [];
 
@@ -571,7 +707,9 @@ function crossRiver() {
 
 
             if (!element) {
+
                 return;
+
             }
 
 
@@ -601,17 +739,13 @@ function crossRiver() {
     );
 
 
-    /*
-        Keep a copy for animation.
-    */
+    /* Keep copy for animation */
 
     window.lastPassengers =
         [...boatPassengers];
 
 
-    /*
-        Remove passengers from bank.
-    */
+    /* Remove passengers from bank */
 
     if (boatSide === "left") {
 
@@ -641,25 +775,19 @@ function crossRiver() {
     selectedCharacters = [];
 
 
-    /*
-        Render banks.
-    */
+    /* Render banks */
 
     renderGame();
 
 
-    /*
-        Animate characters toward boat.
-    */
+    /* Character → boat animation */
 
     animateCharactersToBoat(
         positions
     );
 
 
-    /*
-        Boat boarding animation.
-    */
+    /* Boat boarding animation */
 
     setTimeout(
         () => {
@@ -675,9 +803,7 @@ function crossRiver() {
     );
 
 
-    /*
-        Move boat.
-    */
+    /* Move boat */
 
     setTimeout(
         () => {
@@ -701,9 +827,7 @@ function crossRiver() {
     );
 
 
-    /*
-        Finish crossing.
-    */
+    /* Finish crossing */
 
     setTimeout(
         finishCrossing,
@@ -734,13 +858,13 @@ function animateCharactersToBoat(
 
 
                     if (!characterData) {
+
                         return;
+
                     }
 
 
-                    /*
-                        Create visual clone.
-                    */
+                    /* Create visual clone */
 
                     const clone =
                         createCharacter(
@@ -769,9 +893,7 @@ function animateCharactersToBoat(
                         `${position.height}px`;
 
 
-                    /*
-                        Disable interactions.
-                    */
+                    /* Disable interactions */
 
                     clone.style.pointerEvents =
                         "none";
@@ -782,9 +904,7 @@ function animateCharactersToBoat(
                     );
 
 
-                    /*
-                        Find boat position.
-                    */
+                    /* Find boat position */
 
                     const boatRect =
                         boat.getBoundingClientRect();
@@ -801,17 +921,12 @@ function animateCharactersToBoat(
                         5;
 
 
-                    /*
-                        Force browser
-                        to register starting position.
-                    */
+                    /* Force browser */
 
                     void clone.offsetWidth;
 
 
-                    /*
-                        Move toward boat.
-                    */
+                    /* Move toward boat */
 
                     requestAnimationFrame(
                         () => {
@@ -829,9 +944,7 @@ function animateCharactersToBoat(
                     );
 
 
-                    /*
-                        Fade when boarding.
-                    */
+                    /* Fade */
 
                     setTimeout(
                         () => {
@@ -844,9 +957,7 @@ function animateCharactersToBoat(
                     );
 
 
-                    /*
-                        Remove clone.
-                    */
+                    /* Remove clone */
 
                     setTimeout(
                         () => {
@@ -858,7 +969,9 @@ function animateCharactersToBoat(
                     );
 
                 },
+
                 index * 180
+
             );
 
         }
@@ -905,10 +1018,7 @@ function finishCrossing() {
     );
 
 
-    /*
-        Move passengers
-        to destination bank.
-    */
+    /* Move passengers */
 
     if (boatSide === "left") {
 
@@ -931,39 +1041,29 @@ function finishCrossing() {
     }
 
 
-    /*
-        Clear boat.
-    */
+    /* Clear boat */
 
     boatPassengers = [];
 
     window.lastPassengers = [];
 
 
-    /*
-        Count move.
-    */
+    /* Count move */
 
     moves++;
 
 
-    /*
-        Unlock.
-    */
+    /* Unlock */
 
     gameLocked = false;
 
 
-    /*
-        Render.
-    */
+    /* Render */
 
     renderGame();
 
 
-    /*
-        Check safety.
-    */
+    /* Check safety */
 
     const leftSafe =
         isBankSafe(leftBank);
@@ -985,9 +1085,7 @@ function finishCrossing() {
     }
 
 
-    /*
-        Check victory.
-    */
+    /* Check victory */
 
     const total =
         getTotalCharacters();
@@ -1033,16 +1131,14 @@ function renderBoat() {
             passenger.style.width =
                 "52px";
 
-
             passenger.style.height =
                 "70px";
-
 
             passenger.style.cursor =
                 "default";
 
 
-            passenger.style.animationDelay =
+            passenger.animationDelay =
                 `${index * 0.1}s`;
 
 
@@ -1076,9 +1172,7 @@ function isBankSafe(bank) {
         ).length;
 
 
-    /*
-        Empty bank = safe.
-    */
+    /* Empty bank */
 
     if (
         humans === 0 &&
@@ -1090,9 +1184,7 @@ function isBankSafe(bank) {
     }
 
 
-    /*
-        No humans = no one to protect.
-    */
+    /* No humans */
 
     if (humans === 0) {
 
@@ -1101,9 +1193,7 @@ function isBankSafe(bank) {
     }
 
 
-    /*
-        No demons = safe.
-    */
+    /* No demons */
 
     if (demons === 0) {
 
@@ -1112,9 +1202,7 @@ function isBankSafe(bank) {
     }
 
 
-    /*
-        Demons cannot outnumber humans.
-    */
+    /* Demons cannot outnumber humans */
 
     return humans >= demons;
 
@@ -1163,9 +1251,7 @@ function updateUI() {
             );
 
 
-    /*
-        Stats
-    */
+    /* Stats */
 
     levelNumber.textContent =
         currentLevel;
@@ -1174,17 +1260,13 @@ function updateUI() {
         moves;
 
 
-    /*
-        Selection
-    */
+    /* Selection */
 
     selectedCount.textContent =
         selectedCharacters.length;
 
 
-    /*
-        Progress
-    */
+    /* Progress */
 
     progressText.textContent =
         `${completed} / ${total}`;
@@ -1194,9 +1276,7 @@ function updateUI() {
         `${percentage}%`;
 
 
-    /*
-        Selection message
-    */
+    /* Selection message */
 
     if (
         selectedCharacters.length > 0
@@ -1217,9 +1297,7 @@ function updateUI() {
     }
 
 
-    /*
-        Button state
-    */
+    /* Button */
 
     crossButton.disabled =
         gameLocked ||
@@ -1237,9 +1315,40 @@ function winLevel() {
     gameLocked = true;
 
 
-    /*
-        Level-up animation.
-    */
+    /* Unlock next level */
+
+    if (
+        currentLevel <
+        LEVELS.length
+    ) {
+
+        if (
+            currentLevel + 1 >
+            highestUnlockedLevel
+        ) {
+
+            highestUnlockedLevel =
+                currentLevel + 1;
+
+            saveProgress();
+
+        }
+
+
+        resultButton.textContent =
+            "NEXT LEVEL";
+
+    }
+
+    else {
+
+        resultButton.textContent =
+            "PLAY AGAIN";
+
+    }
+
+
+    /* Level-up animation */
 
     resultCard.classList.remove(
         "level-up"
@@ -1281,24 +1390,6 @@ function winLevel() {
 
     resultMoves.textContent =
         moves;
-
-
-    if (
-        currentLevel <
-        LEVELS.length
-    ) {
-
-        resultButton.textContent =
-            "NEXT LEVEL";
-
-    }
-
-    else {
-
-        resultButton.textContent =
-            "PLAY AGAIN";
-
-    }
 
 }
 
@@ -1369,10 +1460,7 @@ function handleResultButton() {
     );
 
 
-    /*
-        If level was completed,
-        advance to next level.
-    */
+    /* Check whether level was completed */
 
     const completed =
         rightBank.length ===
@@ -1388,6 +1476,19 @@ function handleResultButton() {
 
             currentLevel++;
 
+
+            if (
+                currentLevel >
+                highestUnlockedLevel
+            ) {
+
+                highestUnlockedLevel =
+                    currentLevel;
+
+                saveProgress();
+
+            }
+
         }
 
         else {
@@ -1399,9 +1500,7 @@ function handleResultButton() {
     }
 
 
-    /*
-        Restart.
-    */
+    /* Restart */
 
     startLevel(
         currentLevel
@@ -1411,7 +1510,36 @@ function handleResultButton() {
 
 
 /* =========================================================
-   RESET BUTTON
+   RESET ALL LEVEL PROGRESS
+========================================================= */
+
+function resetAllProgress() {
+
+    highestUnlockedLevel = 1;
+
+    localStorage.removeItem(
+        "demonHumanHighestLevel"
+    );
+
+    startLevel(1);
+
+}
+
+
+/* =========================================================
+   GLOBAL PROGRESS FUNCTIONS
+========================================================= */
+
+window.getHighestUnlockedLevel =
+    () => highestUnlockedLevel;
+
+
+window.resetAllProgress =
+    resetAllProgress;
+
+
+/* =========================================================
+   RESET CURRENT LEVEL
 ========================================================= */
 
 resetButton.addEventListener(
@@ -1453,7 +1581,8 @@ function shuffleArray(array) {
 
         const j =
             Math.floor(
-                Math.random() * (i + 1)
+                Math.random() *
+                (i + 1)
             );
 
 
@@ -1482,9 +1611,7 @@ document.addEventListener(
     "keydown",
     event => {
 
-        /*
-            Space = cross river
-        */
+        /* SPACE = CROSS */
 
         if (
             event.code === "Space"
@@ -1492,23 +1619,26 @@ document.addEventListener(
 
             event.preventDefault();
 
+
             if (!gameLocked) {
+
                 crossRiver();
+
             }
 
         }
 
 
-        /*
-            R = reset
-        */
+        /* R = RESET */
 
         if (
             event.key.toLowerCase() === "r"
         ) {
 
             if (!gameLocked) {
+
                 resetCurrentLevel();
+
             }
 
         }
