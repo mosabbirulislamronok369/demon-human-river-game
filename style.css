@@ -1646,7 +1646,7 @@ button{
    RESULT OVERLAY
 ========================================================= */
 
-.message-overlay{
+.overlay{
 
   position:fixed;
 
@@ -1668,7 +1668,7 @@ button{
 }
 
 
-.message-overlay.hidden{
+.overlay.hidden{
 
   display:none;
 }
