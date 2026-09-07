@@ -812,6 +812,24 @@ function selectCharacter(
     }
 
 
+    /* =========================
+       CAPTURE CURRENT POSITION
+       (used to animate the
+       character walking to/from
+       the boat)
+    ========================= */
+
+    const element =
+        document.querySelector(
+            `.character[data-id="${CSS.escape(character.id)}"]`
+        );
+
+    const startRect =
+        element
+            ? element.getBoundingClientRect()
+            : null;
+
+
     const existingIndex =
         selectedCharacters.indexOf(
             character.id
@@ -819,7 +837,7 @@ function selectCharacter(
 
 
     /* =========================
-       DESELECT
+       DESELECT — STEP OFF BOAT
     ========================= */
 
     if (existingIndex !== -1) {
@@ -829,11 +847,21 @@ function selectCharacter(
             1
         );
 
+        if (startRect) {
+
+            animateBoardingClone(
+                character,
+                startRect,
+                "leave"
+            );
+
+        }
+
     }
 
 
     /* =========================
-       SELECT
+       SELECT — BOARD BOAT
     ========================= */
 
     else {
@@ -861,10 +889,150 @@ function selectCharacter(
             character.id
         );
 
+        if (startRect) {
+
+            animateBoardingClone(
+                character,
+                startRect,
+                "board"
+            );
+
+        }
+
     }
 
 
     renderGame();
+
+}
+
+
+/* =========================================================
+   ANIMATE SINGLE CHARACTER BOARDING / LEAVING
+   Plays a quick walking-clone animation between the
+   character's bank position and its seat in the boat,
+   used on every select/deselect click so the character
+   visibly boards the boat instead of just highlighting.
+========================================================= */
+
+function animateBoardingClone(
+    character,
+    startRect,
+    direction
+) {
+
+    const boatRect =
+        boat.getBoundingClientRect();
+
+    const seatIndex =
+        Math.max(
+            selectedCharacters.length - 1,
+            0
+        );
+
+    const boatLeft =
+        boatRect.left +
+        35 +
+        seatIndex * 28;
+
+    const boatTop =
+        boatRect.top + 5;
+
+
+    const clone =
+        createCharacter(
+            character
+        );
+
+    clone.classList.add(
+        "walking-clone"
+    );
+
+    clone.style.pointerEvents =
+        "none";
+
+    clone.style.width =
+        `${startRect.width}px`;
+
+    clone.style.height =
+        `${startRect.height}px`;
+
+
+    const fromLeft =
+        direction === "board"
+            ? startRect.left
+            : boatLeft;
+
+    const fromTop =
+        direction === "board"
+            ? startRect.top
+            : boatTop;
+
+    const toLeft =
+        direction === "board"
+            ? boatLeft
+            : startRect.left;
+
+    const toTop =
+        direction === "board"
+            ? boatTop
+            : startRect.top;
+
+    const fromScale =
+        direction === "board"
+            ? 1
+            : 0.55;
+
+    const toScale =
+        direction === "board"
+            ? 0.55
+            : 1;
+
+
+    clone.style.left =
+        `${fromLeft}px`;
+
+    clone.style.top =
+        `${fromTop}px`;
+
+    clone.style.transform =
+        `scale(${fromScale})`;
+
+
+    document.body.appendChild(
+        clone
+    );
+
+    void clone.offsetWidth;
+
+    requestAnimationFrame(
+        () => {
+
+            clone.style.left =
+                `${toLeft}px`;
+
+            clone.style.top =
+                `${toTop}px`;
+
+            clone.style.transform =
+                `scale(${toScale})`;
+
+        }
+    );
+
+    setTimeout(
+        () => {
+            clone.style.opacity = "0";
+        },
+        520
+    );
+
+    setTimeout(
+        () => {
+            clone.remove();
+        },
+        680
+    );
 
 }
 
@@ -1720,13 +1888,39 @@ function updateUI() {
    RENDER BOAT
 ========================================================= */
 
+function getBoatDisplayPassengers() {
+
+    /* While actually crossing, boatPassengers holds
+       the real passenger list. Before that (just
+       clicking characters to select them), preview
+       the selected characters sitting in the boat. */
+
+    if (boatPassengers.length > 0) {
+        return boatPassengers;
+    }
+
+    const currentBank =
+        boatSide === "left"
+            ? leftBank
+            : rightBank;
+
+    return currentBank.filter(
+        character =>
+            selectedCharacters.includes(
+                character.id
+            )
+    );
+
+}
+
+
 function renderBoat() {
 
     boatPassengersElement.innerHTML =
         "";
 
 
-    boatPassengers.forEach(
+    getBoatDisplayPassengers().forEach(
         (character, index) => {
 
             const passenger =

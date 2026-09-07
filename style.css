@@ -2391,6 +2391,49 @@ body.difficulty-mastermind .game-board {
 
 
 /* =========================================================
+   BOARDED / SELECTED CHARACTER
+   Shown as a faded ghost on the bank once the character
+   has "boarded" the boat (its icon now appears in the boat).
+   Clicking it again lets it step back off.
+========================================================= */
+
+.character.selected {
+
+  opacity: .32;
+
+  filter: grayscale(45%);
+
+  border-color: rgba(110,200,255,.55);
+
+  box-shadow:
+    0 0 0 2px rgba(110,200,255,.45),
+    0 10px 22px rgba(0,0,0,.35);
+
+  transform: translateY(-4px) scale(.96);
+}
+
+.character.selected::after {
+
+  content: "IN BOAT";
+
+  position: absolute;
+
+  top: -13px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: .05em;
+
+  color: #6ec8ff;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
    MANY CHARACTERS
 ========================================================= */
 
