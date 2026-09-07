@@ -972,6 +972,8 @@ function createCharacter(
 
         <div class="character-body">
 
+            <div class="character-torso"></div>
+
             <div class="character-head">
 
                 <span class="character-symbol">
