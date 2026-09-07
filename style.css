@@ -3248,3 +3248,64 @@ body.difficulty-legendary .game-board {
 .character.jean-grey .character-torso{background:linear-gradient(180deg,#4d6d4a,#263c29)} .character.jean-grey .character-head{background:#f0b08f}
 .character.shadow .character-torso{background:linear-gradient(180deg,#241035,#06040d);box-shadow:0 0 18px rgba(168,85,247,.45)} .character.shadow .character-head{background:#0b0714;box-shadow:0 0 16px rgba(168,85,247,.5)}
 .difficulty-chaos .river-zone{background:#4a1420}.difficulty-savage .river-zone{background:#6b3211}.difficulty-beast .river-zone{background:#684018}.difficulty-mythic .river-zone{background:#173d7a}.difficulty-omega .river-zone{background:#48205f}.difficulty-shadow .river-zone{background:#090312}.difficulty-shadow .water{background:linear-gradient(180deg,#160827,#28103f 50%,#090312)}.difficulty-shadow .moon{box-shadow:0 0 35px rgba(168,85,247,.8)}.difficulty-shadow .level-panel{border-color:rgba(168,85,247,.45)}.difficulty-shadow .progress-bar{background:linear-gradient(90deg,#6d28d9,#e9d5ff)}
+
+/* =========================================================
+   SEASON 2 — THE DOOM ARC (LEVELS 22–36)
+========================================================= */
+.character.wolf .character-torso{background:linear-gradient(180deg,#94a3b8,#334155)}
+.character.mutated-beast .character-torso{background:linear-gradient(180deg,#84cc16,#365314)}
+.character.dark-warrior .character-torso{background:linear-gradient(180deg,#374151,#030712)}
+.character.elite-guardian .character-torso{background:linear-gradient(180deg,#cbd5e1,#475569)}
+.character.mutant .character-torso{background:linear-gradient(180deg,#c026d3,#581c87)}
+.character.super-human .character-torso{background:linear-gradient(180deg,#2563eb,#991b1b)}
+.character.fire-lord .character-torso{background:linear-gradient(180deg,#fb923c,#991b1b)}
+.character.ice-wraith .character-torso{background:linear-gradient(180deg,#e0f2fe,#0e7490)}
+.character.lightning-beast .character-torso{background:linear-gradient(180deg,#fde047,#a16207)}
+.character.rising-king .character-torso{background:linear-gradient(180deg,#fbbf24,#78350f)}
+.character.royal-guard .character-torso{background:linear-gradient(180deg,#7c2d12,#1c1917)}
+.character.giant-creature .character-torso{background:linear-gradient(180deg,#a16207,#451a03)}
+.character.undead .character-torso{background:linear-gradient(180deg,#86efac,#14532d)}
+.character.alien-warrior .character-torso{background:linear-gradient(180deg,#a3e635,#365314)}
+.character.space-marine .character-torso{background:linear-gradient(180deg,#f59e0b,#78350f)}
+.character.robot .character-torso{background:linear-gradient(180deg,#94a3b8,#334155)}
+.character.ai-sentinel .character-torso{background:linear-gradient(180deg,#8b5cf6,#1e1b4b)}
+.character.alternate-enemy .character-torso{background:linear-gradient(180deg,#f472b6,#581c87)}
+.character.rift-walker .character-torso{background:linear-gradient(180deg,#818cf8,#312e81)}
+.character.god .character-torso{background:linear-gradient(180deg,#fde68a,#b45309)}
+.character.season2-titan .character-torso{background:linear-gradient(180deg,#64748b,#1e293b)}
+.character.cosmic-enemy .character-torso{background:linear-gradient(180deg,#c084fc,#312e81)}
+.character.star-guardian .character-torso{background:linear-gradient(180deg,#38bdf8,#075985)}
+.character.doombot .character-torso{background:linear-gradient(180deg,#64748b,#14532d)}
+.character.dr-doom .character-torso{background:linear-gradient(180deg,#166534,#052e16);box-shadow:0 0 22px rgba(74,222,128,.45)}
+.character.dr-doom .character-head{background:#94a3b8;box-shadow:0 0 16px rgba(250,204,21,.35)}
+
+.difficulty-renewal .river-zone{background:#24543d}.difficulty-wild .river-zone{background:#4b2e12}.difficulty-warrior .river-zone{background:#292524}.difficulty-mutation .river-zone{background:#581c87}.difficulty-elemental .river-zone{background:#7c2d12}.difficulty-king .river-zone{background:#78350f}.difficulty-monster .river-zone{background:#451a03}.difficulty-apocalypse .river-zone{background:#1c1917}.difficulty-alienwar .river-zone{background:#172554}.difficulty-machine .river-zone{background:#111827}.difficulty-multiverse .river-zone{background:#312e81}.difficulty-titans .river-zone{background:#1e3a8a}.difficulty-cosmic .river-zone{background:#1e1b4b}.difficulty-doom .river-zone{background:#14532d}.difficulty-doomfinal .river-zone{background:#052e16}
+.difficulty-doom .water,.difficulty-doomfinal .water{background:linear-gradient(180deg,#052e16,#14532d 50%,#020617)}
+.difficulty-doomfinal .level-panel{border-color:rgba(74,222,128,.55);box-shadow:0 0 28px rgba(34,197,94,.18)}
+.difficulty-doomfinal .progress-bar{background:linear-gradient(90deg,#166534,#facc15,#14532d)}
+
+
+/* =========================================================
+   LEVEL 37 — SHADOW VS DR. DOOM MASSIVE WAR
+========================================================= */
+body.difficulty-shadowwar {
+    background: radial-gradient(circle at top, #1b1028 0%, #080b18 48%, #02040a 100%);
+}
+
+.difficulty-shadowwar .level-panel,
+.difficulty-shadowwar .control-panel {
+    border-color: rgba(150, 90, 255, 0.55);
+    box-shadow: 0 0 30px rgba(120, 50, 255, 0.18);
+}
+
+.difficulty-shadowwar .moon {
+    box-shadow: 0 0 45px rgba(120, 70, 255, 0.75);
+}
+
+.character.shadow {
+    filter: drop-shadow(0 0 8px rgba(135, 70, 255, 0.9));
+}
+
+.character.dr-doom, .character.doombot {
+    filter: drop-shadow(0 0 7px rgba(60, 255, 130, 0.65));
+}

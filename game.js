@@ -285,7 +285,26 @@ const LEVELS = [
         level: 21, difficulty: "SHADOW", humans: 8, shadows: 1, spiderMen: 1, thors: 1, jeanGreys: 1,
         boatCapacity: 8, title: "THE SHADOW — FINAL BATTLE",
         description: "Final Rule: Spider-Man, Thor and Jean Grey must unite to protect humanity from The Shadow."
-    }
+    } ,
+    /* ================= SEASON 2 — THE DOOM ARC ================= */
+    { level: 22, difficulty: "RENEWAL", humans: 8, wolves: 2, mutatedBeasts: 1, boatCapacity: 7, title: "New Beginning", description: "Season 2 begins." },
+    { level: 23, difficulty: "WILD", humans: 8, wolves: 3, mutatedBeasts: 2, boatCapacity: 7, title: "Wild Hunt", description: "Fast predators and unstable mutations." },
+    { level: 24, difficulty: "WARRIOR", humans: 9, darkWarriors: 3, eliteGuardians: 1, boatCapacity: 8, title: "Dark Warriors", description: "Elite warriors control the battlefield." },
+    { level: 25, difficulty: "MUTATION", humans: 9, mutants: 3, superHumans: 2, boatCapacity: 8, title: "Mutation", description: "Mutants and superpowered humans." },
+    { level: 26, difficulty: "ELEMENTAL", humans: 9, fireLords: 1, iceWraiths: 1, lightningBeasts: 1, thors: 1, boatCapacity: 8, title: "Elemental War", description: "Fire, ice and lightning collide." },
+    { level: 27, difficulty: "KING", humans: 10, risingKings: 1, royalGuards: 2, boatCapacity: 8, title: "The Rising King", description: "Season 2 mid-boss." },
+    { level: 28, difficulty: "MONSTER", humans: 10, giantCreatures: 2, mutatedBeasts: 2, boatCapacity: 9, title: "Monster Breakout", description: "Giant creatures escape containment." },
+    { level: 29, difficulty: "APOCALYPSE", humans: 10, undeads: 3, mutants: 2, boatCapacity: 9, title: "Apocalypse", description: "The dead rise while mutations spread." },
+    { level: 30, difficulty: "ALIENWAR", humans: 11, alienWarriors: 3, spaceMarines: 2, boatCapacity: 9, title: "Alien Invasion", description: "Alien warriors descend from the stars." },
+    { level: 31, difficulty: "MACHINE", humans: 11, robots: 3, aiSentinels: 2, boatCapacity: 9, title: "Machine War", description: "Advanced robots and rogue AI attack." },
+    { level: 32, difficulty: "MULTIVERSE", humans: 11, alternateEnemies: 3, riftWalkers: 2, boatCapacity: 10, title: "Multiverse", description: "Reality fractures." },
+    { level: 33, difficulty: "TITANS", humans: 12, season2Titans: 3, thors: 1, boatCapacity: 10, title: "Titans & Legends", description: "Legendary warriors and colossal threats push the mission to the limit." },
+    { level: 34, difficulty: "COSMIC", humans: 12, cosmicEnemies: 3, starGuardians: 2, jeanGreys: 1, boatCapacity: 10, title: "Cosmic War", description: "The battle expands beyond Earth." },
+    { level: 35, difficulty: "DOOM", humans: 12, doombots: 4, drDooms: 1, spiderMen: 1, thors: 1, jeanGreys: 1, boatCapacity: 11, title: "Doom's Arrival", description: "You defeated The Shadow... but you were never ready for Doom." },
+    { level: 36, difficulty: "DOOMFINAL", humans: 12, drDooms: 1, doombots: 5, spiderMen: 1, thors: 1, jeanGreys: 1, magnetos: 1, azureDragons: 1, supermen: 1, boatCapacity: 12, title: "DOOM — FINAL BOSS", description: "EVERYONE VS DR. DOOM. The ultimate team must unite." },
+    /* ================= MASSIVE EVENT — SHADOW RETURNS AS HERO ================= */
+    { level: 37, difficulty: "SHADOWWAR", humans: 14, drDooms: 1, doombots: 6, shadows: 1, spiderMen: 1, thors: 1, jeanGreys: 1, magnetos: 1, azureDragons: 1, supermen: 1, starGuardians: 2, boatCapacity: 14, title: "SHADOW VS DR. DOOM — MASSIVE WAR", description: "The Shadow has returned as a Hero. Shadow and the ultimate alliance must stop Dr. Doom and his Doombot army." }
+
 ];
 
 
@@ -925,7 +944,7 @@ function startLevel(level) {
         ["tigers", "tiger", "Tiger"], ["lions", "lion", "Lion"],
         ["spiderMen", "spider-man", "Spider-Man"], ["azureDragons", "azure-dragon", "Azure Dragon"],
         ["thors", "thor", "Thor"], ["magnetos", "magneto", "Magneto"],
-        ["jeanGreys", "jean-grey", "Jean Grey"], ["shadows", "shadow", "The Shadow"]
+        ["jeanGreys", "jean-grey", "Jean Grey"], ["shadows", "shadow", "The Shadow"], ["wolves","wolf","Wolf"],["mutatedBeasts","mutated-beast","Mutated Beast"],["darkWarriors","dark-warrior","Dark Warrior"],["eliteGuardians","elite-guardian","Elite Guardian"],["mutants","mutant","Mutant"],["superHumans","super-human","Superhuman"],["fireLords","fire-lord","Fire Lord"],["iceWraiths","ice-wraith","Ice Wraith"],["lightningBeasts","lightning-beast","Lightning Beast"],["risingKings","rising-king","The Rising King"],["royalGuards","royal-guard","Royal Guard"],["giantCreatures","giant-creature","Giant Creature"],["undeads","undead","Undead"],["alienWarriors","alien-warrior","Alien Warrior"],["spaceMarines","space-marine","Space Marine"],["robots","robot","War Robot"],["aiSentinels","ai-sentinel","AI Sentinel"],["alternateEnemies","alternate-enemy","Alternate Enemy"],["riftWalkers","rift-walker","Rift Walker"],["season2Titans","season2-titan","Titan"],["cosmicEnemies","cosmic-enemy","Cosmic Enemy"],["starGuardians","star-guardian","Star Guardian"],["doombots","doombot","Doombot"],["drDooms","dr-doom","Dr. Doom"]
     ];
     finalArcGroups.forEach(([key, type, label]) => {
         const total = config[key] || 0;
@@ -1005,7 +1024,7 @@ function setDifficultyTheme(
         "difficulty-marvel",
         "difficulty-legendary",
         "difficulty-chaos", "difficulty-savage", "difficulty-beast",
-        "difficulty-mythic", "difficulty-omega", "difficulty-shadow"
+        "difficulty-mythic", "difficulty-omega", "difficulty-shadow", "difficulty-renewal", "difficulty-wild", "difficulty-warrior", "difficulty-mutation", "difficulty-elemental", "difficulty-king", "difficulty-monster", "difficulty-apocalypse", "difficulty-alienwar", "difficulty-machine", "difficulty-multiverse", "difficulty-titans", "difficulty-cosmic", "difficulty-doom", "difficulty-doomfinal", "difficulty-shadowwar"
     );
 
     document.body.classList.add(
@@ -1401,6 +1420,30 @@ const CHARACTER_FACES = {
         ${mouthCurve(true, "#fff")}
     `
 
+    ,wolf: () => `${eyePair({ iris: "#facc15", gap: 18, slant: 8 })}${fangMouth()}`
+    ,"mutated-beast": () => `${eyePair({ iris: "#7CFF6B", gap: 20, glow: true })}${fangMouth()}`
+    ,"dark-warrior": () => `${eyePair({ iris: "#ef4444", gap: 17, glow: true })}`
+    ,"elite-guardian": () => `${eyePair({ iris: "#38bdf8", gap: 17 })}`
+    ,mutant: () => `${eyePair({ iris: "#d946ef", gap: 17, glow: true })}`
+    ,"super-human": () => `${eyePair({ iris: "#0ea5e9", gap: 17 })}`
+    ,"fire-lord": () => `${eyePair({ iris: "#fef08a", gap: 17, glow: true })}`
+    ,"ice-wraith": () => `${eyePair({ iris: "#e0f2fe", gap: 17, glow: true })}`
+    ,"lightning-beast": () => `${eyePair({ iris: "#fde047", gap: 18, glow: true })}`
+    ,"rising-king": () => `${eyePair({ iris: "#fef3c7", gap: 17 })}`
+    ,"royal-guard": () => `${eyePair({ iris: "#fbbf24", gap: 17 })}`
+    ,"giant-creature": () => `${eyePair({ iris: "#fb923c", gap: 22, glow: true })}${fangMouth()}`
+    ,undead: () => `${eyePair({ iris: "#86efac", gap: 17, glow: true })}${fangMouth("#d1fae5")}`
+    ,"alien-warrior": () => `${eyePair({ iris: "#111827", gap: 20, rx: 13, ry: 17 })}`
+    ,robot: () => `<rect x="14" y="18" width="72" height="62" rx="14" fill="#64748b"/>${eyePair({ iris: "#22d3ee", gap: 18, glow: true })}`
+    ,"ai-sentinel": () => `<circle cx="50" cy="50" r="42" fill="#0f172a"/>${eyePair({ iris: "#a78bfa", gap: 20, glow: true })}`
+    ,"alternate-enemy": () => `${eyePair({ iris: "#f472b6", gap: 17, glow: true })}`
+    ,"rift-walker": () => `<circle cx="50" cy="50" r="42" fill="#312e81"/>${eyePair({ iris: "#c4b5fd", gap: 18, glow: true })}`
+    ,god: () => `${eyePair({ iris: "#fde68a", gap: 17, glow: true })}`
+    ,"season2-titan": () => `<circle cx="50" cy="52" r="43" fill="#475569"/>${eyePair({ iris: "#fb7185", gap: 22, glow: true })}`
+    ,"cosmic-enemy": () => `<circle cx="50" cy="50" r="44" fill="#312e81"/>${eyePair({ iris: "#f0abfc", gap: 18, glow: true })}`
+    ,"star-guardian": () => `${eyePair({ iris: "#fff", gap: 16 })}`
+    ,doombot: () => `${eyePair({ iris: "#ef4444", gap: 17, glow: true })}`
+    ,"dr-doom": () => `<path d="M18,30 Q50,-6 82,30 L74,48 H26 Z" fill="#94a3b8"/><path d="M20,34 L50,10 L80,34" fill="#166534"/>${eyePair({ iris: "#facc15", gap: 17, glow: true })}`
 };
 
 
@@ -2851,6 +2894,9 @@ function isBankSafe(
     if (currentLevel === 19) return !(azureDragons > 0 && thors === 0);
     if (currentLevel === 20) return !(magnetos > 0 && jeanGreys === 0);
     if (currentLevel === 21) return shadows === 0 || (spiderMen > 0 && thors > 0 && jeanGreys > 0);
+    if (currentLevel === 36) { const doom = countType(bank, "dr-doom"); const team = ["spider-man","thor","jean-grey","magneto","azure-dragon","superman"].every(t => countType(bank,t) > 0); return doom === 0 || team; }
+    /* LEVEL 37 — MASSIVE WAR: The Shadow is now a Hero and must face Dr. Doom. */
+    if (currentLevel === 37) { const doom = countType(bank, "dr-doom"); const shadow = countType(bank, "shadow"); const alliance = ["spider-man","thor","jean-grey","magneto","azure-dragon","superman"].filter(t => countType(bank,t) > 0).length; return doom === 0 || (shadow > 0 && alliance >= 3); }
 
     return true;
 
