@@ -980,9 +980,20 @@ function createCharacter(
 
             </div>
 
-            <div class="character-legs"></div>
+            <div class="character-arm arm-left"></div>
+
+            <div class="character-arm arm-right"></div>
+
+            <div class="character-torso-shade"></div>
+
+            <div class="character-legs">
+                <div class="leg leg-left"><span class="foot"></span></div>
+                <div class="leg leg-right"><span class="foot"></span></div>
+            </div>
 
         </div>
+
+        <div class="character-shadow"></div>
 
         <div class="character-name">
             ${character.name}
@@ -1947,7 +1958,33 @@ function finishCrossing() {
         !rightSafe
     ) {
 
-        loseGame();
+        gameLocked = true;
+
+        const unsafeBank =
+            !leftSafe ? leftBank : rightBank;
+
+        const unsafeContainer =
+            !leftSafe ? leftCharacters : rightCharacters;
+
+        const eatenPair =
+            getEatenPair(unsafeBank);
+
+        if (eatenPair) {
+
+            playEatingAnimation(
+                unsafeContainer,
+                eatenPair.humans,
+                eatenPair.predators,
+                loseGame
+            );
+
+        }
+
+        else {
+
+            loseGame();
+
+        }
 
         return;
 
@@ -1971,6 +2008,191 @@ function finishCrossing() {
         return;
 
     }
+
+}
+
+
+/* =========================================================
+   EATEN ANIMATION
+   Whenever a bank ends up unsafe, whichever threat type
+   is present without its protector "eats" the human(s)
+   left with it before the mission-failed card appears.
+========================================================= */
+
+const PREDATOR_TYPES = [
+    "demon",
+    "big-demon",
+    "powerful-demon",
+    "titan",
+    "dragon",
+    "trex",
+    "kaiju",
+    "alien",
+    "supervillain"
+];
+
+
+function getEatenPair(bank) {
+
+    const humans =
+        bank.filter(
+            character => character.type === "human"
+        );
+
+    const predators =
+        bank.filter(
+            character =>
+                PREDATOR_TYPES.includes(
+                    character.type
+                )
+        );
+
+    if (
+        humans.length === 0 ||
+        predators.length === 0
+    ) {
+        return null;
+    }
+
+    return {
+        humans,
+        predators
+    };
+
+}
+
+
+function playEatingAnimation(
+    container,
+    humans,
+    predators,
+    callback
+) {
+
+    const gameShell =
+        document.querySelector(".game-shell");
+
+    const predatorElements =
+        predators
+            .map(
+                predator =>
+                    container.querySelector(
+                        `[data-id="${predator.id}"]`
+                    )
+            )
+            .filter(Boolean);
+
+
+    predatorElements.forEach(
+        (predatorEl, index) => {
+
+            setTimeout(
+                () => {
+                    predatorEl.classList.add(
+                        "predator-lunge"
+                    );
+                },
+                index * 90
+            );
+
+        }
+    );
+
+
+    humans.forEach(
+        (human, index) => {
+
+            const humanEl =
+                container.querySelector(
+                    `[data-id="${human.id}"]`
+                );
+
+            if (!humanEl) {
+                return;
+            }
+
+            setTimeout(
+                () => {
+
+                    humanEl.classList.add(
+                        "victim-caught"
+                    );
+
+                    spawnBiteEffect(
+                        humanEl
+                    );
+
+                },
+                280 + index * 140
+            );
+
+        }
+    );
+
+
+    if (gameShell) {
+
+        setTimeout(
+            () => {
+                gameShell.classList.add("shake");
+            },
+            260
+        );
+
+        setTimeout(
+            () => {
+                gameShell.classList.remove("shake");
+            },
+            760
+        );
+
+    }
+
+
+    setTimeout(
+        () => {
+
+            if (typeof callback === "function") {
+                callback();
+            }
+
+        },
+        1050
+    );
+
+}
+
+
+function spawnBiteEffect(
+    targetEl
+) {
+
+    const rect =
+        targetEl.getBoundingClientRect();
+
+    const fx =
+        document.createElement("div");
+
+    fx.className =
+        "bite-fx";
+
+    fx.textContent =
+        "💥";
+
+    fx.style.left =
+        `${rect.left + rect.width / 2}px`;
+
+    fx.style.top =
+        `${rect.top + rect.height / 2}px`;
+
+    document.body.appendChild(fx);
+
+    setTimeout(
+        () => {
+            fx.remove();
+        },
+        700
+    );
 
 }
 

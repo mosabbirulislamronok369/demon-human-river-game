@@ -651,7 +651,7 @@ button{
 }
 
 
-/* BODY */
+/* BODY — tapered anime torso: broad shoulders, slim waist */
 
 .character-body{
 
@@ -673,9 +673,121 @@ button{
       #9a6b2b
     );
 
+  clip-path:
+    polygon(
+      8% 4%,
+      92% 4%,
+      100% 26%,
+      84% 100%,
+      16% 100%,
+      0% 26%
+    );
+
   box-shadow:
     0 8px 16px
     rgba(0,0,0,.25);
+
+  animation:
+    characterBreathe 2.6s ease-in-out infinite;
+}
+
+
+@keyframes characterBreathe{
+
+  0%,100%{
+    transform:scaleY(1);
+  }
+
+  50%{
+    transform:scaleY(1.02);
+  }
+
+}
+
+
+/* subtle chest/waist shading to sell the taper */
+
+.character-torso-shade{
+
+  position:absolute;
+
+  left:50%;
+  top:6px;
+
+  width:2px;
+  height:30px;
+
+  transform:translateX(-50%);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0,0,0,0),
+      rgba(0,0,0,.18)
+    );
+
+  pointer-events:none;
+}
+
+
+/* ARMS */
+
+.character-arm{
+
+  position:absolute;
+
+  top:2px;
+
+  width:7px;
+  height:24px;
+
+  border-radius:5px;
+
+  background:inherit;
+
+  box-shadow:
+    0 4px 8px
+    rgba(0,0,0,.22);
+
+  z-index:1;
+}
+
+
+.character-arm::after{
+
+  content:"";
+
+  position:absolute;
+
+  bottom:-4px;
+  left:50%;
+
+  width:7px;
+  height:7px;
+
+  border-radius:50%;
+
+  transform:translateX(-50%);
+
+  background:inherit;
+
+  border:
+    1px solid
+    rgba(0,0,0,.18);
+}
+
+
+.arm-left{
+  left:-5px;
+  transform:rotate(10deg);
+  transform-origin:top center;
+}
+
+
+.arm-right{
+  right:-5px;
+  transform:rotate(-10deg);
+  transform-origin:top center;
 }
 
 
@@ -733,42 +845,73 @@ button{
 }
 
 
-/* LEGS */
+/* LEGS — two distinct booted legs with feet */
 
 .character-legs{
 
   position:absolute;
 
-  bottom:-6px;
+  bottom:-8px;
 
-  width:28px;
-  height:12px;
+  left:0;
+  right:0;
+
+  display:flex;
+
+  justify-content:center;
+
+  gap:6px;
 }
 
 
-.character-legs::before,
-.character-legs::after{
+.leg{
 
-  content:"";
+  position:relative;
+
+  width:9px;
+  height:16px;
+
+  border-radius:4px 4px 3px 3px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #232a38,
+      #161b24
+    );
+}
+
+
+.leg-left{
+  transform:
+    rotate(-4deg)
+    translateY(-1px);
+}
+
+
+.leg-right{
+  transform:
+    rotate(4deg)
+    translateY(-1px);
+}
+
+
+.foot{
 
   position:absolute;
 
-  width:9px;
-  height:15px;
+  bottom:-3px;
 
-  border-radius:5px;
+  left:50%;
 
-  background:#161b24;
-}
+  width:12px;
+  height:5px;
 
+  border-radius:3px;
 
-.character-legs::before{
-  left:3px;
-}
+  transform:translateX(-50%);
 
-
-.character-legs::after{
-  right:3px;
+  background:#0d1017;
 }
 
 
@@ -823,6 +966,212 @@ button{
 
   box-shadow:
     0 0 4px #fff;
+}
+
+
+/* GROUND SHADOW */
+
+.character-shadow{
+
+  width:26px;
+  height:6px;
+
+  margin-top:2px;
+
+  border-radius:50%;
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(0,0,0,.35),
+      rgba(0,0,0,0) 70%
+    );
+}
+
+
+/* =========================================================
+   EATEN ANIMATION
+   Played on the offending bank right before a mission
+   fails: the threat lunges, the human is caught and
+   dragged down, then the failure card appears.
+========================================================= */
+
+@keyframes predatorLunge{
+
+  0%{
+    transform:none;
+  }
+
+  28%{
+    transform:
+      translateY(-9px)
+      scale(1.12)
+      rotate(-5deg);
+  }
+
+  55%{
+    transform:
+      translateY(5px)
+      scale(1.28)
+      rotate(4deg);
+  }
+
+  100%{
+    transform:
+      translateY(0)
+      scale(1.06)
+      rotate(0deg);
+  }
+
+}
+
+
+.character.predator-lunge{
+
+  animation:
+    predatorLunge .75s
+    cubic-bezier(.34,1.56,.64,1)
+    forwards;
+
+  z-index:6;
+
+  filter:
+    drop-shadow(0 0 10px rgba(255,40,60,.65));
+}
+
+
+@keyframes victimCaught{
+
+  0%{
+    transform:none;
+    opacity:1;
+    filter:none;
+  }
+
+  25%{
+    transform:
+      scale(1.08)
+      rotate(-6deg);
+
+    filter:
+      brightness(1.3)
+      saturate(1.4);
+  }
+
+  60%{
+    transform:
+      scale(.5)
+      rotate(16deg)
+      translateY(8px);
+
+    opacity:.65;
+
+    filter:
+      brightness(.55)
+      saturate(2)
+      drop-shadow(0 0 8px #ff1744);
+  }
+
+  100%{
+    transform:
+      scale(0)
+      rotate(32deg)
+      translateY(16px);
+
+    opacity:0;
+  }
+
+}
+
+
+.character.victim-caught{
+
+  animation:
+    victimCaught .7s
+    ease-in forwards;
+
+  pointer-events:none;
+
+  z-index:5;
+}
+
+
+@keyframes biteFxPop{
+
+  0%{
+    transform:
+      translate(-50%,-50%)
+      scale(.3)
+      rotate(0deg);
+
+    opacity:0;
+  }
+
+  30%{
+    transform:
+      translate(-50%,-50%)
+      scale(1.35)
+      rotate(-8deg);
+
+    opacity:1;
+  }
+
+  100%{
+    transform:
+      translate(-50%,-50%)
+      scale(1.8)
+      rotate(6deg);
+
+    opacity:0;
+  }
+
+}
+
+
+.bite-fx{
+
+  position:fixed;
+
+  font-size:34px;
+  line-height:1;
+
+  pointer-events:none;
+
+  z-index:999;
+
+  animation:
+    biteFxPop .6s
+    ease-out forwards;
+}
+
+
+@keyframes gameShake{
+
+  0%,100%{
+    transform:translateX(0);
+  }
+
+  20%{
+    transform:translateX(-6px);
+  }
+
+  40%{
+    transform:translateX(5px);
+  }
+
+  60%{
+    transform:translateX(-4px);
+  }
+
+  80%{
+    transform:translateX(3px);
+  }
+
+}
+
+
+.game-shell.shake{
+  animation:gameShake .45s ease;
 }
 
 
