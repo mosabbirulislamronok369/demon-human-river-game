@@ -155,6 +155,103 @@ const LEVELS = [
         title: "Dragon's Final Trial",
         description:
             "The Dragon Slayer must stay with the humans against the Dragon."
+    },
+
+
+    /* =========================
+       JURASSIC
+       T-Rex + Dino Ranger
+    ========================= */
+
+    {
+        level: 11,
+        difficulty: "JURASSIC",
+        humans: 6,
+        trexes: 1,
+        dinoRangers: 1,
+        boatCapacity: 5,
+        title: "T-Rex Territory",
+        description:
+            "The Dino Ranger must stay with the humans to hold back the T-Rex."
+    },
+
+
+    /* =========================
+       KAIJU
+       Monster + Mecha Pilot
+    ========================= */
+
+    {
+        level: 12,
+        difficulty: "KAIJU",
+        humans: 6,
+        kaijus: 1,
+        mechaPilots: 1,
+        boatCapacity: 5,
+        title: "Monster Uprising",
+        description:
+            "The Mecha Pilot must control the Monster whenever humans are near."
+    },
+
+
+    /* =========================
+       XENO
+       Alien + Space Marine
+    ========================= */
+
+    {
+        level: 13,
+        difficulty: "XENO",
+        humans: 7,
+        aliens: 2,
+        spaceMarines: 1,
+        boatCapacity: 6,
+        title: "Alien Invasion",
+        description:
+            "The Space Marine must keep the Aliens away from the humans."
+    },
+
+
+    /* =========================
+       MARVEL
+       Supervillain + Avenger
+    ========================= */
+
+    {
+        level: 14,
+        difficulty: "MARVEL",
+        humans: 7,
+        supervillains: 2,
+        avengers: 1,
+        boatCapacity: 6,
+        title: "Hero's Stand",
+        description:
+            "The Avenger must thwart the Supervillains to protect the humans."
+    },
+
+
+    /* =========================
+       LEGENDARY
+       FINAL BOSS
+       Every threat, together
+    ========================= */
+
+    {
+        level: 15,
+        difficulty: "LEGENDARY",
+        humans: 8,
+        trexes: 1,
+        kaijus: 1,
+        aliens: 1,
+        supervillains: 1,
+        dinoRangers: 1,
+        mechaPilots: 1,
+        spaceMarines: 1,
+        avengers: 1,
+        boatCapacity: 7,
+        title: "Ultimate Crossing",
+        description:
+            "Every threat has joined forces. Never leave the humans without at least one protector."
     }
 
 ];
@@ -532,6 +629,174 @@ function startLevel(level) {
     }
 
 
+    /* =========================
+       T-REX
+    ========================= */
+
+    for (
+        let i = 1;
+        i <= (config.trexes || 0);
+        i++
+    ) {
+
+        leftBank.push(
+            createCharacterData(
+                `trex-${i}`,
+                "trex",
+                `T-Rex ${i}`
+            )
+        );
+
+    }
+
+
+    /* =========================
+       DINO RANGER
+    ========================= */
+
+    for (
+        let i = 1;
+        i <= (config.dinoRangers || 0);
+        i++
+    ) {
+
+        leftBank.push(
+            createCharacterData(
+                `dino-ranger-${i}`,
+                "dino-ranger",
+                `Dino Ranger ${i}`
+            )
+        );
+
+    }
+
+
+    /* =========================
+       KAIJU
+    ========================= */
+
+    for (
+        let i = 1;
+        i <= (config.kaijus || 0);
+        i++
+    ) {
+
+        leftBank.push(
+            createCharacterData(
+                `kaiju-${i}`,
+                "kaiju",
+                `Kaiju ${i}`
+            )
+        );
+
+    }
+
+
+    /* =========================
+       MECHA PILOT
+    ========================= */
+
+    for (
+        let i = 1;
+        i <= (config.mechaPilots || 0);
+        i++
+    ) {
+
+        leftBank.push(
+            createCharacterData(
+                `mecha-pilot-${i}`,
+                "mecha-pilot",
+                `Mecha Pilot ${i}`
+            )
+        );
+
+    }
+
+
+    /* =========================
+       ALIEN
+    ========================= */
+
+    for (
+        let i = 1;
+        i <= (config.aliens || 0);
+        i++
+    ) {
+
+        leftBank.push(
+            createCharacterData(
+                `alien-${i}`,
+                "alien",
+                `Alien ${i}`
+            )
+        );
+
+    }
+
+
+    /* =========================
+       SPACE MARINE
+    ========================= */
+
+    for (
+        let i = 1;
+        i <= (config.spaceMarines || 0);
+        i++
+    ) {
+
+        leftBank.push(
+            createCharacterData(
+                `space-marine-${i}`,
+                "space-marine",
+                `Space Marine ${i}`
+            )
+        );
+
+    }
+
+
+    /* =========================
+       SUPERVILLAIN
+    ========================= */
+
+    for (
+        let i = 1;
+        i <= (config.supervillains || 0);
+        i++
+    ) {
+
+        leftBank.push(
+            createCharacterData(
+                `supervillain-${i}`,
+                "supervillain",
+                `Supervillain ${i}`
+            )
+        );
+
+    }
+
+
+    /* =========================
+       AVENGER
+    ========================= */
+
+    for (
+        let i = 1;
+        i <= (config.avengers || 0);
+        i++
+    ) {
+
+        leftBank.push(
+            createCharacterData(
+                `avenger-${i}`,
+                "avenger",
+                `Avenger ${i}`
+            )
+        );
+
+    }
+
+
     shuffleArray(leftBank);
 
 
@@ -596,7 +861,12 @@ function setDifficultyTheme(
         "difficulty-ultra",
         "difficulty-super",
         "difficulty-titan",
-        "difficulty-mastermind"
+        "difficulty-mastermind",
+        "difficulty-jurassic",
+        "difficulty-kaiju",
+        "difficulty-xeno",
+        "difficulty-marvel",
+        "difficulty-legendary"
     );
 
     document.body.classList.add(
@@ -770,7 +1040,23 @@ function getCharacterSymbol(
 
         dragon: "DR",
 
-        "dragon-slayer": "DS"
+        "dragon-slayer": "DS",
+
+        trex: "TX",
+
+        "dino-ranger": "DNR",
+
+        kaiju: "KJ",
+
+        "mecha-pilot": "MP",
+
+        alien: "AL",
+
+        "space-marine": "SM",
+
+        supervillain: "SV",
+
+        avenger: "AV"
 
     };
 
@@ -1589,6 +1875,62 @@ function isBankSafe(
         );
 
 
+    const trexes =
+        countType(
+            bank,
+            "trex"
+        );
+
+
+    const dinoRangers =
+        countType(
+            bank,
+            "dino-ranger"
+        );
+
+
+    const kaijus =
+        countType(
+            bank,
+            "kaiju"
+        );
+
+
+    const mechaPilots =
+        countType(
+            bank,
+            "mecha-pilot"
+        );
+
+
+    const aliens =
+        countType(
+            bank,
+            "alien"
+        );
+
+
+    const spaceMarines =
+        countType(
+            bank,
+            "space-marine"
+        );
+
+
+    const supervillains =
+        countType(
+            bank,
+            "supervillain"
+        );
+
+
+    const avengers =
+        countType(
+            bank,
+            "avenger"
+        );
+
+
     /* =========================
        NO HUMANS
        Nothing to protect.
@@ -1763,6 +2105,158 @@ function isBankSafe(
             dragons > 0 &&
             humans > 6 &&
             dragonSlayers > 0
+        ) {
+
+            return false;
+
+        }
+
+
+        return true;
+
+    }
+
+
+    /* =====================================================
+       LEVEL 11
+       T-REX + DINO RANGER
+    ===================================================== */
+
+    if (
+        currentLevel === 11
+    ) {
+
+        /*
+           T-Rex requires Dino Ranger protection.
+        */
+
+        if (
+            trexes > 0 &&
+            dinoRangers === 0
+        ) {
+
+            return false;
+
+        }
+
+
+        return true;
+
+    }
+
+
+    /* =====================================================
+       LEVEL 12
+       KAIJU + MECHA PILOT
+    ===================================================== */
+
+    if (
+        currentLevel === 12
+    ) {
+
+        /*
+           Kaiju requires Mecha Pilot control.
+        */
+
+        if (
+            kaijus > 0 &&
+            mechaPilots === 0
+        ) {
+
+            return false;
+
+        }
+
+
+        return true;
+
+    }
+
+
+    /* =====================================================
+       LEVEL 13
+       ALIEN + SPACE MARINE
+    ===================================================== */
+
+    if (
+        currentLevel === 13
+    ) {
+
+        /*
+           Aliens require Space Marine protection.
+        */
+
+        if (
+            aliens > 0 &&
+            spaceMarines === 0
+        ) {
+
+            return false;
+
+        }
+
+
+        return true;
+
+    }
+
+
+    /* =====================================================
+       LEVEL 14
+       SUPERVILLAIN + AVENGER
+    ===================================================== */
+
+    if (
+        currentLevel === 14
+    ) {
+
+        /*
+           Supervillains require the Avenger.
+        */
+
+        if (
+            supervillains > 0 &&
+            avengers === 0
+        ) {
+
+            return false;
+
+        }
+
+
+        return true;
+
+    }
+
+
+    /* =====================================================
+       LEVEL 15
+       LEGENDARY — FINAL BOSS
+       Every threat together. If any threat is present,
+       at least one protector of ANY kind must be present
+       or the mission fails.
+    ===================================================== */
+
+    if (
+        currentLevel === 15
+    ) {
+
+        const totalThreats =
+            trexes +
+            kaijus +
+            aliens +
+            supervillains;
+
+        const totalProtectors =
+            dinoRangers +
+            mechaPilots +
+            spaceMarines +
+            avengers;
+
+
+        if (
+            totalThreats > 0 &&
+            totalProtectors === 0
         ) {
 
             return false;
@@ -2133,6 +2627,51 @@ function getFailureMessage() {
     ) {
 
         return "The Dragon needs the Dragon Slayer to keep the humans safe.";
+
+    }
+
+
+    if (
+        currentLevel === 11
+    ) {
+
+        return "The T-Rex is loose without the Dino Ranger. Keep them together.";
+
+    }
+
+
+    if (
+        currentLevel === 12
+    ) {
+
+        return "The Kaiju has broken free of the Mecha Pilot's control.";
+
+    }
+
+
+    if (
+        currentLevel === 13
+    ) {
+
+        return "The Aliens have reached the humans without the Space Marine.";
+
+    }
+
+
+    if (
+        currentLevel === 14
+    ) {
+
+        return "The Supervillains struck while the Avenger was away.";
+
+    }
+
+
+    if (
+        currentLevel === 15
+    ) {
+
+        return "Every threat converged and not a single protector was there to stop them.";
 
     }
 
