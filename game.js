@@ -303,7 +303,15 @@ const LEVELS = [
     { level: 35, difficulty: "DOOM", humans: 12, doombots: 4, drDooms: 1, spiderMen: 1, thors: 1, jeanGreys: 1, boatCapacity: 11, title: "Doom's Arrival", description: "You defeated The Shadow... but you were never ready for Doom." },
     { level: 36, difficulty: "DOOMFINAL", humans: 12, drDooms: 1, doombots: 5, spiderMen: 1, thors: 1, jeanGreys: 1, magnetos: 1, azureDragons: 1, supermen: 1, boatCapacity: 12, title: "DOOM — FINAL BOSS", description: "EVERYONE VS DR. DOOM. The ultimate team must unite." },
     /* ================= MASSIVE EVENT — SHADOW RETURNS AS HERO ================= */
-    { level: 37, difficulty: "SHADOWWAR", humans: 14, drDooms: 1, doombots: 6, shadows: 1, spiderMen: 1, thors: 1, jeanGreys: 1, magnetos: 1, azureDragons: 1, supermen: 1, starGuardians: 2, boatCapacity: 14, title: "SHADOW VS DR. DOOM — MASSIVE WAR", description: "The Shadow has returned as a Hero. Shadow and the ultimate alliance must stop Dr. Doom and his Doombot army." }
+    { level: 37, difficulty: "SHADOWWAR", humans: 14, drDooms: 1, doombots: 6, shadows: 1, spiderMen: 1, thors: 1, jeanGreys: 1, magnetos: 1, azureDragons: 1, supermen: 1, starGuardians: 2, boatCapacity: 14, title: "SHADOW VS DR. DOOM — MASSIVE WAR", description: "The Shadow has returned as a Hero. Shadow and the ultimate alliance must stop Dr. Doom and his Doombot army." },
+
+    /* ================= SEASON 3 — THIRD ERA / IMU ARC ================= */
+    { level: 38, difficulty: "ALLIANCE", humans: 14, dimensionalWarriors: 2, mutatedBeasts: 2, shadows: 1, drDoomAllies: 1, luffys: 1, boatCapacity: 14, title: "The Unexpected Alliance", description: "A new era begins. Luffy arrives, and former enemy Dr. Doom stands beside the alliance against a mysterious dimensional threat." },
+    { level: 39, difficulty: "SWORD", humans: 15, dimensionalWarriors: 3, darkWarriors: 2, zoros: 1, boatCapacity: 14, title: "The Swordsman's Arrival", description: "A dimensional rift opens and an elite swordsman joins the growing alliance: Zoro." },
+    { level: 40, difficulty: "SPEED", humans: 15, fireWraiths: 2, lightningBeasts: 2, dimensionalWarriors: 2, sanjis: 1, boatCapacity: 15, title: "Speed of Fire", description: "A high-speed combat specialist arrives. Sanji joins the fight as the battlefield becomes faster and more dangerous." },
+    { level: 41, difficulty: "MUTANTERA", humans: 16, mutants: 3, mutatedBeasts: 3, undeads: 2, wolverines: 1, boatCapacity: 15, title: "The Mutant Warrior", description: "The mutant crisis spreads across the river. Wolverine arrives to lead the frontline resistance." },
+    { level: 42, difficulty: "CRIMSON", humans: 16, mutants: 3, alternateEnemies: 3, cosmicEnemies: 1, cyclopses: 1, boatCapacity: 15, title: "Crimson Vision", description: "A powerful mutant energy specialist enters the war. Cyclops brings precision and tactical leadership." },
+    { level: 43, difficulty: "SENTRY", humans: 18, cosmicEnemies: 3, dimensionalWarriors: 3, aiSentinels: 2, sentrys: 1, boatCapacity: 16, title: "Ultimate Superhuman", description: "Sentry joins the alliance. But after the battle, an unknown presence finally reveals its name: IMU." }
 
 ];
 
@@ -944,7 +952,7 @@ function startLevel(level) {
         ["tigers", "tiger", "Tiger"], ["lions", "lion", "Lion"],
         ["spiderMen", "spider-man", "Spider-Man"], ["azureDragons", "azure-dragon", "Azure Dragon"],
         ["thors", "thor", "Thor"], ["magnetos", "magneto", "Magneto"],
-        ["jeanGreys", "jean-grey", "Jean Grey"], ["shadows", "shadow", "The Shadow"], ["wolves","wolf","Wolf"],["mutatedBeasts","mutated-beast","Mutated Beast"],["darkWarriors","dark-warrior","Dark Warrior"],["eliteGuardians","elite-guardian","Elite Guardian"],["mutants","mutant","Mutant"],["superHumans","super-human","Superhuman"],["fireLords","fire-lord","Fire Lord"],["iceWraiths","ice-wraith","Ice Wraith"],["lightningBeasts","lightning-beast","Lightning Beast"],["risingKings","rising-king","The Rising King"],["royalGuards","royal-guard","Royal Guard"],["giantCreatures","giant-creature","Giant Creature"],["undeads","undead","Undead"],["alienWarriors","alien-warrior","Alien Warrior"],["spaceMarines","space-marine","Space Marine"],["robots","robot","War Robot"],["aiSentinels","ai-sentinel","AI Sentinel"],["alternateEnemies","alternate-enemy","Alternate Enemy"],["riftWalkers","rift-walker","Rift Walker"],["season2Titans","season2-titan","Titan"],["cosmicEnemies","cosmic-enemy","Cosmic Enemy"],["starGuardians","star-guardian","Star Guardian"],["doombots","doombot","Doombot"],["drDooms","dr-doom","Dr. Doom"]
+        ["jeanGreys", "jean-grey", "Jean Grey"], ["shadows", "shadow", "The Shadow"], ["wolves","wolf","Wolf"],["mutatedBeasts","mutated-beast","Mutated Beast"],["darkWarriors","dark-warrior","Dark Warrior"],["eliteGuardians","elite-guardian","Elite Guardian"],["mutants","mutant","Mutant"],["superHumans","super-human","Superhuman"],["fireLords","fire-lord","Fire Lord"],["iceWraiths","ice-wraith","Ice Wraith"],["lightningBeasts","lightning-beast","Lightning Beast"],["risingKings","rising-king","The Rising King"],["royalGuards","royal-guard","Royal Guard"],["giantCreatures","giant-creature","Giant Creature"],["undeads","undead","Undead"],["alienWarriors","alien-warrior","Alien Warrior"],["spaceMarines","space-marine","Space Marine"],["robots","robot","War Robot"],["aiSentinels","ai-sentinel","AI Sentinel"],["alternateEnemies","alternate-enemy","Alternate Enemy"],["riftWalkers","rift-walker","Rift Walker"],["season2Titans","season2-titan","Titan"],["cosmicEnemies","cosmic-enemy","Cosmic Enemy"],["starGuardians","star-guardian","Star Guardian"],["doombots","doombot","Doombot"],["drDooms","dr-doom","Dr. Doom"],["drDoomAllies","dr-doom-ally","Dr. Doom — Ally"],["luffys","luffy","Luffy"],["zoros","zoro","Zoro"],["sanjis","sanji","Sanji"],["wolverines","wolverine","Wolverine"],["cyclopses","cyclops","Cyclops"],["sentrys","sentry","Sentry"],["dimensionalWarriors","dimensional-warrior","Dimensional Warrior"],["fireWraiths","fire-wraith","Fire Wraith"]
     ];
     finalArcGroups.forEach(([key, type, label]) => {
         const total = config[key] || 0;
@@ -1024,7 +1032,7 @@ function setDifficultyTheme(
         "difficulty-marvel",
         "difficulty-legendary",
         "difficulty-chaos", "difficulty-savage", "difficulty-beast",
-        "difficulty-mythic", "difficulty-omega", "difficulty-shadow", "difficulty-renewal", "difficulty-wild", "difficulty-warrior", "difficulty-mutation", "difficulty-elemental", "difficulty-king", "difficulty-monster", "difficulty-apocalypse", "difficulty-alienwar", "difficulty-machine", "difficulty-multiverse", "difficulty-titans", "difficulty-cosmic", "difficulty-doom", "difficulty-doomfinal", "difficulty-shadowwar"
+        "difficulty-mythic", "difficulty-omega", "difficulty-shadow", "difficulty-renewal", "difficulty-wild", "difficulty-warrior", "difficulty-mutation", "difficulty-elemental", "difficulty-king", "difficulty-monster", "difficulty-apocalypse", "difficulty-alienwar", "difficulty-machine", "difficulty-multiverse", "difficulty-titans", "difficulty-cosmic", "difficulty-doom", "difficulty-doomfinal", "difficulty-shadowwar", "difficulty-alliance", "difficulty-sword", "difficulty-speed", "difficulty-mutantera", "difficulty-crimson", "difficulty-sentry"
     );
 
     document.body.classList.add(
@@ -1444,6 +1452,15 @@ const CHARACTER_FACES = {
     ,"star-guardian": () => `${eyePair({ iris: "#fff", gap: 16 })}`
     ,doombot: () => `${eyePair({ iris: "#ef4444", gap: 17, glow: true })}`
     ,"dr-doom": () => `<path d="M18,30 Q50,-6 82,30 L74,48 H26 Z" fill="#94a3b8"/><path d="M20,34 L50,10 L80,34" fill="#166534"/>${eyePair({ iris: "#facc15", gap: 17, glow: true })}`
+    ,"dr-doom-ally": () => `<path d="M18,30 Q50,-6 82,30 L74,48 H26 Z" fill="#cbd5e1"/><path d="M20,34 L50,10 L80,34" fill="#2563eb"/>${eyePair({ iris: "#7dd3fc", gap: 17, glow: true })}`
+    ,luffy: () => `<path d="M16,38 Q50,2 84,38 Q76,8 50,10 Q24,8 16,38 Z" fill="#f2c230"/>${eyePair({ iris: "#2f1b10", gap: 18 })}<path d="M34,76 Q50,88 66,76" stroke="#7f1d1d" stroke-width="3" fill="none"/>`
+    ,zoro: () => `<path d="M12,42 Q50,0 88,42" fill="#14532d"/>${eyePair({ iris: "#22c55e", gap: 17, slant: 8 })}<path d="M28,70 L72,70" stroke="#94a3b8" stroke-width="3"/>`
+    ,sanji: () => `<path d="M10,34 Q50,0 90,34 L72,48 H28 Z" fill="#eab308"/>${eyePair({ iris: "#60a5fa", gap: 17 })}<path d="M42,74 Q50,78 58,74" stroke="#7c2d12" stroke-width="2" fill="none"/>`
+    ,wolverine: () => `<path d="M12,48 L20,8 L34,28 L50,4 L66,28 L80,8 L88,48" fill="#eab308"/>${eyePair({ iris: "#38bdf8", gap: 18, glow: true })}${fangMouth()}`
+    ,cyclops: () => `<path d="M16,38 Q50,2 84,38" fill="#7f1d1d"/><rect x="18" y="45" width="64" height="14" rx="7" fill="#991b1b"/><circle cx="50" cy="52" r="5" fill="#fca5a5"/>`
+    ,sentry: () => `<circle cx="50" cy="50" r="44" fill="#facc15"/>${eyePair({ iris: "#ffffff", gap: 18, glow: true })}<path d="M50,10 L50,28 M40,18 L60,18" stroke="#fff7cc" stroke-width="3"/>`
+    ,"dimensional-warrior": () => `<circle cx="50" cy="50" r="44" fill="#312e81"/>${eyePair({ iris: "#c4b5fd", gap: 18, glow: true })}`
+    ,"fire-wraith": () => `<path d="M20,82 Q12,40 38,12 Q36,38 50,26 Q70,10 82,44 Q88,70 70,88 Z" fill="#dc2626"/>${eyePair({ iris: "#fef08a", gap: 17, glow: true })}`
 };
 
 
@@ -2897,6 +2914,12 @@ function isBankSafe(
     if (currentLevel === 36) { const doom = countType(bank, "dr-doom"); const team = ["spider-man","thor","jean-grey","magneto","azure-dragon","superman"].every(t => countType(bank,t) > 0); return doom === 0 || team; }
     /* LEVEL 37 — MASSIVE WAR: The Shadow is now a Hero and must face Dr. Doom. */
     if (currentLevel === 37) { const doom = countType(bank, "dr-doom"); const shadow = countType(bank, "shadow"); const alliance = ["spider-man","thor","jean-grey","magneto","azure-dragon","superman"].filter(t => countType(bank,t) > 0).length; return doom === 0 || (shadow > 0 && alliance >= 3); }
+    if (currentLevel === 38) return countType(bank, "dimensional-warrior") === 0 || (countType(bank, "luffy") > 0 && countType(bank, "dr-doom-ally") > 0);
+    if (currentLevel === 39) return countType(bank, "dark-warrior") === 0 || countType(bank, "zoro") > 0;
+    if (currentLevel === 40) return countType(bank, "fire-wraith") === 0 || countType(bank, "sanji") > 0;
+    if (currentLevel === 41) return countType(bank, "mutant") === 0 || countType(bank, "wolverine") > 0;
+    if (currentLevel === 42) return countType(bank, "alternate-enemy") === 0 || countType(bank, "cyclops") > 0;
+    if (currentLevel === 43) return countType(bank, "cosmic-enemy") === 0 || countType(bank, "sentry") > 0;
 
     return true;
 

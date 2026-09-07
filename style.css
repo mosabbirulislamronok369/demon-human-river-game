@@ -3309,3 +3309,14 @@ body.difficulty-shadowwar {
 .character.dr-doom, .character.doombot {
     filter: drop-shadow(0 0 7px rgba(60, 255, 130, 0.65));
 }
+
+
+/* ================= SEASON 3 — THIRD ERA ================= */
+.difficulty-alliance .river-zone{background:#0f3d4a}.difficulty-sword .river-zone{background:#263238}.difficulty-speed .river-zone{background:#7c2d12}.difficulty-mutantera .river-zone{background:#4c1d95}.difficulty-crimson .river-zone{background:#7f1d1d}.difficulty-sentry .river-zone{background:#78350f}
+.difficulty-alliance .water{background:linear-gradient(180deg,#082f49,#164e63 50%,#020617)}
+.difficulty-sword .water{background:linear-gradient(180deg,#1f2937,#475569 50%,#0f172a)}
+.difficulty-speed .water{background:linear-gradient(180deg,#7c2d12,#ea580c 50%,#431407)}
+.difficulty-mutantera .water{background:linear-gradient(180deg,#3b0764,#7e22ce 50%,#1e1b4b)}
+.difficulty-crimson .water{background:linear-gradient(180deg,#450a0a,#991b1b 50%,#1f2937)}
+.difficulty-sentry .water{background:linear-gradient(180deg,#451a03,#b45309 50%,#1c1917)}
+.difficulty-alliance .level-panel,.difficulty-sword .level-panel,.difficulty-speed .level-panel,.difficulty-mutantera .level-panel,.difficulty-crimson .level-panel,.difficulty-sentry .level-panel{border-color:rgba(250,204,21,.35)}
