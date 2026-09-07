@@ -1105,8 +1105,8 @@ const CHARACTER_FACES = {
 
     demon: () => `
         <path d="M18,42 Q26,10 50,16 Q74,10 82,42 Q64,22 50,28 Q36,22 18,42 Z" fill="#c81d33"/>
-        <path d="M20,20 Q10,4 24,2 Q22,14 30,20 Z" fill="#3a0d14"/>
-        <path d="M80,20 Q90,4 76,2 Q78,14 70,20 Z" fill="#3a0d14"/>
+        <path d="M25,28 Q6,-20 27,-16 Q36,2 36,26 Q30,26 25,28 Z" fill="#3a0d14"/>
+        <path d="M75,28 Q94,-20 73,-16 Q64,2 64,26 Q70,26 75,28 Z" fill="#3a0d14"/>
         ${eyePair({ iris: "#ffce33", slant: 10, ry: 9 })}
         <path d="M42,74 Q50,70 58,74 L56,80 Q50,83 44,80 Z" fill="#1b0207"/>
     `,
@@ -1162,12 +1162,16 @@ const CHARACTER_FACES = {
     `,
 
     dragon: () => `
-        <path d="M20,30 L28,4 L36,30 Z" fill="#ff6b35"/>
-        <path d="M40,22 L46,0 L52,22 Z" fill="#ff6b35"/>
-        <path d="M58,22 L64,0 L70,22 Z" fill="#ff6b35"/>
-        <path d="M64,30 L72,4 L80,30 Z" fill="#ff6b35"/>
+        <path d="M20,16 Q6,-16 28,-14 Q30,4 36,18 Z" fill="#ff6b35"/>
+        <path d="M80,16 Q94,-16 72,-14 Q70,4 64,18 Z" fill="#ff6b35"/>
+        <path d="M14,44 Q10,60 20,68 Q16,52 22,42 Z" fill="#4a0710"/>
+        <path d="M86,44 Q90,60 80,68 Q84,52 78,42 Z" fill="#4a0710"/>
+        <ellipse cx="50" cy="58" rx="30" ry="24" fill="#c9481f"/>
+        <path d="M50,34 Q30,40 26,58 M50,34 Q70,40 74,58" stroke="#4a0710" stroke-width="1.6" fill="none" opacity=".6"/>
         ${eyePair({ iris: "#ffb000", slant: 16, ry: 7, gap: 19, glow: true })}
-        <path d="M40,74 Q50,72 60,74 L58,79 Q50,81 42,79 Z" fill="#4a0710"/>
+        <ellipse cx="40" cy="68" rx="2" ry="2.6" fill="#2a0508"/>
+        <ellipse cx="60" cy="68" rx="2" ry="2.6" fill="#2a0508"/>
+        ${fangMouth("#fff2c8")}
     `,
 
     "dragon-slayer": () => `
@@ -1179,10 +1183,12 @@ const CHARACTER_FACES = {
     `,
 
     trex: () => `
-        <path d="M16,46 Q50,10 84,46 Q78,20 50,16 Q22,20 16,46 Z" fill="#6fae2e"/>
-        <path d="M30,10 L34,2 L38,10 Z M46,6 L50,-2 L54,6 Z M62,10 L66,2 L70,10 Z" fill="#4a7a1e"/>
-        ${eyePair({ iris: "#ffb000", slant: 8, ry: 8, gap: 20 })}
-        <path d="M32,74 L68,74 L64,84 L60,76 L56,84 L52,76 L48,84 L44,76 L40,84 Z" fill="#1c3308"/>
+        <path d="M6,54 Q2,26 22,16 Q42,4 74,14 Q96,24 94,48 Q93,58 80,60 L79,48 Q70,38 48,36 Q26,36 16,52 Z" fill="#6fae2e"/>
+        <path d="M30,8 L34,0 L38,8 Z M50,2 L54,-6 L58,2 Z" fill="#4a7a1e"/>
+        <ellipse cx="36" cy="44" rx="6" ry="7" fill="#1c3308"/>
+        <circle cx="35" cy="42" r="1.6" fill="#fff"/>
+        <path d="M18,58 Q50,68 90,50 L90,58 Q52,76 18,66 Z" fill="#4a7a1e"/>
+        <path d="M20,58 L88,52 L84,62 L79,54 L75,64 L70,55 L65,65 L60,56 L55,66 L50,57 L45,66 L40,57 L35,65 L30,56 L26,64 L22,55 Z" fill="#f4fbe0"/>
     `,
 
     "dino-ranger": () => `
@@ -1209,11 +1215,12 @@ const CHARACTER_FACES = {
     `,
 
     alien: () => `
-        <path d="M46,4 Q44,-10 38,-16 M54,4 Q56,-10 62,-16" stroke="#9dff5c" stroke-width="2.4" stroke-linecap="round" fill="none"/>
-        <circle cx="38" cy="-17" r="2.6" fill="#9dff5c"/>
-        <circle cx="62" cy="-17" r="2.6" fill="#9dff5c"/>
-        <ellipse cx="32" cy="54" rx="12" ry="16" fill="#0b0b0b"/>
-        <ellipse cx="68" cy="54" rx="12" ry="16" fill="#0b0b0b"/>
+        <path d="M20,52 Q10,2 50,-8 Q90,2 80,52 Q78,22 50,14 Q22,22 20,52 Z" fill="#c4e6a0"/>
+        <path d="M46,2 Q44,-14 38,-22 M54,2 Q56,-14 62,-22" stroke="#9dff5c" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+        <circle cx="38" cy="-23" r="2.6" fill="#9dff5c"/>
+        <circle cx="62" cy="-23" r="2.6" fill="#9dff5c"/>
+        <ellipse cx="32" cy="54" rx="13" ry="17" fill="#0b0b0b"/>
+        <ellipse cx="68" cy="54" rx="13" ry="17" fill="#0b0b0b"/>
         <ellipse cx="29" cy="48" rx="3" ry="4" fill="rgba(255,255,255,.5)"/>
         <ellipse cx="65" cy="48" rx="3" ry="4" fill="rgba(255,255,255,.5)"/>
         <path d="M46,80 Q50,83 54,80" stroke="#274d0f" stroke-width="2" fill="none" stroke-linecap="round"/>
