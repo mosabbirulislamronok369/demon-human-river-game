@@ -254,6 +254,38 @@ const LEVELS = [
             "Every threat has joined forces. Never leave the humans without at least one protector."
     }
 
+
+    /* ========================= FINAL ARC — BOSS RUSH ========================= */
+    ,{
+        level: 16, difficulty: "CHAOS", humans: 6, demons: 2, anacondas: 1, supermen: 1,
+        boatCapacity: 6, title: "Chaos Crossing",
+        description: "Demons and the Anaconda threaten the humans. Superman is the only shield against total chaos."
+    },
+    {
+        level: 17, difficulty: "SAVAGE", humans: 7, tigers: 2, supermen: 1,
+        boatCapacity: 6, title: "Speed & Power",
+        description: "The Tigers are fast and relentless. Keep Superman with any humans facing the beasts."
+    },
+    {
+        level: 18, difficulty: "BEAST", humans: 7, lions: 1, spiderMen: 1,
+        boatCapacity: 6, title: "Beast vs Hero",
+        description: "The Lion controls the bank. Spider-Man must protect the humans with speed and mobility."
+    },
+    {
+        level: 19, difficulty: "MYTHIC", humans: 8, azureDragons: 1, thors: 1,
+        boatCapacity: 7, title: "Mythic Storm",
+        description: "The Azure Dragon has awakened. Thor alone can stand against its mythic power."
+    },
+    {
+        level: 20, difficulty: "OMEGA", humans: 8, magnetos: 1, jeanGreys: 1,
+        boatCapacity: 7, title: "Mind & Magnetism",
+        description: "Magneto's force and Jean Grey's psychic power collide in an Omega-level crossing."
+    },
+    {
+        level: 21, difficulty: "SHADOW", humans: 8, shadows: 1, spiderMen: 1, thors: 1, jeanGreys: 1,
+        boatCapacity: 8, title: "THE SHADOW — FINAL BATTLE",
+        description: "Final Rule: Spider-Man, Thor and Jean Grey must unite to protect humanity from The Shadow."
+    }
 ];
 
 
@@ -887,6 +919,21 @@ function startLevel(level) {
     }
 
 
+    /* FINAL ARC CHARACTERS */
+    const finalArcGroups = [
+        ["anacondas", "anaconda", "Anaconda"], ["supermen", "superman", "Superman"],
+        ["tigers", "tiger", "Tiger"], ["lions", "lion", "Lion"],
+        ["spiderMen", "spider-man", "Spider-Man"], ["azureDragons", "azure-dragon", "Azure Dragon"],
+        ["thors", "thor", "Thor"], ["magnetos", "magneto", "Magneto"],
+        ["jeanGreys", "jean-grey", "Jean Grey"], ["shadows", "shadow", "The Shadow"]
+    ];
+    finalArcGroups.forEach(([key, type, label]) => {
+        const total = config[key] || 0;
+        for (let i = 1; i <= total; i++) {
+            leftBank.push(createCharacterData(`${type}-${i}`, type, `${label}${total > 1 ? ` ${i}` : ""}`));
+        }
+    });
+
     shuffleArray(leftBank);
 
 
@@ -956,7 +1003,9 @@ function setDifficultyTheme(
         "difficulty-kaiju",
         "difficulty-xeno",
         "difficulty-marvel",
-        "difficulty-legendary"
+        "difficulty-legendary",
+        "difficulty-chaos", "difficulty-savage", "difficulty-beast",
+        "difficulty-mythic", "difficulty-omega", "difficulty-shadow"
     );
 
     document.body.classList.add(
@@ -1331,6 +1380,17 @@ const CHARACTER_FACES = {
         ${eyePair({ iris: "#b388ff", slant: 14, ry: 8 })}
         <path d="M40,76 Q50,71 60,76" stroke="#b388ff" stroke-width="2.4" fill="none" stroke-linecap="round"/>
     `,
+
+    anaconda: () => `<path d="M10,66 Q26,18 52,28 Q78,38 88,12" stroke="#3f8f43" stroke-width="15" fill="none" stroke-linecap="round"/><path d="M20,60 Q34,46 52,50 Q70,54 82,30" stroke="#a8d96b" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="78" cy="28" r="3" fill="#ffde59"/><circle cx="86" cy="24" r="3" fill="#ffde59"/>`,
+    superman: () => `<path d="M12,42 Q50,2 88,42 Q82,16 50,10 Q18,16 12,42 Z" fill="#171d5b"/>${eyePair({ iris: "#2e7de9", gap: 17 })}<path d="M39,74 L50,88 L61,74 L50,68 Z" fill="#f2c230" stroke="#c62828" stroke-width="2"/>`,
+    tiger: () => `<path d="M12,38 Q50,4 88,38 Q80,14 50,10 Q20,14 12,38 Z" fill="#e8872b"/><path d="M22,24 L28,42 M38,16 L42,38 M62,16 L58,38 M78,24 L72,42" stroke="#24150a" stroke-width="5"/>${eyePair({ iris: "#5b3210", gap: 18, slant: 8 })}${fangMouth("#fff7df")}`,
+    lion: () => `<circle cx="50" cy="48" r="40" fill="#9b5a22"/><circle cx="50" cy="52" r="29" fill="#d59a55"/>${eyePair({ iris: "#5a2d10", gap: 17 })}${mouthCurve(false, "#3b1c0a")}`,
+    "spider-man": () => `<path d="M14,42 Q50,4 86,42 Q82,14 50,10 Q18,14 14,42 Z" fill="#b41426"/><path d="M18,44 Q50,34 82,44 M24,28 Q50,52 76,28 M30,18 Q50,44 70,18" stroke="#19233a" stroke-width="2" fill="none"/><ellipse cx="32" cy="54" rx="11" ry="14" fill="#fff"/><ellipse cx="68" cy="54" rx="11" ry="14" fill="#fff"/>`,
+    "azure-dragon": () => `<path d="M18,22 L30,4 L38,24 M62,24 L70,4 L82,22" fill="#2c7edb"/><path d="M18,52 Q20,18 50,14 Q80,18 82,52 Q74,84 50,88 Q26,84 18,52 Z" fill="#2374c9"/>${eyePair({ iris: "#d9f7ff", gap: 18, glow: true })}${fangMouth("#d9f7ff")}`,
+    thor: () => `<path d="M12,40 Q50,2 88,40 Q80,12 50,8 Q20,12 12,40 Z" fill="#d8b45c"/>${eyePair({ iris: "#78c8ff", gap: 17, glow: true })}<path d="M44,12 L50,2 L56,12" stroke="#c9cdd5" stroke-width="4" fill="none"/>${mouthCurve(false, "#6b4b1c")}`,
+    magneto: () => `<path d="M12,48 Q10,4 50,4 Q90,4 88,48 L74,46 Q74,20 50,20 Q26,20 26,46 Z" fill="#8b1c65"/><path d="M22,50 Q50,34 78,50 L76,64 Q50,56 24,64 Z" fill="#4a1238"/>${eyePair({ iris: "#f0b4ff", gap: 17, glow: true })}`,
+    "jean-grey": () => `<path d="M10,48 Q12,4 50,6 Q88,4 90,48 Q74,22 50,24 Q26,22 10,48 Z" fill="#9b3d2f"/>${eyePair({ iris: "#67f4d8", gap: 17, glow: true })}<path d="M44,76 Q50,80 56,76" stroke="#7a1f1f" stroke-width="2.4" fill="none"/>`,
+    shadow: () => `<path d="M10,82 Q18,12 50,6 Q82,12 90,82 Q74,96 50,94 Q26,96 10,82 Z" fill="#0a0715"/><path d="M28,54 L42,50 M58,50 L72,54" stroke="#a855f7" stroke-width="6" stroke-linecap="round"/><path d="M38,74 Q50,82 62,74" stroke="#d8b4fe" stroke-width="2.5" fill="none"/>`,
 
     avenger: () => `
         <path d="M14,38 Q50,4 86,38 Q80,14 50,10 Q20,14 14,38 Z" fill="#7c0a0a"/>
@@ -2434,6 +2494,17 @@ function isBankSafe(
             "avenger"
         );
 
+    const anacondas = countType(bank, "anaconda");
+    const supermen = countType(bank, "superman");
+    const tigers = countType(bank, "tiger");
+    const lions = countType(bank, "lion");
+    const spiderMen = countType(bank, "spider-man");
+    const azureDragons = countType(bank, "azure-dragon");
+    const thors = countType(bank, "thor");
+    const magnetos = countType(bank, "magneto");
+    const jeanGreys = countType(bank, "jean-grey");
+    const shadows = countType(bank, "shadow");
+
 
     /* =========================
        NO HUMANS
@@ -2773,6 +2844,14 @@ function isBankSafe(
     }
 
 
+    /* LEVEL 16–21 — FINAL ARC */
+    if (currentLevel === 16) return !(demons + anacondas > 0 && supermen === 0);
+    if (currentLevel === 17) return !(tigers > 0 && supermen === 0);
+    if (currentLevel === 18) return !(lions > 0 && spiderMen === 0);
+    if (currentLevel === 19) return !(azureDragons > 0 && thors === 0);
+    if (currentLevel === 20) return !(magnetos > 0 && jeanGreys === 0);
+    if (currentLevel === 21) return shadows === 0 || (spiderMen > 0 && thors > 0 && jeanGreys > 0);
+
     return true;
 
 }
@@ -2879,6 +2958,28 @@ function updateUI() {
         gameLocked ||
         selectedCharacters.length === 0;
 
+    updateRulePanel();
+
+}
+
+
+/* =========================================================
+   DYNAMIC RULE PANEL
+========================================================= */
+function updateRulePanel() {
+    const a = document.getElementById("ruleOneTitle"), b = document.getElementById("ruleOneText");
+    const c = document.getElementById("ruleTwoTitle"), d = document.getElementById("ruleTwoText");
+    if (!a || currentLevel < 16) return;
+    const rules = {
+        16:["Chaos Threats","Superman protects humans from Demons and the Anaconda","Superman","Required whenever a threat shares a bank with humans"],
+        17:["Tigers","Keep Superman with humans facing the Tigers","Superman","Speed and power are the key to survival"],
+        18:["Lion","Spider-Man must protect humans from the Lion","Spider-Man","Use mobility to keep the bank safe"],
+        19:["Azure Dragon","Thor must face the mythic threat","Thor","Only thunder can challenge the Dragon"],
+        20:["Magneto","Jean Grey must counter the threat","Jean Grey","Psychic power protects the humans"],
+        21:["THE SHADOW","Never leave The Shadow with humans without the full team","Final Team","Spider-Man + Thor + Jean Grey must all be present"]
+    };
+    const r = rules[currentLevel]; if (!r) return;
+    [a.textContent,b.textContent,c.textContent,d.textContent] = r;
 }
 
 
@@ -3009,8 +3110,9 @@ function winLevel() {
         `LEVEL ${currentLevel} COMPLETE`;
 
 
-    resultMessage.textContent =
-        `Everyone reached the other side safely in ${moves} moves.`;
+    resultMessage.textContent = currentLevel === 21
+        ? `THE SHADOW has been defeated. Spider-Man, Thor and Jean Grey saved everyone in ${moves} moves.`
+        : `Everyone reached the other side safely in ${moves} moves.`;
 
 
     resultLevel.textContent =
@@ -3188,6 +3290,13 @@ function getFailureMessage() {
 
     }
 
+
+    if (currentLevel === 16) return "Chaos has broken loose. Keep Superman with humans facing Demons or the Anaconda.";
+    if (currentLevel === 17) return "The Tigers reached the humans without Superman's protection.";
+    if (currentLevel === 18) return "The Lion controls the bank without Spider-Man there to protect the humans.";
+    if (currentLevel === 19) return "The Azure Dragon is unleashed without Thor.";
+    if (currentLevel === 20) return "Magneto's power overwhelmed the humans without Jean Grey's psychic defense.";
+    if (currentLevel === 21) return "THE SHADOW cannot be stopped. Spider-Man, Thor and Jean Grey must stand together.";
 
     return "The current bank arrangement is unsafe.";
 

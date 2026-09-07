@@ -3235,3 +3235,16 @@ body.difficulty-legendary .game-board {
   }
 
 }
+
+/* FINAL ARC — LEVELS 16–21 */
+.character.anaconda .character-torso{background:linear-gradient(180deg,#5ea95c,#183f20)} .character.anaconda .character-head{background:#4f944b}
+.character.superman .character-torso{background:linear-gradient(180deg,#2d64d6,#132a78)} .character.superman .character-head{background:#efc19a}
+.character.tiger .character-torso{background:linear-gradient(180deg,#f39a32,#9a4715)} .character.tiger .character-head{background:#e8872b}
+.character.lion .character-torso{background:linear-gradient(180deg,#c9873d,#704016)} .character.lion .character-head{background:#c98a46}
+.character.spider-man .character-torso{background:linear-gradient(180deg,#e22b3d,#6d0c1c)} .character.spider-man .character-head{background:#b41426}
+.character.azure-dragon .character-torso{background:linear-gradient(180deg,#3d9df4,#123d88)} .character.azure-dragon .character-head{background:#2374c9}
+.character.thor .character-torso{background:linear-gradient(180deg,#6e86a9,#26364d)} .character.thor .character-head{background:#edc29a}
+.character.magneto .character-torso{background:linear-gradient(180deg,#a93485,#4a1238)} .character.magneto .character-head{background:#7d235f}
+.character.jean-grey .character-torso{background:linear-gradient(180deg,#4d6d4a,#263c29)} .character.jean-grey .character-head{background:#f0b08f}
+.character.shadow .character-torso{background:linear-gradient(180deg,#241035,#06040d);box-shadow:0 0 18px rgba(168,85,247,.45)} .character.shadow .character-head{background:#0b0714;box-shadow:0 0 16px rgba(168,85,247,.5)}
+.difficulty-chaos .river-zone{background:#4a1420}.difficulty-savage .river-zone{background:#6b3211}.difficulty-beast .river-zone{background:#684018}.difficulty-mythic .river-zone{background:#173d7a}.difficulty-omega .river-zone{background:#48205f}.difficulty-shadow .river-zone{background:#090312}.difficulty-shadow .water{background:linear-gradient(180deg,#160827,#28103f 50%,#090312)}.difficulty-shadow .moon{box-shadow:0 0 35px rgba(168,85,247,.8)}.difficulty-shadow .level-panel{border-color:rgba(168,85,247,.45)}.difficulty-shadow .progress-bar{background:linear-gradient(90deg,#6d28d9,#e9d5ff)}
