@@ -2260,3 +2260,153 @@ button{
   }
 
 }
+/* =========================================================
+   SPECIAL CHARACTER VISUALS
+========================================================= */
+
+.character.demon-slayer .character-body {
+    background: linear-gradient(145deg, #5ee7df, #176b87);
+    box-shadow:
+        0 0 18px rgba(94, 231, 223, 0.7),
+        0 0 35px rgba(94, 231, 223, 0.25);
+}
+
+.character.demon-slayer .character-head {
+    border-color: #7ffff5;
+}
+
+.character.big-demon .character-body {
+    background: linear-gradient(145deg, #8b1e3f, #3b0b20);
+    box-shadow:
+        0 0 22px rgba(255, 50, 100, 0.8),
+        0 0 45px rgba(255, 0, 70, 0.3);
+    transform: scale(1.12);
+}
+
+.character.hashira .character-body {
+    background: linear-gradient(145deg, #d7f9ff, #7657ff);
+    box-shadow:
+        0 0 20px rgba(125, 100, 255, 0.9),
+        0 0 45px rgba(80, 180, 255, 0.35);
+}
+
+.character.powerful-demon .character-body {
+    background: linear-gradient(145deg, #ff1744, #48000f);
+    box-shadow:
+        0 0 25px rgba(255, 23, 68, 0.95),
+        0 0 55px rgba(255, 0, 40, 0.35);
+    transform: scale(1.18);
+}
+
+.character.titan .character-body {
+    background: linear-gradient(145deg, #765548, #261814);
+    box-shadow:
+        0 0 25px rgba(255, 150, 90, 0.75),
+        0 0 55px rgba(255, 80, 30, 0.3);
+    transform: scale(1.35);
+}
+
+.character.scout .character-body {
+    background: linear-gradient(145deg, #6fd66f, #174d28);
+    box-shadow:
+        0 0 20px rgba(80, 255, 120, 0.7);
+}
+
+.character.dragon .character-body {
+    background: linear-gradient(145deg, #ff6b35, #4a0710);
+    box-shadow:
+        0 0 30px rgba(255, 90, 30, 0.95),
+        0 0 70px rgba(255, 30, 0, 0.35);
+    transform: scale(1.4);
+}
+
+.character.dragon-slayer .character-body {
+    background: linear-gradient(145deg, #f5f5f5, #5c7cff);
+    box-shadow:
+        0 0 25px rgba(100, 140, 255, 0.9),
+        0 0 55px rgba(100, 100, 255, 0.35);
+}
+
+.character-symbol {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 900;
+    color: white;
+    text-shadow: 0 2px 5px rgba(0,0,0,.7);
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   DIFFICULTY THEMES
+========================================================= */
+
+body.difficulty-ultra {
+    --difficulty-glow: rgba(170, 60, 255, .35);
+}
+
+body.difficulty-super {
+    --difficulty-glow: rgba(255, 40, 90, .4);
+}
+
+body.difficulty-titan {
+    --difficulty-glow: rgba(255, 140, 50, .4);
+}
+
+body.difficulty-mastermind {
+    --difficulty-glow: rgba(255, 80, 20, .5);
+}
+
+body.difficulty-ultra .game-board,
+body.difficulty-super .game-board,
+body.difficulty-titan .game-board,
+body.difficulty-mastermind .game-board {
+    box-shadow:
+        0 0 35px var(--difficulty-glow),
+        0 20px 70px rgba(0,0,0,.45);
+}
+
+
+/* =========================================================
+   SPECIAL CHARACTER SIZE
+========================================================= */
+
+.character.big-demon,
+.character.powerful-demon,
+.character.titan,
+.character.dragon {
+    z-index: 3;
+}
+
+.character.big-demon .character-name,
+.character.powerful-demon .character-name,
+.character.titan .character-name,
+.character.dragon .character-name {
+    font-weight: 900;
+}
+
+
+/* =========================================================
+   MANY CHARACTERS
+========================================================= */
+
+.character-area {
+    max-height: calc(100% - 55px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    overscroll-behavior: contain;
+}
+
+.character-area::-webkit-scrollbar {
+    width: 7px;
+}
+
+.character-area::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    background: rgba(255,255,255,.25);
+}

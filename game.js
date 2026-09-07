@@ -1,109 +1,297 @@
 /* =========================================================
-   DEMON & HUMAN — RIVER CROSSING
-   Version 3 — 10 Levels / Click-to-Board / Smart Scroll UI
+   DEMON & HUMAN
+   RIVER CROSSING GAME
+   VERSION 3 — SPECIAL CHARACTER SYSTEM
+========================================================= */
+
+/* =========================================================
+   LEVEL CONFIGURATION
 ========================================================= */
 
 const LEVELS = [
-  { level:1, humans:3, demons:3, boatCapacity:2, title:'The First Crossing', description:'Take all 6 characters safely across the river.' },
-  { level:2, humans:4, demons:4, boatCapacity:3, title:'The Rising Tide', description:'Take all 8 characters safely across the river.' },
-  { level:3, humans:5, demons:5, boatCapacity:3, title:'The Dangerous Crossing', description:'Take all 10 characters safely across the river.' },
-  { level:4, humans:6, demons:6, boatCapacity:4, title:'Six Against Six', description:'Take all 12 characters safely across the river.' },
-  { level:5, humans:7, demons:7, boatCapacity:4, title:'The Dark Current', description:'Take all 14 characters safely across the river.' },
-  { level:6, humans:8, demons:8, boatCapacity:4, title:'The Narrow Route', description:'Take all 16 characters safely across the river.' },
-  { level:7, humans:9, demons:9, boatCapacity:4, title:'Shadow Waters', description:'Take all 18 characters safely across the river.' },
-  { level:8, humans:10, demons:10, boatCapacity:4, title:'The Long Crossing', description:'Take all 20 characters safely across the river.' },
-  { level:9, humans:12, demons:12, boatCapacity:4, title:'River of Shadows', description:'Take all 24 characters safely across the river.' },
-  { level:10, humans:15, demons:15, boatCapacity:5, title:'The Final Passage', description:'Take all 30 characters safely across the river.' }
+
+    /* =========================
+       BEGINNER
+    ========================= */
+
+    {
+        level: 1,
+        difficulty: "BEGINNER",
+        humans: 3,
+        demons: 3,
+        boatCapacity: 2,
+        title: "The First Crossing",
+        description: "Take all characters safely across the river."
+    },
+
+    {
+        level: 2,
+        difficulty: "BEGINNER",
+        humans: 4,
+        demons: 4,
+        boatCapacity: 3,
+        title: "The Dangerous Crossing",
+        description: "Keep the humans safe while moving everyone across."
+    },
+
+    {
+        level: 3,
+        difficulty: "BEGINNER",
+        humans: 5,
+        demons: 5,
+        boatCapacity: 3,
+        title: "The Hard Crossing",
+        description: "A classic river-crossing challenge."
+    },
+
+
+    /* =========================
+       ULTRA
+       Demon Slayer + Big Demon
+    ========================= */
+
+    {
+        level: 4,
+        difficulty: "ULTRA",
+        humans: 4,
+        demons: 2,
+        slayers: 1,
+        bigDemons: 1,
+        boatCapacity: 3,
+        title: "The Big Threat",
+        description:
+            "The Demon Slayer can protect humans from the Big Demon."
+    },
+
+    {
+        level: 5,
+        difficulty: "ULTRA",
+        humans: 5,
+        demons: 3,
+        slayers: 1,
+        bigDemons: 1,
+        boatCapacity: 3,
+        title: "Protector's Path",
+        description:
+            "Do not leave humans with the Big Demon without the Slayer."
+    },
+
+    {
+        level: 6,
+        difficulty: "ULTRA",
+        humans: 6,
+        demons: 4,
+        slayers: 1,
+        bigDemons: 1,
+        boatCapacity: 4,
+        title: "Ultra Crossing",
+        description:
+            "Use the Demon Slayer wisely to protect the humans."
+    },
+
+
+    /* =========================
+       SUPER
+       Hashira + Powerful Demon
+    ========================= */
+
+    {
+        level: 7,
+        difficulty: "SUPER",
+        humans: 6,
+        demons: 3,
+        hashira: 1,
+        powerfulDemons: 1,
+        boatCapacity: 4,
+        title: "Hashira's Trial",
+        description:
+            "The Hashira can neutralize the Powerful Demon."
+    },
+
+    {
+        level: 8,
+        difficulty: "SUPER",
+        humans: 7,
+        demons: 4,
+        hashira: 1,
+        powerfulDemons: 2,
+        boatCapacity: 4,
+        title: "Power Beyond Limits",
+        description:
+            "Keep the Hashira with the humans whenever Powerful Demons are present."
+    },
+
+
+    /* =========================
+       TITAN
+       Titan + Scout
+    ========================= */
+
+    {
+        level: 9,
+        difficulty: "TITAN",
+        humans: 8,
+        titans: 1,
+        scouts: 1,
+        boatCapacity: 4,
+        title: "Titan's Territory",
+        description:
+            "The Scout protects humans from the Titan. Never abandon them."
+    },
+
+
+    /* =========================
+       MASTERMIND
+       Dragon + Dragon Slayer
+    ========================= */
+
+    {
+        level: 10,
+        difficulty: "MASTERMIND",
+        humans: 6,
+        dragonMonsters: 1,
+        dragonSlayers: 1,
+        boatCapacity: 5,
+        title: "Dragon's Final Trial",
+        description:
+            "The Dragon Slayer must stay with the humans against the Dragon."
+    }
+
 ];
 
+
+/* =========================================================
+   GAME STATE
+========================================================= */
+
 let currentLevel = 1;
+
 let moves = 0;
-let boatSide = 'left';
+
+let boatSide = "left";
 
 let leftBank = [];
+
 let rightBank = [];
+
 let boatPassengers = [];
 
 let selectedCharacters = [];
 
 let gameLocked = false;
-let boardingBusy = false;
 
 
 /* =========================================================
-   DOM
+   DOM ELEMENTS
 ========================================================= */
 
-const $ = id => document.getElementById(id);
+const leftCharacters =
+    document.getElementById("leftCharacters");
 
-const leftCharacters = $('leftCharacters');
-const rightCharacters = $('rightCharacters');
+const rightCharacters =
+    document.getElementById("rightCharacters");
 
-const boat = $('boat');
-const boatPassengersElement = $('boatPassengers');
+const boat =
+    document.getElementById("boat");
 
-const levelNumber = $('levelNumber');
-const moveNumber = $('moveNumber');
-const boatCapacityElement = $('boatCapacity');
+const boatPassengersElement =
+    document.getElementById("boatPassengers");
 
-const levelTitle = $('levelTitle');
-const levelDescription = $('levelDescription');
+const levelNumber =
+    document.getElementById("levelNumber");
 
-const selectedCount = $('selectedCount');
-const turnText = $('turnText');
+const moveNumber =
+    document.getElementById("moveNumber");
 
-const progressText = $('progressText');
-const progressBar = $('progressBar');
+const boatCapacityElement =
+    document.getElementById("boatCapacity");
 
-const ruleCapacity = $('ruleCapacity');
+const levelTitle =
+    document.getElementById("levelTitle");
 
-const crossButton = $('crossButton');
-const resetButton = $('resetButton');
+const levelDescription =
+    document.getElementById("levelDescription");
 
-const messageOverlay = $('messageOverlay');
+const selectedCount =
+    document.getElementById("selectedCount");
 
-const resultIcon = $('resultIcon');
-const resultLabel = $('resultLabel');
-const resultTitle = $('resultTitle');
-const resultMessage = $('resultMessage');
+const turnText =
+    document.getElementById("turnText");
 
-const resultLevel = $('resultLevel');
-const resultMoves = $('resultMoves');
+const progressText =
+    document.getElementById("progressText");
 
-const resultButton = $('resultButton');
+const progressBar =
+    document.getElementById("progressBar");
+
+const ruleCapacity =
+    document.getElementById("ruleCapacity");
+
+const crossButton =
+    document.getElementById("crossButton");
+
+const resetButton =
+    document.getElementById("resetButton");
+
+const messageOverlay =
+    document.getElementById("messageOverlay");
+
+const resultIcon =
+    document.getElementById("resultIcon");
+
+const resultLabel =
+    document.getElementById("resultLabel");
+
+const resultTitle =
+    document.getElementById("resultTitle");
+
+const resultMessage =
+    document.getElementById("resultMessage");
+
+const resultLevel =
+    document.getElementById("resultLevel");
+
+const resultMoves =
+    document.getElementById("resultMoves");
+
+const resultButton =
+    document.getElementById("resultButton");
 
 const resultCard =
-  document.querySelector('.result-card');
+    document.querySelector(".result-card");
 
 
 /* =========================================================
    LEVEL CONFIG
 ========================================================= */
 
-function getCurrentLevelConfig(level = currentLevel) {
+function getCurrentLevelConfig(level) {
 
-  return LEVELS[
-    Math.max(
-      0,
-      Math.min(
-        level - 1,
-        LEVELS.length - 1
-      )
-    )
-  ];
+    return LEVELS[
+        Math.min(
+            level - 1,
+            LEVELS.length - 1
+        )
+    ];
 
 }
 
 
-function getTotalCharacters() {
+/* =========================================================
+   CREATE CHARACTER DATA
+========================================================= */
 
-  const config =
-    getCurrentLevelConfig();
+function createCharacterData(
+    id,
+    type,
+    name
+) {
 
-  return (
-    config.humans +
-    config.demons
-  );
+    return {
+        id,
+        type,
+        name
+    };
 
 }
 
@@ -112,156 +300,308 @@ function getTotalCharacters() {
    START LEVEL
 ========================================================= */
 
-function startLevel(level = currentLevel) {
+function startLevel(level) {
 
-  currentLevel =
-    Math.max(
-      1,
-      Math.min(
-        level,
-        LEVELS.length
-      )
+    const config =
+        getCurrentLevelConfig(level);
+
+    moves = 0;
+
+    boatSide = "left";
+
+    leftBank = [];
+
+    rightBank = [];
+
+    boatPassengers = [];
+
+    selectedCharacters = [];
+
+    gameLocked = false;
+
+    window.lastPassengers = [];
+
+
+    /* =========================
+       NORMAL HUMANS
+    ========================= */
+
+    for (
+        let i = 1;
+        i <= (config.humans || 0);
+        i++
+    ) {
+
+        leftBank.push(
+            createCharacterData(
+                `human-${i}`,
+                "human",
+                `Human ${i}`
+            )
+        );
+
+    }
+
+
+    /* =========================
+       NORMAL DEMONS
+    ========================= */
+
+    for (
+        let i = 1;
+        i <= (config.demons || 0);
+        i++
+    ) {
+
+        leftBank.push(
+            createCharacterData(
+                `demon-${i}`,
+                "demon",
+                `Demon ${i}`
+            )
+        );
+
+    }
+
+
+    /* =========================
+       DEMON SLAYER
+    ========================= */
+
+    for (
+        let i = 1;
+        i <= (config.slayers || 0);
+        i++
+    ) {
+
+        leftBank.push(
+            createCharacterData(
+                `slayer-${i}`,
+                "demon-slayer",
+                `Demon Slayer ${i}`
+            )
+        );
+
+    }
+
+
+    /* =========================
+       BIG DEMON
+    ========================= */
+
+    for (
+        let i = 1;
+        i <= (config.bigDemons || 0);
+        i++
+    ) {
+
+        leftBank.push(
+            createCharacterData(
+                `big-demon-${i}`,
+                "big-demon",
+                `Big Demon ${i}`
+            )
+        );
+
+    }
+
+
+    /* =========================
+       HASHIRA
+    ========================= */
+
+    for (
+        let i = 1;
+        i <= (config.hashira || 0);
+        i++
+    ) {
+
+        leftBank.push(
+            createCharacterData(
+                `hashira-${i}`,
+                "hashira",
+                `Hashira ${i}`
+            )
+        );
+
+    }
+
+
+    /* =========================
+       POWERFUL DEMON
+    ========================= */
+
+    for (
+        let i = 1;
+        i <= (config.powerfulDemons || 0);
+        i++
+    ) {
+
+        leftBank.push(
+            createCharacterData(
+                `powerful-demon-${i}`,
+                "powerful-demon",
+                `Powerful Demon ${i}`
+            )
+        );
+
+    }
+
+
+    /* =========================
+       TITAN
+    ========================= */
+
+    for (
+        let i = 1;
+        i <= (config.titans || 0);
+        i++
+    ) {
+
+        leftBank.push(
+            createCharacterData(
+                `titan-${i}`,
+                "titan",
+                `Titan ${i}`
+            )
+        );
+
+    }
+
+
+    /* =========================
+       SCOUT
+    ========================= */
+
+    for (
+        let i = 1;
+        i <= (config.scouts || 0);
+        i++
+    ) {
+
+        leftBank.push(
+            createCharacterData(
+                `scout-${i}`,
+                "scout",
+                `Scout ${i}`
+            )
+        );
+
+    }
+
+
+    /* =========================
+       DRAGON
+    ========================= */
+
+    for (
+        let i = 1;
+        i <= (config.dragonMonsters || 0);
+        i++
+    ) {
+
+        leftBank.push(
+            createCharacterData(
+                `dragon-${i}`,
+                "dragon",
+                `Dragon Monster ${i}`
+            )
+        );
+
+    }
+
+
+    /* =========================
+       DRAGON SLAYER
+    ========================= */
+
+    for (
+        let i = 1;
+        i <= (config.dragonSlayers || 0);
+        i++
+    ) {
+
+        leftBank.push(
+            createCharacterData(
+                `dragon-slayer-${i}`,
+                "dragon-slayer",
+                `Dragon Slayer ${i}`
+            )
+        );
+
+    }
+
+
+    shuffleArray(leftBank);
+
+
+    /* =========================
+       UPDATE UI
+    ========================= */
+
+    levelNumber.textContent =
+        currentLevel;
+
+    moveNumber.textContent =
+        moves;
+
+    boatCapacityElement.textContent =
+        config.boatCapacity;
+
+    levelTitle.textContent =
+        config.title;
+
+    levelDescription.textContent =
+        config.description;
+
+    ruleCapacity.textContent =
+        `Maximum ${config.boatCapacity} passengers`;
+
+
+    /* =========================
+       DIFFICULTY THEME
+    ========================= */
+
+    setDifficultyTheme(
+        config.difficulty
     );
 
 
-  const config =
-    getCurrentLevelConfig();
+    /* =========================
+       BOAT RESET
+    ========================= */
 
-
-  /* Reset state */
-
-  moves = 0;
-
-  boatSide = 'left';
-
-  leftBank = [];
-  rightBank = [];
-
-  boatPassengers = [];
-
-  selectedCharacters = [];
-
-  gameLocked = false;
-  boardingBusy = false;
-
-
-  /* Reset boat */
-
-  boat.classList.remove(
-    'boarding'
-  );
-
-  boat.style.left = '4%';
-
-
-  /* Hide result */
-
-  if (resultCard) {
-
-    resultCard.classList.remove(
-      'level-up'
+    boat.classList.remove(
+        "boarding"
     );
 
-  }
+    boat.style.left = "5%";
 
 
-  if (messageOverlay) {
+    renderGame();
 
-    messageOverlay.classList.add(
-      'hidden'
+}
+
+
+/* =========================================================
+   DIFFICULTY THEME
+========================================================= */
+
+function setDifficultyTheme(
+    difficulty
+) {
+
+    document.body.classList.remove(
+        "difficulty-beginner",
+        "difficulty-ultra",
+        "difficulty-super",
+        "difficulty-titan",
+        "difficulty-mastermind"
     );
 
-  }
-
-
-  /* =======================================================
-     CREATE HUMANS
-  ======================================================= */
-
-  for (
-    let i = 1;
-    i <= config.humans;
-    i++
-  ) {
-
-    leftBank.push({
-
-      id:
-        `human-${i}`,
-
-      type:
-        'human',
-
-      name:
-        `Human ${i}`
-
-    });
-
-  }
-
-
-  /* =======================================================
-     CREATE DEMONS
-  ======================================================= */
-
-  for (
-    let i = 1;
-    i <= config.demons;
-    i++
-  ) {
-
-    leftBank.push({
-
-      id:
-        `demon-${i}`,
-
-      type:
-        'demon',
-
-      name:
-        `Demon ${i}`
-
-    });
-
-  }
-
-
-  /* Random starting positions */
-
-  shuffleArray(
-    leftBank
-  );
-
-
-  /* =======================================================
-     UPDATE LEVEL UI
-  ======================================================= */
-
-  levelNumber.textContent =
-    currentLevel;
-
-  moveNumber.textContent =
-    moves;
-
-  boatCapacityElement.textContent =
-    config.boatCapacity;
-
-  levelTitle.textContent =
-    config.title;
-
-  levelDescription.textContent =
-    config.description;
-
-  ruleCapacity.textContent =
-    `Maximum ${config.boatCapacity} passengers`;
-
-
-  renderGame();
-
-
-  setTurn(
-    `Choose up to ${config.boatCapacity} characters to board the boat.`
-  );
+    document.body.classList.add(
+        `difficulty-${difficulty.toLowerCase()}`
+    );
 
 }
 
@@ -272,19 +612,19 @@ function startLevel(level = currentLevel) {
 
 function renderGame() {
 
-  renderBank(
-    leftBank,
-    leftCharacters
-  );
+    renderBank(
+        leftBank,
+        leftCharacters
+    );
 
-  renderBank(
-    rightBank,
-    rightCharacters
-  );
+    renderBank(
+        rightBank,
+        rightCharacters
+    );
 
-  renderBoat();
+    renderBoat();
 
-  updateUI();
+    updateUI();
 
 }
 
@@ -294,36 +634,29 @@ function renderGame() {
 ========================================================= */
 
 function renderBank(
-  bank,
-  container
+    bank,
+    container
 ) {
 
-  container.innerHTML = '';
+    container.innerHTML = "";
 
+    bank.forEach(
+        (character, index) => {
 
-  bank.forEach(
-    (character, index) => {
+            const element =
+                createCharacter(
+                    character
+                );
 
-      const element =
-        createCharacter(
-          character,
-          false
-        );
+            element.style.animationDelay =
+                `${index * 0.05}s`;
 
+            container.appendChild(
+                element
+            );
 
-      element.style.animationDelay =
-        `${Math.min(
-          index * 0.035,
-          0.5
-        )}s`;
-
-
-      container.appendChild(
-        element
-      );
-
-    }
-  );
+        }
+    );
 
 }
 
@@ -333,304 +666,205 @@ function renderBank(
 ========================================================= */
 
 function createCharacter(
-  character,
-  mini = false
+    character
 ) {
 
-  const element =
-    document.createElement(
-      'div'
-    );
+    const element =
+        document.createElement("div");
+
+    element.className =
+        `character ${character.type}`;
+
+    element.dataset.id =
+        character.id;
 
 
-  element.className =
-    `character ${character.type}${
-      mini
-        ? ' mini-character'
-        : ''
-    }`;
+    if (
+        selectedCharacters.includes(
+            character.id
+        )
+    ) {
 
-
-  element.dataset.id =
-    character.id;
-
-
-  element.innerHTML = `
-
-    <div class="character-body">
-
-      <div class="character-head"></div>
-
-      <div class="character-legs"></div>
-
-    </div>
-
-    <div class="character-name">
-
-      ${character.name}
-
-    </div>
-
-  `;
-
-
-  /*
-     Bank character click
-  */
-
-  if (!mini) {
-
-    element.addEventListener(
-      'click',
-      () => {
-
-        boardCharacter(
-          character
+        element.classList.add(
+            "selected"
         );
 
-      }
+    }
+
+
+    const symbol =
+        getCharacterSymbol(
+            character.type
+        );
+
+
+    element.innerHTML = `
+
+        <div class="character-body">
+
+            <div class="character-head">
+
+                <span class="character-symbol">
+                    ${symbol}
+                </span>
+
+            </div>
+
+            <div class="character-legs"></div>
+
+        </div>
+
+        <div class="character-name">
+            ${character.name}
+        </div>
+
+    `;
+
+
+    element.addEventListener(
+        "click",
+        () => {
+
+            if (gameLocked) {
+                return;
+            }
+
+            selectCharacter(
+                character
+            );
+
+        }
     );
 
-  }
 
-
-  return element;
+    return element;
 
 }
 
 
 /* =========================================================
-   BOARD CHARACTER
+   CHARACTER SYMBOLS
 ========================================================= */
 
-function boardCharacter(
-  character
+function getCharacterSymbol(
+    type
 ) {
 
-  if (
-    gameLocked ||
-    boardingBusy
-  ) {
+    const symbols = {
 
-    return;
+        human: "H",
 
-  }
+        demon: "D",
 
+        "demon-slayer": "S",
 
-  const config =
-    getCurrentLevelConfig();
+        "big-demon": "B",
 
+        hashira: "H★",
 
-  const bank =
-    boatSide === 'left'
-      ? leftBank
-      : rightBank;
+        "powerful-demon": "PD",
 
+        titan: "T",
 
-  const index =
-    bank.findIndex(
-      c =>
-        c.id === character.id
-    );
+        scout: "SC",
+
+        dragon: "DR",
+
+        "dragon-slayer": "DS"
+
+    };
 
 
-  if (index === -1) {
+    return symbols[type] || "?";
 
-    return;
-
-  }
+}
 
 
-  /* Boat full */
+/* =========================================================
+   SELECT CHARACTER
+========================================================= */
 
-  if (
-    boatPassengers.length >=
-    config.boatCapacity
-  ) {
-
-    setTurn(
-      `Boat is full — maximum ${config.boatCapacity} passengers.`
-    );
-
-    pulseBoat();
-
-    return;
-
-  }
-
-
-  /*
-     Find original character
-  */
-
-  const source =
-    document.querySelector(
-      `.character[data-id="${CSS.escape(character.id)}"]`
-    );
-
-
-  if (!source) {
-
-    return;
-
-  }
-
-
-  const sourceRect =
-    source.getBoundingClientRect();
-
-
-  const fromLeft =
-    sourceRect.left;
-
-  const fromTop =
-    sourceRect.top;
-
-
-  /*
-     Remove from bank
-  */
-
-  bank.splice(
-    index,
-    1
-  );
-
-
-  /*
-     Add to boat
-  */
-
-  boatPassengers.push(
+function selectCharacter(
     character
-  );
+) {
+
+    if (gameLocked) {
+        return;
+    }
 
 
-  selectedCharacters =
-    boatPassengers.map(
-      c => c.id
-    );
+    const currentBank =
+        boatSide === "left"
+            ? leftBank
+            : rightBank;
 
 
-  /*
-     Render new state
-  */
-
-  renderGame();
-
-
-  /*
-     Find passenger in boat
-  */
-
-  const target =
-    boatPassengersElement.querySelector(
-      `[data-id="${CSS.escape(character.id)}"]`
-    );
+    const exists =
+        currentBank.some(
+            item =>
+                item.id ===
+                character.id
+        );
 
 
-  if (!target) {
-
-    return;
-
-  }
+    if (!exists) {
+        return;
+    }
 
 
-  const targetRect =
-    target.getBoundingClientRect();
+    const existingIndex =
+        selectedCharacters.indexOf(
+            character.id
+        );
 
 
-  /*
-     Create walking clone
-  */
+    /* =========================
+       DESELECT
+    ========================= */
 
-  const clone =
-    source.cloneNode(
-      true
-    );
+    if (existingIndex !== -1) {
 
-
-  clone.classList.add(
-    'walking-clone'
-  );
-
-
-  clone.style.left =
-    `${fromLeft}px`;
-
-  clone.style.top =
-    `${fromTop}px`;
-
-  clone.style.width =
-    `${sourceRect.width}px`;
-
-  clone.style.height =
-    `${sourceRect.height}px`;
-
-
-  document.body.appendChild(
-    clone
-  );
-
-
-  boardingBusy = true;
-
-
-  boat.classList.add(
-    'boarding'
-  );
-
-
-  /*
-     Animate character
-  */
-
-  requestAnimationFrame(
-    () => {
-
-      clone.style.left =
-        `${targetRect.left}px`;
-
-      clone.style.top =
-        `${targetRect.top}px`;
-
-      clone.style.transform =
-        'scale(.72)';
+        selectedCharacters.splice(
+            existingIndex,
+            1
+        );
 
     }
-  );
 
 
-  /*
-     Finish boarding
-  */
+    /* =========================
+       SELECT
+    ========================= */
 
-  setTimeout(
-    () => {
+    else {
 
-      clone.remove();
-
-      boardingBusy = false;
-
-      boat.classList.remove(
-        'boarding'
-      );
+        const config =
+            getCurrentLevelConfig(
+                currentLevel
+            );
 
 
-      updateUI();
+        if (
+            selectedCharacters.length >=
+            config.boatCapacity
+        ) {
+
+            turnText.textContent =
+                `Boat capacity: ${config.boatCapacity}`;
+
+            return;
+
+        }
 
 
-      setTurn(
-        `${boatPassengers.length} passenger${
-          boatPassengers.length === 1
-            ? ''
-            : 's'
-        } aboard. Click more or cross the river.`
-      );
+        selectedCharacters.push(
+            character.id
+        );
 
-    },
-    780
-  );
+    }
+
+
+    renderGame();
 
 }
 
@@ -640,8 +874,8 @@ function boardCharacter(
 ========================================================= */
 
 crossButton.addEventListener(
-  'click',
-  crossRiver
+    "click",
+    crossRiver
 );
 
 
@@ -651,101 +885,357 @@ crossButton.addEventListener(
 
 function crossRiver() {
 
-  if (
-    gameLocked ||
-    boardingBusy
-  ) {
-
-    return;
-
-  }
+    if (gameLocked) {
+        return;
+    }
 
 
-  if (
-    boatPassengers.length === 0
-  ) {
+    if (
+        selectedCharacters.length === 0
+    ) {
 
-    setTurn(
-      'Board at least one character before crossing.'
+        turnText.textContent =
+            "Select at least one character.";
+
+        return;
+
+    }
+
+
+    const config =
+        getCurrentLevelConfig(
+            currentLevel
+        );
+
+
+    if (
+        selectedCharacters.length >
+        config.boatCapacity
+    ) {
+
+        turnText.textContent =
+            `Maximum ${config.boatCapacity} passengers.`;
+
+        return;
+
+    }
+
+
+    gameLocked = true;
+
+
+    const currentBank =
+        boatSide === "left"
+            ? leftBank
+            : rightBank;
+
+
+    boatPassengers =
+        currentBank.filter(
+            character =>
+                selectedCharacters.includes(
+                    character.id
+                )
+        );
+
+
+    const positions = [];
+
+
+    selectedCharacters.forEach(
+        id => {
+
+            const element =
+                document.querySelector(
+                    `.character[data-id="${CSS.escape(id)}"]`
+                );
+
+
+            if (!element) {
+                return;
+            }
+
+
+            const rect =
+                element.getBoundingClientRect();
+
+
+            positions.push({
+
+                id,
+
+                left:
+                    rect.left,
+
+                top:
+                    rect.top,
+
+                width:
+                    rect.width,
+
+                height:
+                    rect.height
+
+            });
+
+        }
     );
 
-    pulseBoat();
 
-    return;
-
-  }
+    window.lastPassengers =
+        [...boatPassengers];
 
 
-  const config =
-    getCurrentLevelConfig();
+    /* =========================
+       REMOVE FROM BANK
+    ========================= */
+
+    if (boatSide === "left") {
+
+        leftBank =
+            leftBank.filter(
+                character =>
+                    !selectedCharacters.includes(
+                        character.id
+                    )
+            );
+
+    }
+
+    else {
+
+        rightBank =
+            rightBank.filter(
+                character =>
+                    !selectedCharacters.includes(
+                        character.id
+                    )
+            );
+
+    }
 
 
-  if (
-    boatPassengers.length >
-    config.boatCapacity
-  ) {
+    selectedCharacters = [];
 
-    setTurn(
-      `Maximum ${config.boatCapacity} passengers.`
+
+    renderGame();
+
+
+    /* =========================
+       WALKING ANIMATION
+    ========================= */
+
+    animateCharactersToBoat(
+        positions
     );
 
-    return;
 
-  }
+    /* =========================
+       BOARDING
+    ========================= */
 
+    setTimeout(
+        () => {
 
-  /*
-     Lock game
-  */
+            boat.classList.add(
+                "boarding"
+            );
 
-  gameLocked = true;
+            renderBoat();
 
-  crossButton.disabled =
-    true;
-
-
-  boat.classList.add(
-    'boarding'
-  );
-
-
-  setTurn(
-    'Crossing the river…'
-  );
+        },
+        650
+    );
 
 
-  /*
-     Determine destination
-  */
+    /* =========================
+       MOVE BOAT
+    ========================= */
 
-  const destination =
-    boatSide === 'left'
-      ? 'right'
-      : 'left';
+    setTimeout(
+        () => {
+
+            if (boatSide === "left") {
+
+                boat.style.left =
+                    "65%";
+
+            }
+
+            else {
+
+                boat.style.left =
+                    "5%";
+
+            }
+
+        },
+        850
+    );
 
 
-  /*
-     Move boat
-  */
+    /* =========================
+       FINISH
+    ========================= */
 
-  boat.style.left =
-    destination === 'right'
-      ? '68%'
-      : '4%';
+    setTimeout(
+        finishCrossing,
+        2750
+    );
+
+}
 
 
-  /*
-     Finish after animation
-  */
+/* =========================================================
+   CHARACTER → BOAT ANIMATION
+========================================================= */
 
-  setTimeout(
-    () => {
+function animateCharactersToBoat(
+    positions
+) {
 
-      finishCrossing();
+    positions.forEach(
+        (position, index) => {
 
-    },
-    1900
-  );
+            setTimeout(
+                () => {
+
+                    const characterData =
+                        findCharacter(
+                            position.id
+                        );
+
+
+                    if (!characterData) {
+                        return;
+                    }
+
+
+                    const clone =
+                        createCharacter(
+                            characterData
+                        );
+
+
+                    clone.classList.add(
+                        "walking-clone"
+                    );
+
+
+                    clone.style.position =
+                        "fixed";
+
+                    clone.style.left =
+                        `${position.left}px`;
+
+                    clone.style.top =
+                        `${position.top}px`;
+
+                    clone.style.width =
+                        `${position.width}px`;
+
+                    clone.style.height =
+                        `${position.height}px`;
+
+
+                    clone.style.pointerEvents =
+                        "none";
+
+
+                    document.body.appendChild(
+                        clone
+                    );
+
+
+                    const boatRect =
+                        boat.getBoundingClientRect();
+
+
+                    const targetLeft =
+                        boatRect.left +
+                        35 +
+                        index * 28;
+
+
+                    const targetTop =
+                        boatRect.top +
+                        5;
+
+
+                    void clone.offsetWidth;
+
+
+                    requestAnimationFrame(
+                        () => {
+
+                            clone.style.left =
+                                `${targetLeft}px`;
+
+                            clone.style.top =
+                                `${targetTop}px`;
+
+                            clone.style.transform =
+                                "scale(0.55)";
+
+                        }
+                    );
+
+
+                    setTimeout(
+                        () => {
+
+                            clone.style.opacity =
+                                "0";
+
+                        },
+                        700
+                    );
+
+
+                    setTimeout(
+                        () => {
+
+                            clone.remove();
+
+                        },
+                        1050
+                    );
+
+                },
+                index * 180
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   FIND CHARACTER
+========================================================= */
+
+function findCharacter(
+    id
+) {
+
+    const allCharacters = [
+
+        ...leftBank,
+
+        ...rightBank,
+
+        ...boatPassengers,
+
+        ...(window.lastPassengers || [])
+
+    ];
+
+
+    return allCharacters.find(
+        character =>
+            character.id === id
+    );
 
 }
 
@@ -756,218 +1246,404 @@ function crossRiver() {
 
 function finishCrossing() {
 
-  boat.classList.remove(
-    'boarding'
-  );
-
-
-  /*
-     LEFT → RIGHT
-  */
-
-  if (
-    boatSide === 'left'
-  ) {
-
-    rightBank.push(
-      ...boatPassengers
+    boat.classList.remove(
+        "boarding"
     );
 
-    boatSide =
-      'right';
 
-  }
+    /* =========================
+       MOVE PASSENGERS
+    ========================= */
 
+    if (boatSide === "left") {
 
-  /*
-     RIGHT → LEFT
-  */
+        rightBank.push(
+            ...boatPassengers
+        );
 
-  else {
+        boatSide = "right";
 
-    leftBank.push(
-      ...boatPassengers
-    );
+    }
 
-    boatSide =
-      'left';
+    else {
 
-  }
+        leftBank.push(
+            ...boatPassengers
+        );
 
+        boatSide = "left";
 
-  /*
-     Empty boat
-  */
-
-  boatPassengers = [];
-
-  selectedCharacters = [];
+    }
 
 
-  /*
-     Count move
-  */
+    boatPassengers = [];
 
-  moves++;
+    window.lastPassengers = [];
 
 
-  gameLocked = false;
-
-  crossButton.disabled =
-    false;
+    moves++;
 
 
-  renderGame();
+    gameLocked = false;
 
 
-  /*
-     Safety check
-  */
-
-  const safe =
-    isBankSafe(leftBank) &&
-    isBankSafe(rightBank);
+    renderGame();
 
 
-  if (!safe) {
+    /* =========================
+       SAFETY CHECK
+    ========================= */
 
-    loseGame();
+    const leftSafe =
+        isBankSafe(
+            leftBank
+        );
 
-    return;
-
-  }
-
-
-  /*
-     Victory check
-  */
-
-  if (
-    rightBank.length ===
-    getTotalCharacters()
-  ) {
-
-    winLevel();
-
-    return;
-
-  }
-
-
-  setTurn(
-    `Boat is now on the ${
-      boatSide === 'left'
-        ? 'left'
-        : 'right'
-    } bank. Choose passengers.`
-  );
-
-}
-
-
-/* =========================================================
-   RENDER BOAT
-========================================================= */
-
-function renderBoat() {
-
-  boatPassengersElement.innerHTML =
-    '';
-
-
-  boatPassengers.forEach(
-    (character, index) => {
-
-      const passenger =
-        createCharacter(
-          character,
-          true
+    const rightSafe =
+        isBankSafe(
+            rightBank
         );
 
 
-      passenger.style.setProperty(
-        '--passenger-index',
-        index
-      );
+    if (
+        !leftSafe ||
+        !rightSafe
+    ) {
 
+        loseGame();
 
-      boatPassengersElement.appendChild(
-        passenger
-      );
+        return;
 
     }
-  );
+
+
+    /* =========================
+       VICTORY
+    ========================= */
+
+    const total =
+        getTotalCharacters();
+
+
+    if (
+        rightBank.length === total
+    ) {
+
+        winLevel();
+
+        return;
+
+    }
 
 }
 
 
 /* =========================================================
-   SAFETY RULE
+   SPECIAL BANK SAFETY SYSTEM
 ========================================================= */
 
 function isBankSafe(
-  bank
+    bank
 ) {
 
-  const humans =
-    bank.filter(
-      c =>
-        c.type === 'human'
+    if (!bank || bank.length === 0) {
+        return true;
+    }
+
+
+    const humans =
+        countType(
+            bank,
+            "human"
+        );
+
+
+    const demons =
+        countType(
+            bank,
+            "demon"
+        );
+
+
+    const slayers =
+        countType(
+            bank,
+            "demon-slayer"
+        );
+
+
+    const bigDemons =
+        countType(
+            bank,
+            "big-demon"
+        );
+
+
+    const hashira =
+        countType(
+            bank,
+            "hashira"
+        );
+
+
+    const powerfulDemons =
+        countType(
+            bank,
+            "powerful-demon"
+        );
+
+
+    const titans =
+        countType(
+            bank,
+            "titan"
+        );
+
+
+    const scouts =
+        countType(
+            bank,
+            "scout"
+        );
+
+
+    const dragons =
+        countType(
+            bank,
+            "dragon"
+        );
+
+
+    const dragonSlayers =
+        countType(
+            bank,
+            "dragon-slayer"
+        );
+
+
+    /* =========================
+       NO HUMANS
+       Nothing to protect.
+    ========================= */
+
+    if (humans === 0) {
+        return true;
+    }
+
+
+    /* =====================================================
+       LEVEL 1–3
+       CLASSIC DEMON RULE
+    ===================================================== */
+
+    if (
+        currentLevel <= 3
+    ) {
+
+        if (demons === 0) {
+            return true;
+        }
+
+        return humans >= demons;
+
+    }
+
+
+    /* =====================================================
+       LEVEL 4–6
+       DEMON SLAYER + BIG DEMON
+    ===================================================== */
+
+    if (
+        currentLevel >= 4 &&
+        currentLevel <= 6
+    ) {
+
+        /*
+           Big Demon requires
+           Demon Slayer protection.
+        */
+
+        if (
+            bigDemons > 0 &&
+            slayers === 0
+        ) {
+
+            return false;
+
+        }
+
+
+        /*
+           Normal demons still follow
+           the classic rule.
+        */
+
+        if (
+            demons > humans
+        ) {
+
+            return false;
+
+        }
+
+
+        return true;
+
+    }
+
+
+    /* =====================================================
+       LEVEL 7–8
+       HASHIRA + POWERFUL DEMON
+    ===================================================== */
+
+    if (
+        currentLevel === 7 ||
+        currentLevel === 8
+    ) {
+
+        /*
+           Powerful Demon requires Hashira.
+        */
+
+        if (
+            powerfulDemons > 0 &&
+            hashira === 0
+        ) {
+
+            return false;
+
+        }
+
+
+        /*
+           Normal demons still matter.
+        */
+
+        if (
+            demons > humans
+        ) {
+
+            return false;
+
+        }
+
+
+        return true;
+
+    }
+
+
+    /* =====================================================
+       LEVEL 9
+       TITAN + SCOUT
+    ===================================================== */
+
+    if (
+        currentLevel === 9
+    ) {
+
+        /*
+           Titan requires Scout protection.
+        */
+
+        if (
+            titans > 0 &&
+            scouts === 0
+        ) {
+
+            return false;
+
+        }
+
+
+        return true;
+
+    }
+
+
+    /* =====================================================
+       LEVEL 10
+       DRAGON + DRAGON SLAYER
+    ===================================================== */
+
+    if (
+        currentLevel === 10
+    ) {
+
+        /*
+           Dragon requires Dragon Slayer.
+        */
+
+        if (
+            dragons > 0 &&
+            dragonSlayers === 0
+        ) {
+
+            return false;
+
+        }
+
+
+        /*
+           Dragon Slayer can protect
+           up to 6 humans in this level.
+        */
+
+        if (
+            dragons > 0 &&
+            humans > 6 &&
+            dragonSlayers > 0
+        ) {
+
+            return false;
+
+        }
+
+
+        return true;
+
+    }
+
+
+    return true;
+
+}
+
+
+/* =========================================================
+   COUNT TYPE
+========================================================= */
+
+function countType(
+    bank,
+    type
+) {
+
+    return bank.filter(
+        character =>
+            character.type === type
     ).length;
 
-
-  const demons =
-    bank.filter(
-      c =>
-        c.type === 'demon'
-    ).length;
+}
 
 
-  /*
-     Empty bank safe
-  */
+/* =========================================================
+   TOTAL CHARACTERS
+========================================================= */
 
-  if (
-    humans === 0 &&
-    demons === 0
-  ) {
+function getTotalCharacters() {
 
-    return true;
+    return (
 
-  }
+        leftBank.length +
 
+        rightBank.length +
 
-  /*
-     No humans
-  */
+        boatPassengers.length
 
-  if (
-    humans === 0
-  ) {
-
-    return true;
-
-  }
-
-
-  /*
-     No demons
-  */
-
-  if (
-    demons === 0
-  ) {
-
-    return true;
-
-  }
-
-
-  /*
-     Demons cannot outnumber humans
-  */
-
-  return humans >= demons;
+    );
 
 }
 
@@ -978,261 +1654,296 @@ function isBankSafe(
 
 function updateUI() {
 
-  const total =
-    getTotalCharacters();
+    const total =
+        getTotalCharacters();
 
 
-  const completed =
-    rightBank.length;
+    const completed =
+        rightBank.length;
 
 
-  const percentage =
-    total
-      ? Math.round(
-          (
-            completed /
-            total
-          ) * 100
-        )
-      : 0;
+    const percentage =
+        total === 0
+            ? 0
+            : Math.round(
+                (completed / total) * 100
+            );
 
 
-  /*
-     Top stats
-  */
-
-  levelNumber.textContent =
-    currentLevel;
-
-  moveNumber.textContent =
-    moves;
+    levelNumber.textContent =
+        currentLevel;
 
 
-  /*
-     Passenger count
-  */
-
-  selectedCount.textContent =
-    boatPassengers.length;
+    moveNumber.textContent =
+        moves;
 
 
-  /*
-     Progress
-  */
-
-  progressText.textContent =
-    `${completed} / ${total}`;
+    selectedCount.textContent =
+        selectedCharacters.length;
 
 
-  progressBar.style.width =
-    `${percentage}%`;
+    progressText.textContent =
+        `${completed} / ${total}`;
 
 
-  /*
-     Capacity
-  */
-
-  boatCapacityElement.textContent =
-    getCurrentLevelConfig()
-      .boatCapacity;
+    progressBar.style.width =
+        `${percentage}%`;
 
 
-  /*
-     Cross button
-  */
+    if (
+        selectedCharacters.length > 0
+    ) {
 
-  crossButton.disabled =
-    gameLocked ||
-    boardingBusy ||
-    boatPassengers.length === 0;
+        turnText.textContent =
+            `${selectedCharacters.length} selected`;
 
+    }
 
-  crossButton.classList.toggle(
-    'ready',
-    boatPassengers.length > 0 &&
-    !gameLocked &&
-    !boardingBusy
-  );
+    else if (!gameLocked) {
 
+        turnText.textContent =
+            boatSide === "left"
+                ? "Select characters from WEST BANK"
+                : "Select characters from EAST BANK";
 
-  /*
-     Add class for high character counts
-  */
-
-  leftCharacters
-    .closest('.land')
-    ?.classList.toggle(
-      'has-many',
-      leftBank.length > 8
-    );
+    }
 
 
-  rightCharacters
-    .closest('.land')
-    ?.classList.toggle(
-      'has-many',
-      rightBank.length > 8
-    );
+    crossButton.disabled =
+        gameLocked ||
+        selectedCharacters.length === 0;
 
 }
 
 
 /* =========================================================
-   TURN MESSAGE
+   RENDER BOAT
 ========================================================= */
 
-function setTurn(
-  message
-) {
+function renderBoat() {
 
-  if (
-    turnText
-  ) {
-
-    turnText.textContent =
-      message;
-
-  }
-
-}
+    boatPassengersElement.innerHTML =
+        "";
 
 
-/* =========================================================
-   BOAT ALERT
-========================================================= */
+    boatPassengers.forEach(
+        (character, index) => {
 
-function pulseBoat() {
-
-  boat.classList.remove(
-    'boat-alert'
-  );
+            const passenger =
+                createCharacter(
+                    character
+                );
 
 
-  /*
-     Force reflow
-  */
-
-  void boat.offsetWidth;
+            passenger.classList.add(
+                "mini-character"
+            );
 
 
-  boat.classList.add(
-    'boat-alert'
-  );
+            passenger.style.width =
+                "52px";
+
+            passenger.style.height =
+                "70px";
 
 
-  setTimeout(
-    () => {
+            passenger.style.cursor =
+                "default";
 
-      boat.classList.remove(
-        'boat-alert'
-      );
 
-    },
-    500
-  );
+            passenger.style.pointerEvents =
+                "none";
+
+
+            passenger.style.animationDelay =
+                `${index * 0.1}s`;
+
+
+            boatPassengersElement.appendChild(
+                passenger
+            );
+
+        }
+    );
 
 }
 
 
 /* =========================================================
-   WIN
+   WIN LEVEL
 ========================================================= */
 
 function winLevel() {
 
-  gameLocked = true;
+    gameLocked = true;
 
 
-  messageOverlay.classList.remove(
-    'hidden'
-  );
-
-
-  resultIcon.className =
-    'result-icon success';
-
-
-  resultLabel.textContent =
-    'MISSION COMPLETE';
-
-
-  resultTitle.textContent =
-    currentLevel < LEVELS.length
-      ? 'CROSSING SUCCESSFUL'
-      : 'ALL LEVELS COMPLETE';
-
-
-  resultMessage.textContent =
-    currentLevel < LEVELS.length
-      ? 'Every character reached the opposite bank safely.'
-      : 'You completed the entire river-crossing campaign.';
-
-
-  resultLevel.textContent =
-    currentLevel;
-
-
-  resultMoves.textContent =
-    moves;
-
-
-  resultButton.textContent =
-    currentLevel < LEVELS.length
-      ? 'NEXT LEVEL'
-      : 'PLAY AGAIN';
-
-
-  if (resultCard) {
-
-    resultCard.classList.add(
-      'level-up'
+    resultCard.classList.remove(
+        "level-up"
     );
 
-  }
+
+    void resultCard.offsetWidth;
+
+
+    resultCard.classList.add(
+        "level-up"
+    );
+
+
+    messageOverlay.classList.remove(
+        "hidden"
+    );
+
+
+    resultIcon.className =
+        "result-icon success";
+
+
+    resultLabel.textContent =
+        "MISSION COMPLETE";
+
+
+    resultTitle.textContent =
+        `LEVEL ${currentLevel} COMPLETE`;
+
+
+    resultMessage.textContent =
+        `Everyone reached the other side safely in ${moves} moves.`;
+
+
+    resultLevel.textContent =
+        currentLevel;
+
+
+    resultMoves.textContent =
+        moves;
+
+
+    if (
+        currentLevel <
+        LEVELS.length
+    ) {
+
+        resultButton.textContent =
+            "NEXT LEVEL";
+
+    }
+
+    else {
+
+        resultButton.textContent =
+            "PLAY AGAIN";
+
+    }
 
 }
 
 
 /* =========================================================
-   LOSE
+   LOSE GAME
 ========================================================= */
 
 function loseGame() {
 
-  gameLocked = true;
+    gameLocked = true;
 
 
-  messageOverlay.classList.remove(
-    'hidden'
-  );
+    messageOverlay.classList.remove(
+        "hidden"
+    );
 
 
-  resultIcon.className =
-    'result-icon failure';
+    resultIcon.className =
+        "result-icon failure";
 
 
-  resultLabel.textContent =
-    'MISSION FAILED';
+    resultLabel.textContent =
+        "MISSION FAILED";
 
 
-  resultTitle.textContent =
-    'THE BANK IS UNSAFE';
+    resultTitle.textContent =
+        "THE BANK IS UNSAFE";
 
 
-  resultMessage.textContent =
-    'The demons have outnumbered the humans. Try another strategy.';
+    resultMessage.textContent =
+        getFailureMessage();
 
 
-  resultLevel.textContent =
-    currentLevel;
+    resultLevel.textContent =
+        currentLevel;
 
 
-  resultMoves.textContent =
-    moves;
+    resultMoves.textContent =
+        moves;
 
 
-  resultButton.textContent =
-    'TRY AGAIN';
+    resultButton.textContent =
+        "TRY AGAIN";
+
+}
+
+
+/* =========================================================
+   FAILURE MESSAGE
+========================================================= */
+
+function getFailureMessage() {
+
+    const config =
+        getCurrentLevelConfig(
+            currentLevel
+        );
+
+
+    if (
+        currentLevel <= 3
+    ) {
+
+        return "The demons have outnumbered the humans. Try another strategy.";
+
+    }
+
+
+    if (
+        currentLevel >= 4 &&
+        currentLevel <= 6
+    ) {
+
+        return "The Big Demon is without the Demon Slayer, or the normal demon balance is unsafe.";
+
+    }
+
+
+    if (
+        currentLevel === 7 ||
+        currentLevel === 8
+    ) {
+
+        return "The Powerful Demon needs the Hashira's protection.";
+
+    }
+
+
+    if (
+        currentLevel === 9
+    ) {
+
+        return "The Titan is without the Scout. Keep the protector with the humans.";
+
+    }
+
+
+    if (
+        currentLevel === 10
+    ) {
+
+        return "The Dragon needs the Dragon Slayer to keep the humans safe.";
+
+    }
+
+
+    return "The current bank arrangement is unsafe.";
 
 }
 
@@ -1242,46 +1953,51 @@ function loseGame() {
 ========================================================= */
 
 resultButton.addEventListener(
-  'click',
-  handleResultButton
+    "click",
+    handleResultButton
 );
 
 
 function handleResultButton() {
 
-  messageOverlay.classList.add(
-    'hidden'
-  );
-
-
-  if (resultCard) {
-
-    resultCard.classList.remove(
-      'level-up'
+    messageOverlay.classList.add(
+        "hidden"
     );
 
-  }
+
+    resultCard.classList.remove(
+        "level-up"
+    );
 
 
-  const completed =
-    rightBank.length ===
-    getTotalCharacters();
+    const completed =
+        rightBank.length ===
+        getTotalCharacters();
 
 
-  if (completed) {
+    if (completed) {
 
-    currentLevel =
-      currentLevel <
-      LEVELS.length
-        ? currentLevel + 1
-        : 1;
+        if (
+            currentLevel <
+            LEVELS.length
+        ) {
 
-  }
+            currentLevel++;
+
+        }
+
+        else {
+
+            currentLevel = 1;
+
+        }
+
+    }
 
 
-  startLevel(
-    currentLevel
-  );
+    startLevel(
+        currentLevel
+    );
 
 }
 
@@ -1291,16 +2007,26 @@ function handleResultButton() {
 ========================================================= */
 
 resetButton.addEventListener(
-  'click',
-  resetCurrentLevel
+    "click",
+    resetCurrentLevel
 );
 
 
 function resetCurrentLevel() {
 
-  startLevel(
-    currentLevel
-  );
+    messageOverlay.classList.add(
+        "hidden"
+    );
+
+
+    resultCard.classList.remove(
+        "level-up"
+    );
+
+
+    startLevel(
+        currentLevel
+    );
 
 }
 
@@ -1310,35 +2036,34 @@ function resetCurrentLevel() {
 ========================================================= */
 
 function shuffleArray(
-  array
+    array
 ) {
 
-  for (
-    let i = array.length - 1;
-    i > 0;
-    i--
-  ) {
+    for (
+        let i = array.length - 1;
+        i > 0;
+        i--
+    ) {
 
-    const j =
-      Math.floor(
-        Math.random() *
-        (i + 1)
-      );
-
-
-    [
-      array[i],
-      array[j]
-    ] =
-    [
-      array[j],
-      array[i]
-    ];
-
-  }
+        const j =
+            Math.floor(
+                Math.random() *
+                (i + 1)
+            );
 
 
-  return array;
+        [
+            array[i],
+            array[j]
+        ] = [
+            array[j],
+            array[i]
+        ];
+
+    }
+
+
+    return array;
 
 }
 
@@ -1348,43 +2073,49 @@ function shuffleArray(
 ========================================================= */
 
 document.addEventListener(
-  'keydown',
-  event => {
+    "keydown",
+    event => {
 
-    /*
-       SPACE = CROSS
-    */
+        /* SPACE = CROSS */
 
-    if (
-      event.code === 'Space'
-    ) {
+        if (
+            event.code === "Space"
+        ) {
 
-      event.preventDefault();
+            event.preventDefault();
 
-      crossRiver();
+
+            if (!gameLocked) {
+
+                crossRiver();
+
+            }
+
+        }
+
+
+        /* R = RESET */
+
+        if (
+            event.key.toLowerCase() === "r"
+        ) {
+
+            if (!gameLocked) {
+
+                resetCurrentLevel();
+
+            }
+
+        }
 
     }
-
-
-    /*
-       R = RESET
-    */
-
-    if (
-      event.key.toLowerCase() === 'r' &&
-      !gameLocked
-    ) {
-
-      resetCurrentLevel();
-
-    }
-
-  }
 );
 
 
 /* =========================================================
-   START
+   INITIALIZE
 ========================================================= */
 
-startLevel(1);
+startLevel(
+    currentLevel
+);
