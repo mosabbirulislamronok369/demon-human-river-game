@@ -43,6 +43,13 @@
                 <strong id="boatCapacity">2</strong>
             </div>
 
+            <button
+                id="levelsButton"
+                class="levels-button"
+                type="button">
+                LEVELS
+            </button>
+
         </div>
 
     </header>
@@ -213,6 +220,39 @@
         </div>
 
     </section>
+
+
+    <!-- LEVEL SELECT -->
+    <div id="levelSelectOverlay"
+         class="overlay hidden">
+
+        <div class="level-select-card">
+
+            <div class="level-select-header">
+                <div>
+                    <span class="eyebrow">SAVED PROGRESS</span>
+                    <h2>Select Level</h2>
+                </div>
+
+                <button
+                    id="closeLevelSelect"
+                    class="close-button"
+                    type="button">
+                    &times;
+                </button>
+            </div>
+
+            <p class="level-select-hint">
+                Your progress is saved automatically. Pick any unlocked level to jump right in.
+            </p>
+
+            <div id="levelSelectGrid"
+                 class="level-select-grid">
+            </div>
+
+        </div>
+
+    </div>
 
 
     <!-- MESSAGE -->

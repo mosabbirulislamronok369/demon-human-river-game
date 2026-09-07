@@ -231,6 +231,58 @@ button{
 }
 
 
+.levels-button{
+
+  min-width:76px;
+
+  padding:0 14px;
+
+  height:100%;
+
+  border:
+    1px solid var(--line);
+
+  border-radius:10px;
+
+  background:
+    rgba(255,255,255,.045);
+
+  color:var(--text, #eaf0ff);
+
+  font-family:inherit;
+
+  font-weight:800;
+
+  font-size:11px;
+
+  letter-spacing:1.6px;
+
+  cursor:pointer;
+
+  transition:
+    background .15s ease,
+    border-color .15s ease,
+    transform .1s ease;
+}
+
+
+.levels-button:hover{
+
+  background:
+    rgba(255,255,255,.09);
+
+  border-color:
+    rgba(255,255,255,.28);
+}
+
+
+.levels-button:active{
+
+  transform:
+    scale(.96);
+}
+
+
 /* =========================================================
    LEVEL PANEL
 ========================================================= */
@@ -2943,4 +2995,243 @@ body.difficulty-legendary .game-board {
 .character-area::-webkit-scrollbar-thumb {
     border-radius: 20px;
     background: rgba(255,255,255,.25);
+}
+
+/* =========================================================
+   LEVEL SELECT MODAL
+========================================================= */
+
+.level-select-card{
+
+  width:min(560px, 92vw);
+
+  max-height:min(640px, 86vh);
+
+  padding:26px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:14px;
+
+  border:
+    1px solid rgba(255,255,255,.12);
+
+  border-radius:22px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #131e33,
+      #080d18
+    );
+
+  box-shadow:
+    0 35px 100px
+    rgba(0,0,0,.6);
+
+  animation:
+    resultIn
+    .35s
+    ease;
+}
+
+
+.level-select-header{
+
+  display:flex;
+
+  align-items:flex-start;
+
+  justify-content:space-between;
+
+  gap:12px;
+}
+
+
+.level-select-header h2{
+
+  margin-top:4px;
+
+  font-size:20px;
+
+  letter-spacing:.5px;
+}
+
+
+.close-button{
+
+  width:32px;
+  height:32px;
+
+  flex:0 0 auto;
+
+  display:grid;
+
+  place-items:center;
+
+  border:
+    1px solid var(--line);
+
+  border-radius:10px;
+
+  background:
+    rgba(255,255,255,.06);
+
+  color:inherit;
+
+  font-size:20px;
+
+  line-height:1;
+
+  cursor:pointer;
+}
+
+
+.close-button:hover{
+
+  background:
+    rgba(255,255,255,.12);
+}
+
+
+.level-select-hint{
+
+  margin:0;
+
+  color:var(--muted);
+
+  font-size:12px;
+
+  line-height:1.5;
+}
+
+
+.level-select-grid{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap:10px;
+
+  overflow-y:auto;
+
+  padding-right:4px;
+}
+
+
+.level-select-item{
+
+  display:flex;
+
+  flex-direction:column;
+
+  align-items:center;
+
+  justify-content:center;
+
+  gap:4px;
+
+  padding:12px 6px;
+
+  border:
+    1px solid var(--line);
+
+  border-radius:14px;
+
+  background:
+    rgba(255,255,255,.045);
+
+  color:inherit;
+
+  font-family:inherit;
+
+  cursor:pointer;
+
+  transition:
+    background .15s ease,
+    border-color .15s ease,
+    transform .1s ease;
+}
+
+
+.level-select-item .level-select-num{
+
+  font-size:20px;
+
+  font-weight:900;
+}
+
+
+.level-select-item .level-select-diff{
+
+  font-size:8px;
+
+  letter-spacing:1.2px;
+
+  color:var(--muted);
+}
+
+
+.level-select-item:hover:not(:disabled){
+
+  background:
+    rgba(255,255,255,.09);
+
+  border-color:
+    rgba(255,255,255,.3);
+
+  transform:
+    translateY(-2px);
+}
+
+
+.level-select-item:active:not(:disabled){
+
+  transform:
+    translateY(0)
+    scale(.97);
+}
+
+
+.level-select-item.current{
+
+  border-color:
+    rgba(120,170,255,.7);
+
+  box-shadow:
+    0 0 0 1px rgba(120,170,255,.35) inset;
+}
+
+
+.level-select-item:disabled{
+
+  opacity:.35;
+
+  cursor:not-allowed;
+}
+
+
+.level-select-item .level-select-lock{
+
+  font-size:14px;
+}
+
+
+@media (max-width: 520px){
+
+  .level-select-grid{
+
+    grid-template-columns:
+      repeat(4, 1fr);
+  }
+
+  .level-select-item .level-select-diff{
+
+    display:none;
+  }
+
 }

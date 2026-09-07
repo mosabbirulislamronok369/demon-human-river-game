@@ -258,10 +258,88 @@ const LEVELS = [
 
 
 /* =========================================================
+   SAVE / LOAD PROGRESS
+========================================================= */
+
+const SAVE_KEY = "demonHumanRiverCrossing.progress";
+
+function clampLevel(level) {
+
+    return Math.min(
+        Math.max(1, level || 1),
+        LEVELS.length
+    );
+
+}
+
+function loadProgress() {
+
+    try {
+
+        const raw =
+            localStorage.getItem(SAVE_KEY);
+
+        if (!raw) return null;
+
+        const data = JSON.parse(raw);
+
+        if (
+            typeof data.currentLevel !== "number" ||
+            typeof data.unlockedLevel !== "number"
+        ) {
+            return null;
+        }
+
+        return data;
+
+    }
+
+    catch (e) {
+
+        return null;
+
+    }
+
+}
+
+function saveProgress() {
+
+    try {
+
+        localStorage.setItem(
+            SAVE_KEY,
+            JSON.stringify({
+                currentLevel,
+                unlockedLevel
+            })
+        );
+
+    }
+
+    catch (e) {
+
+        /* storage unavailable - ignore */
+
+    }
+
+}
+
+const savedProgress = loadProgress();
+
+
+/* =========================================================
    GAME STATE
 ========================================================= */
 
-let currentLevel = 1;
+let currentLevel =
+    savedProgress
+        ? clampLevel(savedProgress.currentLevel)
+        : 1;
+
+let unlockedLevel =
+    savedProgress
+        ? clampLevel(savedProgress.unlockedLevel)
+        : 1;
 
 let moves = 0;
 
@@ -356,6 +434,18 @@ const resultButton =
 
 const resultCard =
     document.querySelector(".result-card");
+
+const levelsButton =
+    document.getElementById("levelsButton");
+
+const levelSelectOverlay =
+    document.getElementById("levelSelectOverlay");
+
+const levelSelectGrid =
+    document.getElementById("levelSelectGrid");
+
+const closeLevelSelect =
+    document.getElementById("closeLevelSelect");
 
 
 /* =========================================================
@@ -2879,6 +2969,15 @@ function winLevel() {
 
     gameLocked = true;
 
+    if (currentLevel + 1 > unlockedLevel) {
+
+        unlockedLevel =
+            clampLevel(currentLevel + 1);
+
+    }
+
+    saveProgress();
+
 
     resultCard.classList.remove(
         "level-up"
@@ -3141,6 +3240,124 @@ function handleResultButton() {
 
     }
 
+
+    saveProgress();
+
+
+    startLevel(
+        currentLevel
+    );
+
+}
+
+
+/* =========================================================
+   LEVEL SELECT
+========================================================= */
+
+levelsButton.addEventListener(
+    "click",
+    openLevelSelect
+);
+
+closeLevelSelect.addEventListener(
+    "click",
+    closeLevelSelectOverlay
+);
+
+levelSelectOverlay.addEventListener(
+    "click",
+    event => {
+
+        if (event.target === levelSelectOverlay) {
+
+            closeLevelSelectOverlay();
+
+        }
+
+    }
+);
+
+
+function openLevelSelect() {
+
+    renderLevelSelect();
+
+    levelSelectOverlay.classList.remove(
+        "hidden"
+    );
+
+}
+
+
+function closeLevelSelectOverlay() {
+
+    levelSelectOverlay.classList.add(
+        "hidden"
+    );
+
+}
+
+
+function renderLevelSelect() {
+
+    levelSelectGrid.innerHTML = "";
+
+    LEVELS.forEach(
+        config => {
+
+            const locked =
+                config.level > unlockedLevel;
+
+            const item =
+                document.createElement("button");
+
+            item.type = "button";
+
+            item.className =
+                "level-select-item";
+
+            if (config.level === currentLevel) {
+
+                item.classList.add("current");
+
+            }
+
+            item.disabled = locked;
+
+            item.innerHTML = locked
+                ? `<span class="level-select-lock">🔒</span><span class="level-select-diff">${config.difficulty}</span>`
+                : `<span class="level-select-num">${config.level}</span><span class="level-select-diff">${config.difficulty}</span>`;
+
+            item.addEventListener(
+                "click",
+                () => selectLevel(config.level)
+            );
+
+            levelSelectGrid.appendChild(item);
+
+        }
+    );
+
+}
+
+
+function selectLevel(level) {
+
+    currentLevel =
+        clampLevel(level);
+
+    saveProgress();
+
+    messageOverlay.classList.add(
+        "hidden"
+    );
+
+    resultCard.classList.remove(
+        "level-up"
+    );
+
+    closeLevelSelectOverlay();
 
     startLevel(
         currentLevel
