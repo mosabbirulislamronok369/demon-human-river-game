@@ -962,8 +962,8 @@ function createCharacter(
     }
 
 
-    const symbol =
-        getCharacterSymbol(
+    const face =
+        getCharacterFace(
             character.type
         );
 
@@ -975,7 +975,7 @@ function createCharacter(
             <div class="character-head">
 
                 <span class="character-symbol">
-                    ${symbol}
+                    ${face}
                 </span>
 
             </div>
@@ -1013,55 +1013,238 @@ function createCharacter(
 
 
 /* =========================================================
-   CHARACTER SYMBOLS
+   ANIME FACE GENERATOR
+   Every character type gets a distinct hand-built SVG
+   face (hair, eyes, accessory) so the cast reads at a
+   glance instead of relying on a text glyph. All faces
+   share one eye-construction helper for a consistent
+   "house style" while hair / horns / masks / visors
+   carry the per-type identity.
 ========================================================= */
 
-function getCharacterSymbol(
-    type
-) {
+/* ---- shared anime eye pair ---- */
 
-    const symbols = {
+function eyePair(opts = {}) {
 
-        human: "H",
+    const iris = opts.iris || "#2b2b40";
+    const rx = opts.rx || 9;
+    const ry = opts.ry || 11;
+    const cy = opts.cy || 55;
+    const gap = opts.gap || 18;
+    const cx = 50;
+    const lx = cx - gap;
+    const rx2 = cx + gap;
+    const slant = opts.slant || 0;
+    const glow = opts.glow ? `filter="drop-shadow(0 0 3px ${iris})"` : "";
 
-        demon: "D",
+    const rotL = slant
+        ? `transform="rotate(${slant} ${lx} ${cy})"`
+        : "";
 
-        "demon-slayer": "S",
+    const rotR = slant
+        ? `transform="rotate(${-slant} ${rx2} ${cy})"`
+        : "";
 
-        "big-demon": "B",
+    return `
+        <g ${glow}>
+            <ellipse cx="${lx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="#fff" ${rotL}/>
+            <circle cx="${lx}" cy="${cy + 2}" r="${(rx * 0.55).toFixed(1)}" fill="${iris}" ${rotL}/>
+            <circle cx="${lx - 2}" cy="${cy - 3}" r="1.6" fill="#fff" ${rotL}/>
 
-        hashira: "H★",
+            <ellipse cx="${rx2}" cy="${cy}" rx="${rx}" ry="${ry}" fill="#fff" ${rotR}/>
+            <circle cx="${rx2}" cy="${cy + 2}" r="${(rx * 0.55).toFixed(1)}" fill="${iris}" ${rotR}/>
+            <circle cx="${rx2 - 2}" cy="${cy - 3}" r="1.6" fill="#fff" ${rotR}/>
+        </g>
+    `;
 
-        "powerful-demon": "PD",
-
-        titan: "T",
-
-        scout: "SC",
-
-        dragon: "DR",
-
-        "dragon-slayer": "DS",
-
-        trex: "TX",
-
-        "dino-ranger": "DNR",
-
-        kaiju: "KJ",
-
-        "mecha-pilot": "MP",
-
-        alien: "AL",
-
-        "space-marine": "SM",
-
-        supervillain: "SV",
-
-        avenger: "AV"
-
-    };
+}
 
 
-    return symbols[type] || "?";
+/* ---- shared mouth shapes ---- */
+
+function mouthCurve(open, color = "#3a2416") {
+
+    return open
+        ? `<path d="M40,74 Q50,80 60,74" stroke="${color}" stroke-width="2.6" fill="none" stroke-linecap="round"/>`
+        : `<path d="M42,73 Q50,76 58,73" stroke="${color}" stroke-width="2.2" fill="none" stroke-linecap="round"/>`;
+
+}
+
+function fangMouth(color = "#fff") {
+
+    return `
+        <path d="M38,72 Q50,80 62,72 Q50,84 38,72 Z" fill="#1b0207"/>
+        <path d="M42,73 L45,80 L48,73 Z" fill="${color}"/>
+        <path d="M58,73 L55,80 L52,73 Z" fill="${color}"/>
+    `;
+
+}
+
+
+/* ---- per-type faces ---- */
+
+const CHARACTER_FACES = {
+
+    human: () => `
+        <path d="M12,40 Q50,4 88,40 Q82,16 50,12 Q18,16 12,40 Z" fill="#5b3a29"/>
+        <path d="M12,40 Q18,28 30,24" stroke="#5b3a29" stroke-width="5" fill="none" stroke-linecap="round"/>
+        ${eyePair({ iris: "#4a2f1c", gap: 17 })}
+        ${mouthCurve(false)}
+    `,
+
+    demon: () => `
+        <path d="M18,42 Q26,10 50,16 Q74,10 82,42 Q64,22 50,28 Q36,22 18,42 Z" fill="#c81d33"/>
+        <path d="M20,20 Q10,4 24,2 Q22,14 30,20 Z" fill="#3a0d14"/>
+        <path d="M80,20 Q90,4 76,2 Q78,14 70,20 Z" fill="#3a0d14"/>
+        ${eyePair({ iris: "#ffce33", slant: 10, ry: 9 })}
+        <path d="M42,74 Q50,70 58,74 L56,80 Q50,83 44,80 Z" fill="#1b0207"/>
+    `,
+
+    "demon-slayer": () => `
+        <path d="M14,38 Q50,2 86,38 Q80,14 50,10 Q20,14 14,38 Z" fill="#eafcff"/>
+        <path d="M18,42 Q50,32 82,42 L80,50 Q50,42 20,50 Z" fill="#d13b3b"/>
+        <circle cx="50" cy="46" r="3.4" fill="#eafcff"/>
+        ${eyePair({ iris: "#5ee7df", gap: 17, glow: true })}
+        ${mouthCurve(false, "#1b3b3b")}
+    `,
+
+    "big-demon": () => `
+        <path d="M14,44 Q22,6 50,14 Q78,6 86,44 Q64,18 50,26 Q36,18 14,44 Z" fill="#3b0b20"/>
+        <path d="M16,18 Q2,-4 22,-4 Q22,12 32,18 Z" fill="#160309"/>
+        <path d="M84,18 Q98,-4 78,-4 Q78,12 68,18 Z" fill="#160309"/>
+        ${eyePair({ iris: "#ff3264", slant: 12, ry: 9, glow: true })}
+        ${fangMouth()}
+    `,
+
+    hashira: () => `
+        <path d="M10,50 Q6,90 20,96 Q16,64 24,44 Z" fill="#d7f9ff"/>
+        <path d="M90,50 Q94,90 80,96 Q84,64 76,44 Z" fill="#d7f9ff"/>
+        <path d="M14,36 Q50,2 86,36 Q80,12 50,8 Q20,12 14,36 Z" fill="#7657ff"/>
+        <path d="M50,10 L54,18 L46,18 Z" fill="#fff"/>
+        ${eyePair({ iris: "#a78bfa", gap: 17, ry: 10 })}
+        ${mouthCurve(false, "#4b3a7a")}
+    `,
+
+    "powerful-demon": () => `
+        <path d="M16,40 Q26,4 50,14 Q74,4 84,40 Q66,10 50,20 Q34,10 16,40 Z" fill="#160309"/>
+        <path d="M18,16 Q34,6 32,20 Q24,20 18,16 Z" fill="#ff1744"/>
+        <path d="M82,16 Q66,6 68,20 Q76,20 82,16 Z" fill="#ff1744"/>
+        <path d="M14,16 Q2,-6 22,-8 Q20,10 30,16 Z" fill="#0a0004"/>
+        <path d="M86,16 Q98,-6 78,-8 Q80,10 70,16 Z" fill="#0a0004"/>
+        ${eyePair({ iris: "#ff1744", slant: 14, ry: 8, glow: true })}
+        ${fangMouth()}
+    `,
+
+    titan: () => `
+        ${eyePair({ iris: "#3a2416", gap: 20, rx: 11, ry: 12 })}
+        <path d="M22,76 Q50,98 78,76 Q50,90 22,76 Z" fill="#1b0d07"/>
+        <path d="M30,78 L32,86 M40,80 L41,88 M50,81 L50,89 M60,80 L59,88 M70,78 L68,86" stroke="#fff" stroke-width="2"/>
+    `,
+
+    scout: () => `
+        <path d="M14,40 Q50,2 86,40 Q80,14 50,10 Q20,14 14,40 Z" fill="#5b3a29"/>
+        <rect x="26" y="38" width="48" height="9" rx="4" fill="#5c3a1e"/>
+        <circle cx="35" cy="42" r="6" fill="rgba(255,255,255,.35)" stroke="#2c1c10" stroke-width="1.5"/>
+        <circle cx="65" cy="42" r="6" fill="rgba(255,255,255,.35)" stroke="#2c1c10" stroke-width="1.5"/>
+        ${eyePair({ iris: "#2f7d4f", gap: 17 })}
+        <path d="M38,88 L50,98 L62,88 Z" fill="#174d28"/>
+    `,
+
+    dragon: () => `
+        <path d="M20,30 L28,4 L36,30 Z" fill="#ff6b35"/>
+        <path d="M40,22 L46,0 L52,22 Z" fill="#ff6b35"/>
+        <path d="M58,22 L64,0 L70,22 Z" fill="#ff6b35"/>
+        <path d="M64,30 L72,4 L80,30 Z" fill="#ff6b35"/>
+        ${eyePair({ iris: "#ffb000", slant: 16, ry: 7, gap: 19, glow: true })}
+        <path d="M40,74 Q50,72 60,74 L58,79 Q50,81 42,79 Z" fill="#4a0710"/>
+    `,
+
+    "dragon-slayer": () => `
+        <path d="M14,40 Q50,2 86,40 Q80,14 50,10 Q20,14 14,40 Z" fill="#dce8ff"/>
+        <path d="M30,90 Q50,100 70,90 L66,74 Q50,80 34,74 Z" fill="#5c7cff"/>
+        <path d="M46,14 L50,6 L54,14 Z" fill="#5c7cff"/>
+        ${eyePair({ iris: "#5c7cff", gap: 17, glow: true })}
+        ${mouthCurve(false, "#243a6b")}
+    `,
+
+    trex: () => `
+        <path d="M16,46 Q50,10 84,46 Q78,20 50,16 Q22,20 16,46 Z" fill="#6fae2e"/>
+        <path d="M30,10 L34,2 L38,10 Z M46,6 L50,-2 L54,6 Z M62,10 L66,2 L70,10 Z" fill="#4a7a1e"/>
+        ${eyePair({ iris: "#ffb000", slant: 8, ry: 8, gap: 20 })}
+        <path d="M32,74 L68,74 L64,84 L60,76 L56,84 L52,76 L48,84 L44,76 L40,84 Z" fill="#1c3308"/>
+    `,
+
+    "dino-ranger": () => `
+        <path d="M12,42 Q50,0 88,42 Q84,20 50,16 Q16,20 12,42 Z" fill="#a8641b"/>
+        <path d="M18,40 Q50,30 82,40 L80,44 Q50,36 20,44 Z" fill="#5c3a10"/>
+        ${eyePair({ iris: "#7a4a20", gap: 17 })}
+        <path d="M38,88 L50,96 L62,88 Z" fill="#ffd166"/>
+        ${mouthCurve(false, "#5c3a10")}
+    `,
+
+    kaiju: () => `
+        <path d="M28,20 L34,2 L40,20 Z" fill="#2fbfae"/>
+        <path d="M44,16 L50,-4 L56,16 Z" fill="#2fbfae"/>
+        <path d="M60,20 L66,2 L72,20 Z" fill="#2fbfae"/>
+        ${eyePair({ iris: "#8bffea", slant: 10, ry: 8, glow: true })}
+        <path d="M34,74 L66,74 L62,84 L58,76 L54,84 L50,76 L46,84 L42,76 L38,84 Z" fill="#0b3b38"/>
+    `,
+
+    "mecha-pilot": () => `
+        <path d="M10,44 Q10,-2 50,-2 Q90,-2 90,44 L78,44 Q78,10 50,10 Q22,10 22,44 Z" fill="#c8ccd6"/>
+        <rect x="20" y="42" width="60" height="20" rx="8" fill="rgba(90,140,220,.55)" stroke="#4b5566" stroke-width="2"/>
+        <circle cx="50" cy="6" r="3.2" fill="#ff5c5c"/>
+        ${eyePair({ iris: "#dff3ff", gap: 17, ry: 8, glow: true })}
+    `,
+
+    alien: () => `
+        <path d="M46,4 Q44,-10 38,-16 M54,4 Q56,-10 62,-16" stroke="#9dff5c" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+        <circle cx="38" cy="-17" r="2.6" fill="#9dff5c"/>
+        <circle cx="62" cy="-17" r="2.6" fill="#9dff5c"/>
+        <ellipse cx="32" cy="54" rx="12" ry="16" fill="#0b0b0b"/>
+        <ellipse cx="68" cy="54" rx="12" ry="16" fill="#0b0b0b"/>
+        <ellipse cx="29" cy="48" rx="3" ry="4" fill="rgba(255,255,255,.5)"/>
+        <ellipse cx="65" cy="48" rx="3" ry="4" fill="rgba(255,255,255,.5)"/>
+        <path d="M46,80 Q50,83 54,80" stroke="#274d0f" stroke-width="2" fill="none" stroke-linecap="round"/>
+    `,
+
+    "space-marine": () => `
+        <path d="M10,44 Q10,-2 50,-2 Q90,-2 90,44 L80,44 Q80,10 50,10 Q20,10 20,44 Z" fill="#7a3b00"/>
+        <rect x="18" y="40" width="64" height="18" rx="7" fill="rgba(255,180,70,.6)" stroke="#7a3b00" stroke-width="2"/>
+        <rect x="44" y="0" width="12" height="10" rx="3" fill="#ffb347"/>
+        ${eyePair({ iris: "#fff3e0", gap: 18, ry: 8, glow: true })}
+    `,
+
+    supervillain: () => `
+        <path d="M14,36 Q50,-6 86,36 Q78,10 50,6 Q22,10 14,36 Z" fill="#200048"/>
+        <path d="M20,46 Q50,36 80,46 Q80,58 50,60 Q20,58 20,46 Z" fill="#120024"/>
+        ${eyePair({ iris: "#b388ff", slant: 14, ry: 8 })}
+        <path d="M40,76 Q50,71 60,76" stroke="#b388ff" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+    `,
+
+    avenger: () => `
+        <path d="M14,38 Q50,4 86,38 Q80,14 50,10 Q20,14 14,38 Z" fill="#7c0a0a"/>
+        <path d="M50,4 L56,16 L44,16 Z" fill="#ffd166"/>
+        <path d="M18,46 Q50,34 82,46 Q80,62 50,64 Q20,62 18,46 Z" fill="#1b1b1b"/>
+        <ellipse cx="32" cy="54" rx="10" ry="9" fill="#fff"/>
+        <ellipse cx="68" cy="54" rx="10" ry="9" fill="#fff"/>
+        ${mouthCurve(true, "#fff")}
+    `
+
+};
+
+
+function getCharacterFace(type) {
+
+    const builder =
+        CHARACTER_FACES[type] ||
+        CHARACTER_FACES.human;
+
+    return `
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+            ${builder()}
+        </svg>
+    `;
 
 }
 
