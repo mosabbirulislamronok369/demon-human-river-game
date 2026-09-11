@@ -2565,6 +2565,29 @@ function isBankSafe(
     const jeanGreys = countType(bank, "jean-grey");
     const shadows = countType(bank, "shadow");
 
+    /* SEASON 2 counts */
+    const wolves = countType(bank, "wolf");
+    const mutatedBeasts = countType(bank, "mutated-beast");
+    const darkWarriors = countType(bank, "dark-warrior");
+    const eliteGuardians = countType(bank, "elite-guardian");
+    const mutants = countType(bank, "mutant");
+    const superHumans = countType(bank, "super-human");
+    const fireLords = countType(bank, "fire-lord");
+    const iceWraiths = countType(bank, "ice-wraith");
+    const lightningBeasts = countType(bank, "lightning-beast");
+    const risingKings = countType(bank, "rising-king");
+    const royalGuards = countType(bank, "royal-guard");
+    const giantCreatures = countType(bank, "giant-creature");
+    const undeads = countType(bank, "undead");
+    const alienWarriors = countType(bank, "alien-warrior");
+    const robots = countType(bank, "robot");
+    const aiSentinels = countType(bank, "ai-sentinel");
+    const alternateEnemies = countType(bank, "alternate-enemy");
+    const riftWalkers = countType(bank, "rift-walker");
+    const season2Titans = countType(bank, "season2-titan");
+    const cosmicEnemies = countType(bank, "cosmic-enemy");
+    const starGuardians = countType(bank, "star-guardian");
+
 
     /* =========================
        NO HUMANS
@@ -2911,6 +2934,23 @@ function isBankSafe(
     if (currentLevel === 19) return !(azureDragons > 0 && thors === 0);
     if (currentLevel === 20) return !(magnetos > 0 && jeanGreys === 0);
     if (currentLevel === 21) return shadows === 0 || (spiderMen > 0 && thors > 0 && jeanGreys > 0);
+
+    /* LEVEL 22–35 — SEASON 2: THE DOOM ARC */
+    if (currentLevel === 22) { const enemies = wolves + mutatedBeasts; return enemies === 0 || humans >= enemies; }
+    if (currentLevel === 23) { const enemies = wolves + mutatedBeasts; return enemies === 0 || humans >= enemies; }
+    if (currentLevel === 24) return darkWarriors === 0 || eliteGuardians > 0;
+    if (currentLevel === 25) return mutants === 0 || superHumans > 0;
+    if (currentLevel === 26) { const enemies = fireLords + iceWraiths + lightningBeasts; return enemies === 0 || thors > 0; }
+    if (currentLevel === 27) return risingKings === 0 || royalGuards > 0;
+    if (currentLevel === 28) { const enemies = giantCreatures + mutatedBeasts; return enemies === 0 || humans >= enemies; }
+    if (currentLevel === 29) { const enemies = undeads + mutants; return enemies === 0 || humans >= enemies; }
+    if (currentLevel === 30) return alienWarriors === 0 || spaceMarines > 0;
+    if (currentLevel === 31) return robots === 0 || aiSentinels > 0;
+    if (currentLevel === 32) return alternateEnemies === 0 || riftWalkers > 0;
+    if (currentLevel === 33) return season2Titans === 0 || thors > 0;
+    if (currentLevel === 34) return cosmicEnemies === 0 || (starGuardians > 0 && jeanGreys > 0);
+    if (currentLevel === 35) { const enemies = countType(bank, "doombot") + countType(bank, "dr-doom"); return enemies === 0 || (spiderMen > 0 && thors > 0 && jeanGreys > 0); }
+
     if (currentLevel === 36) { const doom = countType(bank, "dr-doom"); const team = ["spider-man","thor","jean-grey","magneto","azure-dragon","superman"].every(t => countType(bank,t) > 0); return doom === 0 || team; }
     /* LEVEL 37 — MASSIVE WAR: The Shadow is now a Hero and must face Dr. Doom. */
     if (currentLevel === 37) { const doom = countType(bank, "dr-doom"); const shadow = countType(bank, "shadow"); const alliance = ["spider-man","thor","jean-grey","magneto","azure-dragon","superman"].filter(t => countType(bank,t) > 0).length; return doom === 0 || (shadow > 0 && alliance >= 3); }
@@ -3366,6 +3406,21 @@ function getFailureMessage() {
     if (currentLevel === 19) return "The Azure Dragon is unleashed without Thor.";
     if (currentLevel === 20) return "Magneto's power overwhelmed the humans without Jean Grey's psychic defense.";
     if (currentLevel === 21) return "THE SHADOW cannot be stopped. Spider-Man, Thor and Jean Grey must stand together.";
+
+    if (currentLevel === 22) return "The Wolves and Mutated Beast overwhelmed the humans.";
+    if (currentLevel === 23) return "The Wild Hunt overran the humans — too many predators, not enough hands.";
+    if (currentLevel === 24) return "The Dark Warriors struck without an Elite Guardian present.";
+    if (currentLevel === 25) return "The Mutants overpowered the humans without a Superhuman to hold them back.";
+    if (currentLevel === 26) return "Fire, ice and lightning consumed the bank without Thor there to stop it.";
+    if (currentLevel === 27) return "The Rising King seized the bank without a Royal Guard to intervene.";
+    if (currentLevel === 28) return "The Giant Creatures and Mutated Beasts broke loose — the humans were outnumbered.";
+    if (currentLevel === 29) return "The Undead and Mutants overran the humans in the Apocalypse.";
+    if (currentLevel === 30) return "The Alien Warriors reached the humans without a Space Marine to defend them.";
+    if (currentLevel === 31) return "The War Robots turned hostile without an AI Sentinel to restrain them.";
+    if (currentLevel === 32) return "The Alternate Enemies broke through without a Rift Walker to hold the seam.";
+    if (currentLevel === 33) return "The Titan crushed the bank without Thor standing guard.";
+    if (currentLevel === 34) return "The Cosmic Enemies overwhelmed the humans — both the Star Guardian and Jean Grey were needed.";
+    if (currentLevel === 35) return "Dr. Doom and his Doombots struck before Spider-Man, Thor and Jean Grey could unite.";
 
     return "The current bank arrangement is unsafe.";
 
