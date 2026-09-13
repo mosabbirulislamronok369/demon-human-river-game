@@ -3320,3 +3320,155 @@ body.difficulty-shadowwar {
 .difficulty-crimson .water{background:linear-gradient(180deg,#450a0a,#991b1b 50%,#1f2937)}
 .difficulty-sentry .water{background:linear-gradient(180deg,#451a03,#b45309 50%,#1c1917)}
 .difficulty-alliance .level-panel,.difficulty-sword .level-panel,.difficulty-speed .level-panel,.difficulty-mutantera .level-panel,.difficulty-crimson .level-panel,.difficulty-sentry .level-panel{border-color:rgba(250,204,21,.35)}
+
+/* =========================================================
+   HOLOGRAM FULLSCREEN BUTTON
+========================================================= */
+
+.fullscreen-btn{
+
+  position:fixed;
+
+  bottom:20px;
+  right:20px;
+
+  z-index:999;
+
+  width:54px;
+  height:54px;
+
+  display:grid;
+  place-items:center;
+
+  border:none;
+  border-radius:50%;
+
+  cursor:pointer;
+
+  background:
+    rgba(8,13,26,.55);
+
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+
+  isolation:isolate;
+  overflow:hidden;
+
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.08),
+    0 10px 28px rgba(0,0,0,.45);
+
+  transition:
+    transform .15s ease;
+}
+
+
+.fullscreen-btn::before{
+
+  content:"";
+
+  position:absolute;
+  inset:-3px;
+
+  z-index:-2;
+
+  border-radius:50%;
+
+  background:
+    conic-gradient(
+      from 0deg,
+      #e34f5f,
+      #12a0d8,
+      #e8c47a,
+      #e34f5f
+    );
+
+  filter:blur(7px);
+
+  opacity:.85;
+
+  animation:
+    hologramSpin 4s linear infinite;
+}
+
+
+.fullscreen-btn::after{
+
+  content:"";
+
+  position:absolute;
+  inset:3px;
+
+  z-index:-1;
+
+  border-radius:50%;
+
+  background:
+    rgba(6,10,20,.9);
+}
+
+
+.fullscreen-btn svg{
+
+  width:22px;
+  height:22px;
+
+  color:#eaf6ff;
+
+  filter:
+    drop-shadow(0 0 6px rgba(110,200,255,.85));
+}
+
+
+.fullscreen-btn:active{
+
+  transform:scale(.88);
+}
+
+
+@keyframes hologramSpin{
+
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+
+/* When the app is actually in fullscreen, tuck the button
+   in a little tighter and dim it slightly so it doesn't
+   distract from gameplay */
+:fullscreen .fullscreen-btn,
+:-webkit-full-screen .fullscreen-btn{
+
+  opacity:.55;
+}
+
+:fullscreen .fullscreen-btn:hover,
+:fullscreen .fullscreen-btn:active,
+:-webkit-full-screen .fullscreen-btn:hover,
+:-webkit-full-screen .fullscreen-btn:active{
+
+  opacity:1;
+}
+
+
+@media (max-width:850px){
+
+  .fullscreen-btn{
+
+    bottom:
+      max(16px, env(safe-area-inset-bottom));
+
+    right:
+      max(16px, env(safe-area-inset-right));
+
+    width:50px;
+    height:50px;
+  }
+
+  .fullscreen-btn svg{
+
+    width:20px;
+    height:20px;
+  }
+}
