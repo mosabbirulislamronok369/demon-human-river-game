@@ -2441,6 +2441,8 @@ button{
 
 @media (
   max-width:850px
+) and (
+  orientation:portrait
 ){
 
   .game-shell{
@@ -2593,6 +2595,8 @@ button{
 
 @media (
   max-width:480px
+) and (
+  orientation:portrait
 ){
 
   .brand{
@@ -3322,153 +3326,351 @@ body.difficulty-shadowwar {
 .difficulty-alliance .level-panel,.difficulty-sword .level-panel,.difficulty-speed .level-panel,.difficulty-mutantera .level-panel,.difficulty-crimson .level-panel,.difficulty-sentry .level-panel{border-color:rgba(250,204,21,.35)}
 
 /* =========================================================
-   HOLOGRAM FULLSCREEN BUTTON
+   PHONE — LANDSCAPE MODE
+   Keeps the PC-style 3-column layout (bank / river / bank)
+   but shrinks paddings so it fits short screen heights.
 ========================================================= */
 
-.fullscreen-btn{
+@media (
+  max-width:950px
+) and (
+  orientation:landscape
+){
 
-  position:fixed;
+  .game-shell{
 
-  bottom:20px;
-  right:20px;
+    padding:6px 10px;
+  }
 
-  z-index:999;
 
-  width:54px;
-  height:54px;
+  .topbar{
 
-  display:grid;
-  place-items:center;
+    padding:6px 10px;
 
-  border:none;
-  border-radius:50%;
+    min-height:44px;
+  }
 
-  cursor:pointer;
 
-  background:
-    rgba(8,13,26,.55);
+  .brand{
 
-  backdrop-filter:blur(10px);
-  -webkit-backdrop-filter:blur(10px);
+    min-width:0;
 
-  isolation:isolate;
-  overflow:hidden;
+    gap:7px;
+  }
 
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,.08),
-    0 10px 28px rgba(0,0,0,.45);
 
-  transition:
-    transform .15s ease;
+  .brand-mark{
+
+    width:30px;
+    height:30px;
+
+    font-size:10px;
+  }
+
+
+  .brand h1{
+
+    font-size:12px;
+
+    letter-spacing:1.5px;
+  }
+
+
+  .brand p{
+
+    font-size:7px;
+  }
+
+
+  .game-stats{
+
+    gap:5px;
+  }
+
+
+  .stat{
+
+    min-width:52px;
+
+    padding:4px 6px;
+  }
+
+
+  .stat span{
+
+    font-size:6px;
+  }
+
+
+  .stat strong{
+
+    font-size:13px;
+  }
+
+
+  .levels-button{
+
+    min-width:52px;
+
+    font-size:9px;
+
+    padding:0 8px;
+  }
+
+
+  .level-panel{
+
+    margin-top:5px;
+
+    padding:5px 12px;
+
+    min-height:38px;
+  }
+
+
+  .level-panel h2{
+
+    font-size:12px;
+
+    margin-top:1px;
+  }
+
+
+  .level-panel p{
+
+    font-size:7px;
+  }
+
+
+  .progress{
+
+    width:min(200px,30%);
+  }
+
+
+  .eyebrow{
+
+    font-size:6px;
+  }
+
+
+  .game-board{
+
+    margin-top:5px;
+  }
+
+
+  .land{
+
+    padding:6px;
+  }
+
+
+  .land-title span{
+
+    font-size:6px;
+  }
+
+
+  .land-title h3{
+
+    font-size:10px;
+
+    margin-top:1px;
+  }
+
+
+  .character{
+
+    width:46px;
+    height:64px;
+  }
+
+
+  .character-area{
+
+    gap:4px;
+
+    margin-top:6px;
+  }
+
+
+  .boat{
+
+    width:150px;
+    height:112px;
+  }
+
+
+  .boat-deck{
+
+    width:122px;
+  }
+
+
+  .boat-hull{
+
+    width:138px;
+  }
+
+
+  .boat-passengers{
+
+    left:25px;
+
+    width:98px;
+  }
+
+
+  .control-panel{
+
+    margin-top:5px;
+
+    padding:5px 10px;
+
+    min-height:38px;
+  }
+
+
+  .selection-count{
+
+    width:28px;
+    height:28px;
+  }
+
+
+  .selection-text strong{
+
+    font-size:10px;
+  }
+
+
+  .selection-text p{
+
+    font-size:7px;
+  }
+
+
+  .primary-button,
+  .secondary-button{
+
+    padding:7px 14px;
+
+    font-size:10px;
+  }
+
+
+  .rules{
+
+    margin-top:4px;
+  }
+
+
+  .rule{
+
+    padding:4px 6px;
+  }
+
+
+  .rule strong{
+
+    font-size:9px;
+  }
+
+
+  .rule span{
+
+    font-size:7px;
+  }
+
 }
 
 
-.fullscreen-btn::before{
+/* =========================================================
+   RIVERBANK SHORELINE
+   Gives the land a natural sandy/wavy edge where it meets
+   the water, instead of a flat straight border.
+========================================================= */
+
+.left-land,
+.right-land{
+
+  position:relative;
+}
+
+
+.left-land::after,
+.right-land::after{
 
   content:"";
 
   position:absolute;
-  inset:-3px;
 
-  z-index:-2;
+  top:0;
+  bottom:0;
 
-  border-radius:50%;
+  width:30px;
+
+  z-index:3;
+
+  pointer-events:none;
 
   background:
-    conic-gradient(
-      from 0deg,
-      #e34f5f,
-      #12a0d8,
-      #e8c47a,
-      #e34f5f
+    linear-gradient(
+      180deg,
+      #cdb27c 0%,
+      #b0925a 35%,
+      #8a6f42 70%,
+      #6e5731 100%
     );
 
-  filter:blur(7px);
+  -webkit-mask-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 400' preserveAspectRatio='none'%3E%3Cpath d='M40 0 L40 400 L18 400 Q2 385 16 362 Q30 340 12 316 Q-4 294 14 270 Q30 248 10 224 Q-6 200 16 178 Q32 156 8 132 Q-8 110 18 86 Q34 64 6 40 Q-8 18 18 0 Z' fill='%23000'/%3E%3C/svg%3E");
 
-  opacity:.85;
+  mask-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 400' preserveAspectRatio='none'%3E%3Cpath d='M40 0 L40 400 L18 400 Q2 385 16 362 Q30 340 12 316 Q-4 294 14 270 Q30 248 10 224 Q-6 200 16 178 Q32 156 8 132 Q-8 110 18 86 Q34 64 6 40 Q-8 18 18 0 Z' fill='%23000'/%3E%3C/svg%3E");
 
-  animation:
-    hologramSpin 4s linear infinite;
+  -webkit-mask-size:100% 100%;
+  mask-size:100% 100%;
+
+  -webkit-mask-repeat:no-repeat;
+  mask-repeat:no-repeat;
 }
 
 
-.fullscreen-btn::after{
+.left-land::after{
 
-  content:"";
-
-  position:absolute;
-  inset:3px;
-
-  z-index:-1;
-
-  border-radius:50%;
-
-  background:
-    rgba(6,10,20,.9);
+  right:-1px;
 }
 
 
-.fullscreen-btn svg{
+.right-land::after{
 
-  width:22px;
-  height:22px;
+  left:-1px;
 
-  color:#eaf6ff;
-
-  filter:
-    drop-shadow(0 0 6px rgba(110,200,255,.85));
+  transform:scaleX(-1);
 }
 
 
-.fullscreen-btn:active{
+/* A thin damp-sand highlight right at the waterline for extra depth */
+.left-land .land-title,
+.right-land .land-title{
 
-  transform:scale(.88);
+  position:relative;
+
+  z-index:4;
 }
 
 
-@keyframes hologramSpin{
+@media (max-width:850px) and (orientation:portrait){
 
-  to{
-    transform:rotate(360deg);
-  }
-}
+  /* In the stacked mobile layout the banks sit above/below
+     the river, so the vertical wave edge would look wrong —
+     hide it there and let the existing horizontal border show. */
+  .left-land::after,
+  .right-land::after{
 
-
-/* When the app is actually in fullscreen, tuck the button
-   in a little tighter and dim it slightly so it doesn't
-   distract from gameplay */
-:fullscreen .fullscreen-btn,
-:-webkit-full-screen .fullscreen-btn{
-
-  opacity:.55;
-}
-
-:fullscreen .fullscreen-btn:hover,
-:fullscreen .fullscreen-btn:active,
-:-webkit-full-screen .fullscreen-btn:hover,
-:-webkit-full-screen .fullscreen-btn:active{
-
-  opacity:1;
-}
-
-
-@media (max-width:850px){
-
-  .fullscreen-btn{
-
-    bottom:
-      max(16px, env(safe-area-inset-bottom));
-
-    right:
-      max(16px, env(safe-area-inset-right));
-
-    width:50px;
-    height:50px;
+    display:none;
   }
 
-  .fullscreen-btn svg{
-
-    width:20px;
-    height:20px;
-  }
 }
