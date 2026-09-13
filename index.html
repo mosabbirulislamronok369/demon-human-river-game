@@ -31,17 +31,10 @@
 
 <div class="game-shell">
 
-    <!-- TOP BAR -->
-    <header class="topbar">
+    <!-- COMPACT TOP BAR (always visible, minimal) -->
+    <header class="topbar-mini">
 
-        <div class="brand">
-            <div class="brand-mark">DH</div>
-
-            <div>
-                <h1>DEMON & HUMAN</h1>
-                <p>River Crossing • Season 3: Third Era</p>
-            </div>
-        </div>
+        <div class="brand-mark">DH</div>
 
         <div class="game-stats">
 
@@ -61,6 +54,14 @@
             </div>
 
             <button
+                id="infoButton"
+                class="info-button"
+                type="button"
+                aria-label="Show mission &amp; rules">
+                i
+            </button>
+
+            <button
                 id="levelsButton"
                 class="levels-button"
                 type="button">
@@ -72,35 +73,74 @@
     </header>
 
 
-    <!-- LEVEL INFO -->
-    <section class="level-panel">
+    <!-- MISSION / RULES POPUP
+         Shown automatically for a few seconds at the start of
+         every level, and re-openable any time via the small
+         (i) button. Auto-fades so it never blocks gameplay. -->
+    <div id="missionPopup" class="mission-popup">
 
-        <div>
-            <span class="eyebrow">CURRENT MISSION</span>
+        <div class="mission-popup-card">
 
-            <h2 id="levelTitle">
-                The First Crossing
-            </h2>
+            <div class="level-panel">
 
-            <p id="levelDescription">
-                Take everyone safely to the other side.
-            </p>
-        </div>
+                <div>
+                    <span class="eyebrow">CURRENT MISSION</span>
 
-        <div class="progress">
+                    <h2 id="levelTitle">
+                        The First Crossing
+                    </h2>
 
-            <div class="progress-label">
-                <span>MISSION PROGRESS</span>
-                <strong id="progressText">0 / 6</strong>
+                    <p id="levelDescription">
+                        Take everyone safely to the other side.
+                    </p>
+                </div>
+
+                <div class="progress">
+
+                    <div class="progress-label">
+                        <span>MISSION PROGRESS</span>
+                        <strong id="progressText">0 / 6</strong>
+                    </div>
+
+                    <div class="progress-track">
+                        <div id="progressBar" class="progress-bar"></div>
+                    </div>
+
+                </div>
+
             </div>
 
-            <div class="progress-track">
-                <div id="progressBar" class="progress-bar"></div>
+            <div class="rules">
+
+                <div class="rule">
+                    <div class="rule-icon human-icon"></div>
+                    <div>
+                        <strong id="ruleOneTitle">Humans</strong>
+                        <span id="ruleOneText">Must stay protected</span>
+                    </div>
+                </div>
+
+                <div class="rule">
+                    <div class="rule-icon demon-icon"></div>
+                    <div>
+                        <strong id="ruleTwoTitle">Demons</strong>
+                        <span id="ruleTwoText">Cannot outnumber humans</span>
+                    </div>
+                </div>
+
+                <div class="rule">
+                    <div class="rule-icon boat-icon"></div>
+                    <div>
+                        <strong>Boat</strong>
+                        <span id="ruleCapacity">Maximum 2 passengers</span>
+                    </div>
+                </div>
+
             </div>
 
         </div>
 
-    </section>
+    </div>
 
 
     <!-- GAME -->
@@ -204,36 +244,6 @@
                 RESET
             </button>
 
-        </div>
-
-    </section>
-
-
-    <!-- RULE PANEL -->
-    <section class="rules">
-
-        <div class="rule">
-            <div class="rule-icon human-icon"></div>
-            <div>
-                <strong id="ruleOneTitle">Humans</strong>
-                <span id="ruleOneText">Must stay protected</span>
-            </div>
-        </div>
-
-        <div class="rule">
-            <div class="rule-icon demon-icon"></div>
-            <div>
-                <strong id="ruleTwoTitle">Demons</strong>
-                <span id="ruleTwoText">Cannot outnumber humans</span>
-            </div>
-        </div>
-
-        <div class="rule">
-            <div class="rule-icon boat-icon"></div>
-            <div>
-                <strong>Boat</strong>
-                <span id="ruleCapacity">Maximum 2 passengers</span>
-            </div>
         </div>
 
     </section>

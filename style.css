@@ -284,6 +284,211 @@ button{
 
 
 /* =========================================================
+   COMPACT TOP BAR
+   Slim, always-visible strip: just the mark + live numbers.
+   The full title/mission text lives in the mission popup
+   instead, so this stays out of the way during play.
+========================================================= */
+
+.topbar-mini{
+
+  flex:0 0 auto;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:space-between;
+
+  gap:12px;
+
+  padding:6px 10px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(18,28,48,.94),
+      rgba(7,12,23,.88)
+    );
+
+  border:
+    1px solid var(--line);
+
+  border-radius:14px;
+
+  box-shadow:
+    var(--shadow);
+
+  backdrop-filter:
+    blur(18px);
+}
+
+
+.topbar-mini .brand-mark{
+
+  width:30px;
+  height:30px;
+
+  font-size:9px;
+}
+
+
+.topbar-mini .game-stats{
+
+  align-items:center;
+}
+
+
+.topbar-mini .stat{
+
+  min-width:52px;
+
+  padding:3px 8px;
+}
+
+
+.topbar-mini .stat span{
+
+  font-size:6px;
+}
+
+
+.topbar-mini .stat strong{
+
+  margin-top:1px;
+
+  font-size:13px;
+}
+
+
+.topbar-mini .levels-button{
+
+  min-width:0;
+
+  height:30px;
+
+  padding:0 12px;
+
+  font-size:9px;
+}
+
+
+.info-button{
+
+  width:30px;
+  height:30px;
+
+  display:grid;
+  place-items:center;
+
+  border:
+    1px solid var(--line);
+
+  border-radius:50%;
+
+  background:
+    rgba(255,255,255,.045);
+
+  color:var(--text, #eaf0ff);
+
+  font-family:
+    Georgia, "Times New Roman", serif;
+
+  font-style:italic;
+
+  font-weight:700;
+
+  font-size:13px;
+
+  cursor:pointer;
+
+  transition:
+    background .15s ease,
+    border-color .15s ease,
+    transform .1s ease;
+}
+
+
+.info-button:hover{
+
+  background:
+    rgba(255,255,255,.09);
+
+  border-color:
+    rgba(255,255,255,.28);
+}
+
+
+.info-button:active{
+
+  transform:
+    scale(.94);
+}
+
+
+/* =========================================================
+   MISSION / RULES POPUP
+   Reuses the existing .level-panel and .rules styling
+   (including per-difficulty theme overrides) but shows
+   them as a temporary centered overlay instead of a
+   permanent strip. Auto-fades a few seconds after each
+   level starts; the (i) button can bring it back.
+========================================================= */
+
+.mission-popup{
+
+  position:fixed;
+
+  inset:0;
+
+  z-index:200;
+
+  display:grid;
+
+  place-items:start center;
+
+  padding:14px 16px 0;
+
+  pointer-events:none;
+
+  opacity:0;
+
+  transform:
+    translateY(-8px);
+
+  transition:
+    opacity .28s ease,
+    transform .28s ease;
+}
+
+
+.mission-popup.visible{
+
+  pointer-events:auto;
+
+  opacity:1;
+
+  transform:none;
+}
+
+
+.mission-popup-card{
+
+  width:min(720px,100%);
+
+  display:flex;
+  flex-direction:column;
+
+  gap:10px;
+}
+
+
+.mission-popup .level-panel{
+
+  margin-top:0;
+}
+
+
+/* =========================================================
    LEVEL PANEL
 ========================================================= */
 

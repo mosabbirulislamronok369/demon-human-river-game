@@ -506,6 +506,95 @@ const levelSelectGrid =
 const closeLevelSelect =
     document.getElementById("closeLevelSelect");
 
+const missionPopup =
+    document.getElementById("missionPopup");
+
+const infoButton =
+    document.getElementById("infoButton");
+
+
+/* =========================================================
+   MISSION / RULES POPUP
+   Shown briefly whenever a level starts, and re-openable
+   any time via the small (i) button, so the top/bottom
+   text panels don't have to stay on screen permanently.
+========================================================= */
+
+const MISSION_POPUP_AUTO_HIDE_MS = 3200;
+
+let missionPopupHideTimer = null;
+
+function showMissionPopup(autoHide) {
+
+    if (!missionPopup) {
+        return;
+    }
+
+    if (missionPopupHideTimer) {
+
+        clearTimeout(missionPopupHideTimer);
+
+        missionPopupHideTimer = null;
+
+    }
+
+    missionPopup.classList.add("visible");
+
+    if (autoHide) {
+
+        missionPopupHideTimer = setTimeout(
+            hideMissionPopup,
+            MISSION_POPUP_AUTO_HIDE_MS
+        );
+
+    }
+
+}
+
+function hideMissionPopup() {
+
+    if (!missionPopup) {
+        return;
+    }
+
+    missionPopup.classList.remove("visible");
+
+    if (missionPopupHideTimer) {
+
+        clearTimeout(missionPopupHideTimer);
+
+        missionPopupHideTimer = null;
+
+    }
+
+}
+
+if (infoButton) {
+
+    infoButton.addEventListener(
+        "click",
+        () => showMissionPopup(true)
+    );
+
+}
+
+if (missionPopup) {
+
+    missionPopup.addEventListener(
+        "click",
+        event => {
+
+            if (event.target === missionPopup) {
+
+                hideMissionPopup();
+
+            }
+
+        }
+    );
+
+}
+
 
 /* =========================================================
    LEVEL CONFIG
@@ -1008,6 +1097,11 @@ function startLevel(level) {
 
 
     renderGame();
+
+
+    /* Show mission + rules briefly at the start of every
+       level, then auto-fade so it never blocks gameplay. */
+    showMissionPopup(true);
 
 }
 
@@ -3177,6 +3271,8 @@ function renderBoat() {
 
 function winLevel() {
 
+    hideMissionPopup();
+
     gameLocked = true;
 
     if (currentLevel + 1 > unlockedLevel) {
@@ -3257,6 +3353,8 @@ function winLevel() {
 ========================================================= */
 
 function loseGame() {
+
+    hideMissionPopup();
 
     gameLocked = true;
 
@@ -3513,6 +3611,8 @@ levelSelectOverlay.addEventListener(
 
 
 function openLevelSelect() {
+
+    hideMissionPopup();
 
     renderLevelSelect();
 
