@@ -3774,3 +3774,135 @@ body.difficulty-shadowwar {
 @keyframes hologramSpin{
   to{ transform:rotate(360deg); }
 }
+
+
+/* =========================================================
+   FULLSCREEN BUTTON
+   Small hologram-style icon button, fixed to the top-right
+   corner. Without explicit sizing here the inline SVG icons
+   render at their unconstrained default size, which is what
+   caused the oversized black corner-bracket shapes.
+========================================================= */
+
+.fullscreen-btn{
+
+  position:fixed;
+
+  top:14px;
+  right:14px;
+
+  z-index:50;
+
+  isolation:isolate;
+
+  overflow:hidden;
+
+  width:38px;
+  height:38px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border:none;
+  border-radius:10px;
+
+  color:#eaf6ff;
+
+  background:
+    rgba(10,16,32,.55);
+
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+
+  cursor:pointer;
+
+  transition:
+    transform .2s,
+    box-shadow .2s;
+}
+
+
+.fullscreen-btn::before{
+
+  content:"";
+
+  position:absolute;
+  inset:-2px;
+
+  z-index:-2;
+
+  border-radius:inherit;
+
+  background:
+    conic-gradient(
+      from 0deg,
+      #e34f5f,
+      #12a0d8,
+      #e8c47a,
+      #e34f5f
+    );
+
+  filter:blur(5px);
+
+  opacity:.85;
+
+  animation:
+    hologramSpin 4s linear infinite;
+}
+
+
+.fullscreen-btn::after{
+
+  content:"";
+
+  position:absolute;
+  inset:2px;
+
+  z-index:-1;
+
+  border-radius:inherit;
+
+  background:
+    rgba(6,10,20,.88);
+}
+
+
+.fullscreen-btn:hover{
+
+  transform:translateY(-2px);
+
+  box-shadow:
+    0 8px 22px rgba(18,160,216,.28);
+}
+
+
+.fullscreen-btn svg{
+
+  position:relative;
+
+  z-index:1;
+
+  width:18px;
+  height:18px;
+}
+
+
+@media (max-width:850px){
+
+  .fullscreen-btn{
+
+    top:8px;
+    right:8px;
+
+    width:32px;
+    height:32px;
+  }
+
+  .fullscreen-btn svg{
+
+    width:16px;
+    height:16px;
+  }
+
+}
