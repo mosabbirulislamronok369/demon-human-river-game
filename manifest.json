@@ -1,4 +1,5 @@
 {
+  "id": "/",
   "name": "Demon & Human River Crossing",
   "short_name": "Demon Human",
   "description": "A strategic river crossing puzzle game.",
@@ -7,6 +8,7 @@
   "background_color": "#0b1020",
   "theme_color": "#0b1020",
   "orientation": "landscape",
+  "categories": ["games", "puzzle"],
   "icons": [
     {
       "src": "/assets/icon-192.png",
