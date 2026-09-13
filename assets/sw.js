@@ -1,4 +1,4 @@
-const CACHE_NAME = "demon-human-river-cache-v1";
+const CACHE_NAME = "demon-human-river-cache-v2";
 
 const ASSETS_TO_CACHE = [
   "/",
@@ -34,23 +34,45 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
-// Fetch: serve from cache first, fallback to network
+// Fetch strategy:
+// - For CSS/JS/HTML (things that change often during development),
+//   go network-first so updates show up immediately, falling back
+//   to cache only when offline.
+// - For everything else (icons etc.), cache-first is fine.
+const NETWORK_FIRST_EXTENSIONS = [".css", ".js", ".html"];
+
+function isNetworkFirst(url) {
+  return NETWORK_FIRST_EXTENSIONS.some((ext) => url.pathname.endsWith(ext)) ||
+         url.pathname === "/";
+}
+
 self.addEventListener("fetch", (event) => {
+  const url = new URL(event.request.url);
+
+  if (isNetworkFirst(url)) {
+    event.respondWith(
+      fetch(event.request)
+        .then((networkResponse) => {
+          const clone = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+          return networkResponse;
+        })
+        .catch(() => caches.match(event.request))
+    );
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) {
         return cachedResponse;
       }
       return fetch(event.request).then((networkResponse) => {
-        // Optionally cache new requests as they come in
         return caches.open(CACHE_NAME).then((cache) => {
           cache.put(event.request, networkResponse.clone());
           return networkResponse;
         });
-      }).catch(() => {
-        // Optional: return a fallback page if offline and not cached
-        return caches.match("/index.html");
-      });
+      }).catch(() => caches.match("/index.html"));
     })
   );
 });

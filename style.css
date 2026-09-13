@@ -3674,3 +3674,103 @@ body.difficulty-shadowwar {
   }
 
 }
+
+/* =========================================================
+   HOLOGRAM STYLE — CROSS RIVER / RESET BUTTONS
+========================================================= */
+
+#crossButton,
+#resetButton{
+
+  position:relative;
+
+  isolation:isolate;
+
+  overflow:hidden;
+
+  border:none;
+
+  color:#eaf6ff;
+
+  background:
+    rgba(10,16,32,.55);
+
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+
+  text-shadow:
+    0 0 6px rgba(120,200,255,.65);
+}
+
+
+#crossButton::before,
+#resetButton::before{
+
+  content:"";
+
+  position:absolute;
+  inset:-2px;
+
+  z-index:-2;
+
+  border-radius:inherit;
+
+  background:
+    conic-gradient(
+      from 0deg,
+      #e34f5f,
+      #12a0d8,
+      #e8c47a,
+      #e34f5f
+    );
+
+  filter:blur(5px);
+
+  opacity:.85;
+
+  animation:
+    hologramSpin 4s linear infinite;
+}
+
+
+#crossButton::after,
+#resetButton::after{
+
+  content:"";
+
+  position:absolute;
+  inset:2px;
+
+  z-index:-1;
+
+  border-radius:inherit;
+
+  background:
+    rgba(6,10,20,.88);
+}
+
+
+#crossButton:hover:not(:disabled),
+#resetButton:hover{
+
+  transform:translateY(-2px);
+
+  box-shadow:
+    0 8px 22px rgba(18,160,216,.28);
+}
+
+
+#crossButton:disabled::before{
+
+  opacity:.22;
+
+  animation-play-state:paused;
+}
+
+
+/* Reuses @keyframes hologramSpin already defined for the
+   fullscreen button — if this file is combined with an
+   older style.css that doesn't have it yet, keep this block: */
+@keyframes hologramSpin{
+  to{ transform:rotate(360deg); }
+}
